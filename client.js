@@ -67,11 +67,15 @@ function render(task) {
     // cache, must delete too
     //sessionStorage.setItem(todo.uuid, todo)
     console.log(task);
+    cache(task)
 
     // if the element already exists, just update rather than recreate
     var element = document.getElementById(task.uuid)
-    if (element != null) element.getElementsByTagName(CHECKBOX)[0].checked = task.isComplete;
+    if (element != null) 
+    {
+        element.getElementsByTagName(CHECKBOX)[0].checked = task.isComplete;
         //element.childNodes[checkboxLoc].checked = task.isComplete;
+    }
     else
     {
         const listItem = document.createElement('LI');
@@ -92,40 +96,44 @@ function render(task) {
 
 
 // NOTE: These are listeners for events from the server
-// This event is for (re)loading the entire list of todos from the server
+// load renders the entire DB
 server.on('load', (todos) => {
-    //cache = todos;
-    //window.sessionStorage.setItem('cache', cache)
-    //var tmp = window.sessionStorage.getItem('cache')
-
-    //alert('load ' + tmp)
-
-    while(list.firstChild){
-        list.removeChild(list.firstChild);
-    }
-
+    clearList();
     todos.forEach((todo) => render(todo));
 });
 
+// refresh renders only the tasks that needs to be updated or added rather than the whole DB
 server.on('refresh', (todos) => {
     todos.forEach((todo) => render(todo));
-
-    //cache.concate(todos);
-    //window.sessionStorage.setItem('cache', cache)
-    //alert('refresh ' + cache[0].title)
 });
 
+// clear cache from previous connection if new connection is successfull
+server.on('connect', (todos) => {
+    sessionStorage.clear();
+});
+
+// render tasks from cache if client cannot connect to server
 server.on('connect_error', () => {
+    clearList();
+    
+    for (var i in sessionStorage){
+       render(JSON.parse(sessionStorage.getItem(i)));
+    } 
+});
+
+// NOTE: These are utility functions
+function cache(task)
+{
+    sessionStorage.setItem(task.uuid, JSON.stringify(names));
+}
+
+function clearList()
+{
     while(list.firstChild){
         list.removeChild(list.firstChild);
     }
+}
 
-    //var session = window.sessionStorage.getItem('cache')
-    //alert('conner ' + session[0].title)
-    //session.forEach((todo) => render(todo));
-});
-
-// NOTE: these are utility functions
 function createButton()
 {
     var button = document.createElement(BUTTON);

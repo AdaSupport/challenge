@@ -12,11 +12,9 @@ const DB = firstTodos.map((t) => {
     return new Todo(title = t.title, isComplete = myBool);
 });
 
-
 // Sends a message to the client to reload all todos
 const loadTodos = () => {
     server.emit('load', DB);
-    //console.log(DB)
 }
 
 const refresh = (t) => {
@@ -28,9 +26,6 @@ server.on('connection', (client) => {
 
     // Send the DB downstream on connect
     loadTodos();
-
-    //server.emit('message', client.id + ' are connected!');
-    //server.broadcast.emit('message', 'Another client has just connected!');
 
     // Accepts when a client makes a new task
     client.on('addTask', (t) => {
@@ -50,7 +45,6 @@ server.on('connection', (client) => {
         var taskLabel = updatedTask.title;
         console.log("DELETED: " + taskLabel);
 
-        //deleteTask(taskLabel);
         // couldn't get DB filter to work, so I hacked this together...
         DB.splice(DB.findIndex((task) => {return (task.uuid == updatedTask.uuid);}), 1)
         //console.log(DB)
@@ -70,32 +64,8 @@ server.on('connection', (client) => {
                 refresh([task]);
             }
         });
-
-        //refresh([updatedTask])
-        //updateTaskCompletion(taskLabel, updatedTask.isComplete);
-
-        //loadTodos();
     });  
 });
 
 console.log('Waiting for clients to connect');
 server.listen(3003);
-
-
-// @deprecated utility functions
-function deleteTask(taskLabel)
-{
-    for (var i = 0; i < DB.length; i++) {
-        if (DB[i].title === taskLabel) {
-            DB.splice(i--, 1);
-        }
-    }
-}
-
-function updateTaskCompletion(taskLabel, taskComplete)
-{
-    DB.forEach((task) => {
-        if (task.title == taskLabel) task.isComplete = taskComplete;
-    });
-}
-
