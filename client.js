@@ -1,5 +1,9 @@
 const server = io('http://localhost:3003/');
 const list = document.getElementById('todo-list');
+const xBtnLoc = 0;
+const checkboxLoc = 1;
+const labelLoc = 2;
+
 
 // NOTE: These are all our globally scoped functions for interacting with the server
 // This function adds a new todo from the input
@@ -20,7 +24,7 @@ function addTask() {
 function completeTask()
 {
     server.emit('completeTask', {
-        label : this.parentNode.childNodes[1].innerHTML,
+        label : this.parentNode.childNodes[labelLoc].innerHTML,
         isComplete : this.checked
     });
 }
@@ -28,10 +32,23 @@ function completeTask()
 function completeAllTasks()
 {
     for (var i = 0; i < list.children.length; i++) {
-        if (!list.childNodes[i].childNodes[0].checked) list.childNodes[i].childNodes[0].click();
+        if (!list.childNodes[i].childNodes[checkboxLoc].checked) list.childNodes[i].childNodes[checkboxLoc].click();
     }
 }
 
+function deleteTask()
+{
+    server.emit('deleteTask', {
+        label : this.parentNode.childNodes[labelLoc].innerHTML,
+    });
+}
+
+function deleteAllTasks()
+{
+    for (var i = 0; i < list.children.length; i++) {
+        list.childNodes[i].childNodes[xBtnLoc].click();
+    }
+}
 
 function render(todo) {
     console.log(todo);
@@ -39,7 +56,9 @@ function render(todo) {
     const listItem = document.createElement('li');
     const listItemText = createLabel(todo.title);
     const listItemCheckbox = createCheckbox(todo.isComplete);
+    const listItemButton = createButton();
 
+    listItem.appendChild(listItemButton);
     listItem.appendChild(listItemCheckbox);
     listItem.appendChild(listItemText);
 
@@ -63,6 +82,17 @@ server.on('refresh', (todos) => {
 
 
 // NOTE: these are utility functions
+function createButton()
+{
+    var button = document.createElement("BUTTON");
+    var t = document.createTextNode("X");
+
+    button.appendChild(t);
+    button.onclick = deleteTask;
+
+    return button;
+}
+
 function createLabel(labelText)
 {
     var label = document.createElement('label');
