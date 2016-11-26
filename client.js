@@ -99,6 +99,7 @@ function render(task) {
 // load renders the entire DB
 server.on('load', (todos) => {
     clearList();
+    sessionStorage.clear();
     todos.forEach((todo) => render(todo));
 });
 
@@ -116,6 +117,7 @@ server.on('connect', (todos) => {
 server.on('connect_error', () => {
     clearList();
     
+    // when reloading from cache, we can't guarantee the order
     for (var i in sessionStorage){
        render(JSON.parse(sessionStorage.getItem(i)));
     } 
@@ -124,7 +126,7 @@ server.on('connect_error', () => {
 // NOTE: These are utility functions
 function cache(task)
 {
-    sessionStorage.setItem(task.uuid, JSON.stringify(names));
+    sessionStorage.setItem(task.uuid, JSON.stringify(task));
 }
 
 function clearList()
