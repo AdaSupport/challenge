@@ -12,9 +12,11 @@ const DB = firstTodos.map((t) => {
     return new Todo(title = t.title, isComplete = myBool);
 });
 
+
 // Sends a message to the client to reload all todos
 const loadTodos = () => {
     server.emit('load', DB);
+    //console.log(DB)
 }
 
 const refresh = (t) => {
@@ -22,38 +24,57 @@ const refresh = (t) => {
 }
 
 server.on('connection', (client) => {
+    console.log(client.id + " connected!")
+
     // Send the DB downstream on connect
     loadTodos();
 
-    // Accepts when a client makes a new todo
+    //server.emit('message', client.id + ' are connected!');
+    //server.broadcast.emit('message', 'Another client has just connected!');
+
+    // Accepts when a client makes a new task
     client.on('addTask', (t) => {
         console.log("ADDED: " + t.title)
 
         // Make a new todo
-        const newTodo = new Todo(title = t.title, false);
+        const newTask = new Todo(title = t.title, false);
 
-        // Push this newly created todo to our database
-        DB.push(newTodo);
+        // Push this newly created task to our database
+        DB.push(newTask);
  
-        // Send the new todo to the client
-        refresh([newTodo]);
+        // Send the new task to the client
+        refresh([newTask]);
     });
 
     client.on('deleteTask', (updatedTask) => {
-        console.log("DELETED: " + updatedTask.label);
+        var taskLabel = updatedTask.title;
+        console.log("DELETED: " + taskLabel);
 
-        deleteTask(updatedTask.label);
+        //deleteTask(taskLabel);
+        // couldn't get DB filter to work, so I hacked this together...
+        DB.splice(DB.findIndex((task) => {return (task.uuid == updatedTask.uuid);}), 1)
+        //console.log(DB)
 
         loadTodos();
     });  
 
     client.on('completeTask', (updatedTask) => {
-        if (updatedTask.isComplete) console.log("COMPLETED: " + updatedTask.label);
-        else console.log("UNCOMPLETED: " + updatedTask.label);
+        var taskLabel = updatedTask.title;
+        if (updatedTask.isComplete) console.log("COMPLETED: " + taskLabel);
+        else console.log("UNCOMPLETED: " + taskLabel);
 
-        updateTaskCompletion(updatedTask.label, updatedTask.isComplete);
+        DB.find((task) => { 
+            if (task.uuid == updatedTask.uuid) 
+            {
+                task.isComplete = updatedTask.isComplete;
+                refresh([task]);
+            }
+        });
 
-        loadTodos();
+        //refresh([updatedTask])
+        //updateTaskCompletion(taskLabel, updatedTask.isComplete);
+
+        //loadTodos();
     });  
 });
 
@@ -61,8 +82,7 @@ console.log('Waiting for clients to connect');
 server.listen(3003);
 
 
-// utility functions
-
+// @deprecated utility functions
 function deleteTask(taskLabel)
 {
     for (var i = 0; i < DB.length; i++) {
