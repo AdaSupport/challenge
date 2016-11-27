@@ -1,3 +1,57 @@
-ul {
+ html 
+ {
+    font-family: Roboto;
+ }
+
+ul 
+{
 	list-style: none;
 }
+
+footer
+{
+	position: fixed;
+	top: 0px;
+	width: 100%;
+ 	border-bottom: 1px solid black;
+ 	background: white;
+}
+
+#todo-list
+{	
+	position: relative;
+	top: 25vh;
+}
+
+.card
+{
+	margin-left: 5px;
+	margin-right: 5px;
+}
+
+.delete
+{
+	margin-right: 100px;
+	margin-bottom:5px;
+	background-color: #ED7B5F;
+}
+.delete:hover
+{
+	background-color: #F0957E;
+}
+
+.ctrl
+{
+	background-color: #FEE46A;
+	color: #2D2B30;
+	margin-right: 5px;
+	margin-bottom: 5px;
+	width: 160px;
+}
+
+.ctrl:hover
+{
+	background-color: #FEE987;
+}
+
+

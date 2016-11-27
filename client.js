@@ -3,7 +3,7 @@ const list = document.getElementById('todo-list');
 
 const BUTTON = "BUTTON";
 const CHECKBOX = "INPUT";
-const TITLE = "LABEL";
+const TITLE = "H5";
 
 // NOTE: These are all our globally scoped functions for interacting with the server
 // This function adds a new task from the input
@@ -27,40 +27,68 @@ function addTask() {
 
 function completeTask()
 {
+    var taskCardActionBox = this.parentNode;
+    var taskCard = taskCardActionBox.parentNode;
+
     server.emit('completeTask', {
-        title : this.parentNode.getElementsByTagName(TITLE)[0].innerHTML,
-        uuid : this.parentNode.id,
+        title : taskCard.getElementsByTagName(TITLE)[0].innerHTML,
+        uuid : taskCard.id,
         isComplete : this.checked
     });
 }
 
 function completeAllTasks()
 {
-    for (var i = 0; i < list.children.length; i++) {
-        if (!list.childNodes[i].getElementsByTagName(CHECKBOX)[0].checked) list.childNodes[i].getElementsByTagName(CHECKBOX)[0].click();
-    }
+    for (var i in sessionStorage) {
+        var task = JSON.parse(sessionStorage.getItem(i));
+
+        if (!task.isComplete)
+        {
+            server.emit('completeTask', {
+                title : task.title,
+                uuid : task.uuid,
+                isComplete : true
+            });
+        }
+    } 
 }
 
 function deleteTask()
 {
+    var taskCardActionBox = this.parentNode;
+    var taskCard = taskCardActionBox.parentNode;
+
     server.emit('deleteTask', {
-        title : this.parentNode.getElementsByTagName(TITLE)[0].innerHTML,
-        uuid : this.parentNode.id
+        title : taskCard.getElementsByTagName(TITLE)[0].innerHTML,
+        uuid : taskCard.id
     });
 }
 
 function deleteAllTasks()
 {
-    for (var i = 0; i < list.children.length; i++) {
-        list.childNodes[i].getElementsByTagName(BUTTON)[0].click();
-    }
+    for (var i in sessionStorage) {
+        var task = JSON.parse(sessionStorage.getItem(i));
+
+        server.emit('deleteTask', {
+            title : task.title,
+            uuid : task.uuid
+        });
+    } 
 }
 
 function deleteAllCompletedTasks()
 {
-    for (var i = 0; i < list.children.length; i++) {
-        if (list.childNodes[i].getElementsByTagName(CHECKBOX)[0].checked) list.childNodes[i].getElementsByTagName(BUTTON)[0].click();
-    }
+    for (var i in sessionStorage) {
+        var task = JSON.parse(sessionStorage.getItem(i));
+
+        if (task.isComplete)
+        {
+            server.emit('deleteTask', {
+                title : task.title,
+                uuid : task.uuid
+            });
+        }
+    } 
 }
 
 function render(task) {
@@ -69,7 +97,6 @@ function render(task) {
     console.log(task);
     cache(task)
 
-    // if the element already exists, just update rather than recreate
     var element = document.getElementById(task.uuid)
     if (element != null) 
     {
@@ -78,19 +105,7 @@ function render(task) {
     }
     else
     {
-        const listItem = document.createElement('LI');
-        const listItemText = createLabel(task.title);
-        const listItemCheckbox = createCheckbox(task.isComplete);
-        const listItemButton = createButton();
-
-        //listItem.className = "mdl-card mdl-shadow--2dp";
-
-        listItem.id = task.uuid;
-        listItem.appendChild(listItemText);
-        listItem.appendChild(listItemButton);
-        listItem.appendChild(listItemCheckbox);
-
-        list.append(listItem);
+        list.append(createTaskCard(task));
     }
 }
 
@@ -136,14 +151,54 @@ function clearList()
     }
 }
 
+function createTaskCard(task)
+{
+    // action box
+    const listItemActionBox = document.createElement('DIV');
+    listItemActionBox.className = "card-action";
+
+    const listItemButton = createButton();
+    listItemActionBox.append(listItemButton);
+
+    var checkbox = document.createElement(CHECKBOX);
+    checkbox.className = "filled-in";
+    checkbox.type = "checkbox";
+    checkbox.onclick = completeTask;
+    checkbox.checked = task.isComplete;
+    const cid = Math.random();
+    checkbox.id = cid;
+
+    var label = document.createElement("LABEL");
+    label.innerHTML = "COMPLETED";
+    label.htmlFor = cid;
+    listItemActionBox.append(checkbox);
+    listItemActionBox.append(label);
+    
+    // text box
+    const listItemTextbox = document.createElement('DIV');
+    listItemTextbox.className = "card-content grey-text";
+
+    const listItemText = createLabel(task.title);
+    listItemTextbox.append(listItemText);
+
+    // card
+    const listItem = document.createElement('DIV');
+    listItem.id = task.uuid;
+    listItem.className = "card white darken-1";
+    listItem.appendChild(listItemTextbox);
+    listItem.appendChild(listItemActionBox);
+
+    return listItem;
+}
+
 function createButton()
 {
-    var button = document.createElement(BUTTON);
-    var t = document.createTextNode("DELETE");
+    var button = document.createElement("BUTTON");
+    var t = document.createTextNode("Delete");
 
+    button.className = "btn delete";
     button.appendChild(t);
     button.onclick = deleteTask;
-    //button.className = "mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect";
 
     return button;
 }
@@ -152,18 +207,23 @@ function createLabel(labelText)
 {
     var label = document.createElement(TITLE);
 
+    label.class = "flow-text";
     label.innerHTML = labelText;
 
     return label;
 }
 
-function createCheckbox(isComplete)
+function createCheckbox(listItemActionBox, task)
 {
     var checkbox = document.createElement(CHECKBOX);
+    checkbox.className = "filled-in";
     checkbox.type = "checkbox";
     checkbox.onclick = completeTask;
-    checkbox.checked = isComplete;
-    //checkbox.className = "mdl-radio__button";
+    checkbox.checked = task.isComplete;
+    checkbox.id = "id" + (new Date()).getTime();
 
-    return checkbox;
+    var label = document.createElement("LABEL");
+    label.for = checkbox.id;
+
+    return listItemActionBox;
 }
