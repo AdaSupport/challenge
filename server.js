@@ -6,17 +6,19 @@ const Todo = require('./todo');
 // Parse all default Todo's from db
 const DB = firstTodos.map((t) => {
     // Form new Todo objects
+    // this is to load the false field I added in data.json for testing.
     var myBool = false
     if (t.isComplete == 'true') myBool = true
 
     return new Todo(title = t.title, isComplete = myBool);
 });
 
-// Sends a message to the client to reload all todos
+// Sends a message to the client to load all tasks
 const loadTodos = () => {
     server.emit('load', DB);
 }
 
+// Sends a message to the client to update a task
 const refresh = (t) => {
     server.emit('refresh', t);
 }
@@ -41,6 +43,7 @@ server.on('connection', (client) => {
         refresh([newTask]);
     });
 
+    // delete task from DB
     client.on('deleteTask', (updatedTask) => {
         var taskLabel = updatedTask.title;
         console.log("DELETED: " + taskLabel);
@@ -52,6 +55,7 @@ server.on('connection', (client) => {
         loadTodos();
     });  
 
+    // updates a task's completion status in DB
     client.on('completeTask', (updatedTask) => {
         var taskLabel = updatedTask.title;
         if (updatedTask.isComplete) console.log("COMPLETED: " + taskLabel);

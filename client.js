@@ -5,6 +5,16 @@ const BUTTON = "BUTTON";
 const CHECKBOX = "INPUT";
 const TITLE = "H5";
 
+// Add enter key event listener to Make button. 
+// When creating lots of task, I found that using the enter key instead of the button made a huge difference.
+document.getElementById("todo-input")
+    .addEventListener("keyup", function(event) {
+    event.preventDefault();
+    if (event.keyCode == 13) {
+        document.getElementById("make_btn").click();
+    }
+});
+
 // NOTE: These are all our globally scoped functions for interacting with the server
 // This function adds a new task from the input
 function addTask() {
@@ -22,7 +32,7 @@ function addTask() {
 
     // Clear the input
     input.value = '';
-    // TODO: refocus the element
+    input.focus();
 }
 
 function completeTask()
@@ -92,21 +102,13 @@ function deleteAllCompletedTasks()
 }
 
 function render(task) {
-    // cache, must delete too
-    //sessionStorage.setItem(todo.uuid, todo)
-    console.log(task);
+    //console.log(task);
     cache(task)
 
+    // update existing element or attach new one
     var element = document.getElementById(task.uuid)
-    if (element != null) 
-    {
-        element.getElementsByTagName(CHECKBOX)[0].checked = task.isComplete;
-        //element.childNodes[checkboxLoc].checked = task.isComplete;
-    }
-    else
-    {
-        list.append(createTaskCard(task));
-    }
+    if (element != null) element.getElementsByTagName(CHECKBOX)[0].checked = task.isComplete;
+    else list.append(createTaskCard(task));
 }
 
 
@@ -144,6 +146,7 @@ function cache(task)
     sessionStorage.setItem(task.uuid, JSON.stringify(task));
 }
 
+// clears current task list to redraw new ones
 function clearList()
 {
     while(list.firstChild){
@@ -151,6 +154,7 @@ function clearList()
     }
 }
 
+// create the card html element to display each task
 function createTaskCard(task)
 {
     // action box
@@ -211,19 +215,4 @@ function createLabel(labelText)
     label.innerHTML = labelText;
 
     return label;
-}
-
-function createCheckbox(listItemActionBox, task)
-{
-    var checkbox = document.createElement(CHECKBOX);
-    checkbox.className = "filled-in";
-    checkbox.type = "checkbox";
-    checkbox.onclick = completeTask;
-    checkbox.checked = task.isComplete;
-    checkbox.id = "id" + (new Date()).getTime();
-
-    var label = document.createElement("LABEL");
-    label.for = checkbox.id;
-
-    return listItemActionBox;
 }
