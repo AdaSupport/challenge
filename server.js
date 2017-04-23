@@ -1,9 +1,6 @@
-// FIXME: Feel free to remove this :-)
-console.log('\n\nGood Luck! 😅\n\n');
-
 const server = require('socket.io')();
 const firstTodos = require('./data');
-const Todo = require('./todo');
+const Todo = require('./todo').todo;
 
 server.on('connection', (client) => {
     // This is going to be our fake 'database' for this application
