@@ -1,5 +1,7 @@
 const server = require('socket.io')();
-const firstTodos = require('./data');
+const fs = require('fs');
+const todoPath = './data.json';
+const firstTodos = require(todoPath);
 const Todo = require('./todo').todo;
 
 server.on('connection', (client) => {
@@ -17,17 +19,24 @@ server.on('connection', (client) => {
         server.emit('load', DB);
     }
 
+    // Sends a message to the client to prepend new todo
+    const prependTodo = (todo) => {
+        server.emit('prepend', todo);
+    }
+
     // Accepts when a client makes a new todo
     client.on('make', (t) => {
         // Make a new todo
         const newTodo = new Todo(title=t.title);
 
         // Push this newly created todo to our database
-        DB.push(newTodo);
+        DB.unshift(newTodo);
+        fs.writeFile(todoPath, JSON.stringify(DB, null, 4), function (err) {
+            if (err) console.log(err);
+        });
 
         // Send the latest todos to the client
-        // FIXME: This sends all todos every time, could this be more efficient?
-        reloadTodos();
+        prependTodo(newTodo);
     });
 
     // Send the DB downstream on connect
