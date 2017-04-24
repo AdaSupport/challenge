@@ -22,6 +22,11 @@ function add() {
 // This function adds new element(li) to the list depending of the order(AdditionOrder)
 function render(todo, ao = AdditionOrder.APPEND) {
     const listItem = document.createElement('li');
+
+    var checkbox = document.createElement('input');
+    checkbox.type = "checkbox";
+    listItem.appendChild(checkbox);
+
     const listItemText = document.createTextNode(todo.title);
     listItem.appendChild(listItemText);
 

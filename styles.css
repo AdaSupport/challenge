@@ -1,0 +1,9 @@
+#todo-list {
+    list-style-type: none;
+    padding-left: 0;
+    width: 300px;
+}
+
+li:hover {
+  background-color: #f1f1f1
+}
