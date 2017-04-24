@@ -28,6 +28,11 @@ function remove() {
     server.emit('remove', id);
 }
 
+// This function removes all items from the list
+function removeAll() {
+    server.emit('removeAll');
+}
+
 // This function adds new element(li) to the list depending of the order(AdditionOrder)
 function render(todo, ao = AdditionOrder.APPEND) {
     const listItem = document.createElement('li');
@@ -66,4 +71,9 @@ server.on('prepend', (todo) => {
 server.on('remove', (id) => {
     listItem = document.getElementById(id);
     list.removeChild(listItem);
+});
+
+// This event removes all todo items
+server.on('removeAll', () => {
+    list.innerHTML = '';
 });
