@@ -80,6 +80,12 @@ server.on('connection', (client) => {
         return isChecked;
     }
 
+    // Checks all items
+    const checkAll = () => {
+        DB.forEach((todo) => todo.isChecked = true);
+        saveDB();
+    };
+
     // Accepts when a client makes a new todo
     client.on('make', (t) => {
         // Make a new todo
@@ -109,6 +115,11 @@ server.on('connection', (client) => {
     client.on('check', (id) => {
         if (checkTodo(id))
             server.emit('check', id);
+    });
+
+    client.on('checkAll', () => {
+        checkAll();
+        server.emit('checkAll');
     });
 
     // Send the DB downstream on connect
