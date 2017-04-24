@@ -1,10 +1,15 @@
 const server = require('socket.io')();
 const fs = require('fs');
 const todoPath = './data.json';
-const firstTodos = require(todoPath);
 const Todo = require('./todo').todo;
 
+let readDB = () => {
+    let data = fs.readFileSync(todoPath, 'utf8');
+    return JSON.parse(data);
+}
+
 server.on('connection', (client) => {
+    let firstTodos = readDB();
     // This is going to be our fake 'database' for this application
     // Parse all default Todo's from db
 
@@ -15,8 +20,8 @@ server.on('connection', (client) => {
     });
 
     // Sends a message to the client to reload all todos
-    const reloadTodos = () => {
-        server.emit('load', DB);
+    const loadTodos = () => {
+        server.to(client.id).emit('load', DB);
     }
 
     // Sends a message to the client to prepend new todo
@@ -40,7 +45,7 @@ server.on('connection', (client) => {
     });
 
     // Send the DB downstream on connect
-    reloadTodos();
+    loadTodos();
 });
 
 console.log('Waiting for clients to connect');

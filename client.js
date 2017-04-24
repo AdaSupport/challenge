@@ -32,6 +32,7 @@ function render(todo, ao = AdditionOrder.APPEND) {
 // NOTE: These are listeners for events from the server
 // This event is for (re)loading the entire list of todos from the server
 server.on('load', (todos) => {
+    list.innerHTML = '';
     todos.forEach((todo) => render(todo));
 });
 
