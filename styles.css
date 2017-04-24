@@ -20,3 +20,9 @@ li:hover {
 li:hover .todo-remove {
   display: block;
 }
+
+.todo-checked, .todo-checked:hover {
+  background-color: #d4f9d6;
+  text-decoration: line-through;
+  color: green;
+}

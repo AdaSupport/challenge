@@ -19,7 +19,7 @@ server.on('connection', (client) => {
     var DB = firstTodos.map((t) => {
         // Form new Todo objects
         if (t._id > MAX_ID) MAX_ID = t._id;
-        return new Todo(id=t._id, title=t.title);
+        return new Todo(id=t._id, title=t.title, isChecked = t.isChecked);
     });
 
     // Sends a message to the client to reload all todos
@@ -65,6 +65,21 @@ server.on('connection', (client) => {
         saveDB();
     }
 
+    // Checks todo item by id
+    const checkTodo = (id) => {
+        var isChecked = false;
+        DB.every(function(todo) {
+            if (todo._id == id) {
+                todo.isChecked = !todo.isChecked;
+                isChecked = true;
+                return false;
+            }
+            return true;
+        });
+        saveDB();
+        return isChecked;
+    }
+
     // Accepts when a client makes a new todo
     client.on('make', (t) => {
         // Make a new todo
@@ -88,6 +103,12 @@ server.on('connection', (client) => {
     client.on('removeAll', () => {
         removeAll();
         server.emit('removeAll');
+    });
+    
+    // Accepts when a client checks todo item
+    client.on('check', (id) => {
+        if (checkTodo(id))
+            server.emit('check', id);
     });
 
     // Send the DB downstream on connect

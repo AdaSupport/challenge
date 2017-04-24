@@ -33,14 +33,17 @@ function removeAll() {
     server.emit('removeAll');
 }
 
+// This function checks selected todo item
+function check() {
+    server.emit('check', this.id);
+}
+
 // This function adds new element(li) to the list depending of the order(AdditionOrder)
 function render(todo, ao = AdditionOrder.APPEND) {
     const listItem = document.createElement('li');
     listItem.id = todo._id;
-
-    var checkbox = document.createElement('input');
-    checkbox.type = 'checkbox';
-    listItem.appendChild(checkbox);
+    listItem.className = (todo.isChecked) ? 'todo-checked' : 'todo-unchecked';
+    listItem.addEventListener('click', check);
 
     const listItemText = document.createTextNode(todo.title);
     listItem.appendChild(listItemText);
@@ -76,4 +79,10 @@ server.on('remove', (id) => {
 // This event removes all todo items
 server.on('removeAll', () => {
     list.innerHTML = '';
+});
+
+// This event checks todo by id
+server.on('check', (id) => {
+    listItem = document.getElementById(id);
+    listItem.className = (listItem.className == 'todo-checked') ? 'todo-unchecked' : 'todo-checked';
 });
