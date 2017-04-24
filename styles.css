@@ -4,6 +4,19 @@
     width: 300px;
 }
 
+li {
+  cursor: pointer;
+}
+
 li:hover {
-  background-color: #f1f1f1
+  background-color: #f1f1f1;
+}
+
+.todo-remove {
+  float: right;
+  display: none;
+}
+
+li:hover .todo-remove {
+  display: block;
 }

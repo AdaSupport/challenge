@@ -19,6 +19,15 @@ function add() {
     // TODO: refocus the element
 }
 
+// This function removes selected todo item
+function remove() {
+    var listItem = this.parentElement;
+    var id = listItem.id;
+
+    // Emit todo id to server
+    server.emit('remove', id);
+}
+
 // This function adds new element(li) to the list depending of the order(AdditionOrder)
 function render(todo, ao = AdditionOrder.APPEND) {
     const listItem = document.createElement('li');
@@ -30,6 +39,12 @@ function render(todo, ao = AdditionOrder.APPEND) {
 
     const listItemText = document.createTextNode(todo.title);
     listItem.appendChild(listItemText);
+
+    var removeSpan = document.createElement('span');
+    removeSpan.className = 'todo-remove';
+    removeSpan.appendChild( document.createTextNode("\u00D7") );
+    removeSpan.addEventListener('click', remove);
+    listItem.append(removeSpan);
 
     if (ao == AdditionOrder.APPEND) list.append(listItem);
     else if (ao == AdditionOrder.PREPEND) list.prepend(listItem);
@@ -45,4 +60,10 @@ server.on('load', (todos) => {
 // This event is for the addition of new Todo item to the list
 server.on('prepend', (todo) => {
     render(todo, AdditionOrder.PREPEND);
+});
+
+// This event removes todo by id
+server.on('remove', (id) => {
+    listItem = document.getElementById(id);
+    list.removeChild(listItem);
 });

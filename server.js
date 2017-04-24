@@ -39,6 +39,26 @@ server.on('connection', (client) => {
         });
     }
 
+    // Removes todo by id
+    const removeTodo = (id) => {
+        var idx = -1;
+        DB.every(function(todo, index) {
+            if (todo._id == id) {
+                idx = index;
+                return false;
+            }
+            return true;
+        });
+
+        if (idx > -1) {
+            DB.splice(idx, 1);
+            saveDB();
+            return true;
+        }
+
+        return false;
+    }
+
     // Accepts when a client makes a new todo
     client.on('make', (t) => {
         // Make a new todo
@@ -50,6 +70,12 @@ server.on('connection', (client) => {
 
         // Send the latest todos to the client
         prependTodo(newTodo);
+    });
+
+    // Accepts when a client removes todo
+    client.on('remove', (id) => {
+        if (removeTodo(id))
+            server.emit('remove', id);
     });
 
     // Send the DB downstream on connect
