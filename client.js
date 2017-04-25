@@ -3,11 +3,20 @@ const list = document.getElementById('todo-list');
 
 var AdditionOrder = Object.freeze({ APPEND: 0, PREPEND: 1});
 
+document.body.onload = function() {
+   var input = document.getElementById('todo-input');
+   input.onkeyup = function(e) {
+    if(e.keyCode == 13) // Enter key
+      add();
+   };
+};
+
 // NOTE: These are all our globally scoped functions for interacting with the server
 // This function adds a new todo from the input
 function add() {
-    console.warn(event);
     const input = document.getElementById('todo-input');
+
+    if (input.value == "") return;
 
     // Emit the new todo as some data to the server
     server.emit('make', {
