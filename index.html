@@ -6,10 +6,18 @@
         <script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
     </head>
     <body>
-        <input id="todo-input" type="text" placeholder="Feed the cat" autofocus>
-        <button type="button" onclick="removeAll()">Remove all</button>
-        <button type="button" onclick="checkAll()">Check all</button>
-        <ul id="todo-list"></ul>
+        <div id="todo-block">
+        <h2> ToDo list </h2>
+            <div id="todo-header">
+                
+                <input id="todo-input" type="text" placeholder="Feed the cat" autofocus>
+                <div class="text-right">
+                    <button type="button" class="todo-list-actions" onclick="removeAll()">Remove all</button>
+                    <button type="button" class="todo-list-actions" onclick="checkAll()">Check all</button>
+                </div>
+            </div>
+            <ul id="todo-list"></ul>
+        </div>
     </body>
     <script src="client.js" async></script>
     <link rel="stylesheet" type="text/css" href="styles.css">
