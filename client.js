@@ -19,7 +19,7 @@ function add() {
     if (input.value == "") return;
 
     // Emit the new todo as some data to the server
-    server.emit('make', {
+    server.emit('createTodo', {
         title : input.value
     });
 
@@ -34,7 +34,7 @@ function remove() {
     var id = listItem.id;
 
     // Emit todo id to server
-    server.emit('remove', id);
+    server.emit('removeTodo', id);
 }
 
 // This function removes all items from the list
@@ -44,7 +44,7 @@ function removeAll() {
 
 // This function checks selected todo item
 function check() {
-    server.emit('check', this.id);
+    server.emit('checkTodo', this.id);
 }
 
 // This function checks all elements in the list
