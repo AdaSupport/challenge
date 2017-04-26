@@ -1,7 +1,19 @@
 body {background: #E8F8F5;}
 
+@media only screen and (max-width: 500px) {
+  #todo-block {
+    width: 100%;
+  }
+}
+
+@media only screen and (min-width: 500px) {
+  #todo-block {
+    width: 500px;
+    min-width: 250px;
+  }
+}
+
 #todo-block {
-  width: 500px;
   margin: 0 auto;
   background: #fff;
 }
