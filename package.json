@@ -4,8 +4,9 @@
   "description": "Our hiring challenge to full-stack developers",
   "main": "index.js",
   "scripts": {
-    "test": "npm test",
-    "start" : "node server.js"
+    "test": "mocha",
+    "dev": "webpack -d --watch",
+    "build" : "webpack -p"
   },
   "repository": {
     "type": "git",
@@ -18,11 +19,14 @@
   },
   "homepage": "https://github.com/adasupport/challenge#readme",
   "dependencies": {
+    "babel-loader": "^7.0.0",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-react": "^6.24.1",
     "express": "^4.14.0",
-    "socket.io": "^1.5.0"
-  },
-  "scripts": {
-    "test": "mocha"
+    "react": "^15.5.4",
+    "react-dom": "^15.5.4",
+    "socket.io": "^1.5.0",
+    "webpack": "^2.4.1"
   },
   "devDependencies": {
     "chai": "*",
