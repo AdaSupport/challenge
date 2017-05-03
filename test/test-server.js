@@ -51,10 +51,10 @@ describe('server test', function() {
 
     client2.on('checkAll', () => {
       expect(true).to.be.true;
-      done();
     });
 
     client1.emit('checkAll');
+    done();
   });
 
   it('should emit remove item by id to all clients', () => {
