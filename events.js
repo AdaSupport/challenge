@@ -7,5 +7,9 @@ module.exports = (server) => ({
 
   sendTodo(todo) {
     server.emit('add', todo);
+  },
+
+  toggleTodo(todo) {
+    server.emit('toggle', todo);
   }
 });

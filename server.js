@@ -16,8 +16,14 @@ server.on('connection', (client) => {
         events.sendTodo(newTodo);
     });
 
+    client.on('toggle', (data) => {
+        const todo = DB.find((item) => item.id == data.id );
+        todo.complete = !todo.complete;
+        events.toggleTodo(todo);
+    })
+
     // Send the DB downstream on connect
-    events.reloadTodos();
+    client.emit('load', DB);
 });
 
 console.log('Waiting for clients to connect');
