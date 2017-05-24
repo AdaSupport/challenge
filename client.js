@@ -30,3 +30,7 @@ function render(todo) {
 server.on('load', (todos) => {
     todos.forEach((todo) => render(todo));
 });
+
+server.on('add', (todo) => {
+    render(todo);
+});
