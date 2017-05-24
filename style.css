@@ -1,3 +1,24 @@
-[data-complete="true"] {
+#todo-list {
+  max-width: 300px;
+}
+
+li[data-complete="true"] {
     text-decoration: line-through;
+}
+
+.delete-button {
+  display: none;
+  float: right;
+}
+
+.delete-button:before {
+  content: 'x';
+  display: inline-block;
+  width: 25px;
+  height: 25px;
+  cursor: pointer;
+}
+
+li:hover .delete-button {
+  display: inline-block;
 }

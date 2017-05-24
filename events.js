@@ -11,5 +11,9 @@ module.exports = (server) => ({
 
   toggleTodo(todo) {
     server.emit('toggle', todo);
+  },
+
+  deleteTodo(todoId) {
+    server.emit('delete', todoId);
   }
 });

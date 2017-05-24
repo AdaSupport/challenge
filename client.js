@@ -19,11 +19,14 @@ function add() {
 
 function toggle(todo) {
     const todoId = todo.getAttribute('data-id');
-    const isComplete = todo.getAttribute('data-complete') == 'true';
-
     server.emit('toggle', {
         id: todoId
     });
+}
+
+function deleteTodo(todo) {
+    const todoId = todo.getAttribute('data-id');
+    server.emit('delete', todoId);
 }
 
 function findTodoById(todoId){
@@ -35,9 +38,16 @@ function render(todo) {
     console.log(todo);
     const listItem = document.createElement('li');
     const listItemText = document.createTextNode(todo.title);
+    const deleteButton = document.createElement('span');
+
     listItem.setAttribute('data-id', todo.id);
     listItem.setAttribute('data-complete', todo.complete);
+
+    deleteButton.classList.add('delete-button');
+
     listItem.appendChild(listItemText);
+    listItem.appendChild(deleteButton);
+
     list.append(listItem);
 }
 
@@ -45,6 +55,8 @@ list.addEventListener('click', (e) => {
     const target = e.target;
     if(target.tagName == 'LI') {
         toggle(target);
+    } else if (target.classList.contains('delete-button')) {
+        deleteTodo(target.parentNode);
     }
 });
 
@@ -61,4 +73,9 @@ server.on('add', (todo) => {
 server.on('toggle', (todo) => {
     const todoNode = findTodoById(todo.id);
     todoNode.setAttribute('data-complete', todo.complete);
+});
+
+server.on('delete', (todoId) => {
+    const todoNode = findTodoById(todoId);
+    todoNode.remove();
 });
