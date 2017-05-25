@@ -57,8 +57,21 @@ class TodosList {
         this.todos = [];
     }
 
+    sync(data) {
+        // when we receive data from the server,
+        // sync our data
+        this.todos = this.todos.map((item) => {
+            if (item.cid == data.cid) {
+                return Object.assign({}, item, data.todo);
+            } else {
+                return item;
+            }
+        });
+    }
 
     render() {
+        // We're re-rendering the whole list every time
+        // It's inefficient; this is where a virtual dom would come in handy
         list.innerHTML = '';
         for(const todo of this.todos) {
             const listItem = document.createElement('li');
@@ -83,11 +96,12 @@ const todosList = new TodosList();
 function add() {
     console.warn(event);
     const input = document.getElementById('todo-input');
-
-    todosList.add(new Todo(title=input.value));
+    const newTodo = new Todo(title=input.value);
+    todosList.add(newTodo);
     // Emit the new todo as some data to the server
     server.emit('make', {
-        title : input.value
+        title : input.value,
+        cid   : newTodo.cid
     });
 
     // Clear the input
@@ -153,30 +167,29 @@ document.getElementById('complete-all').addEventListener('click', (e) => {
 // NOTE: These are listeners for events from the server
 // This event is for (re)loading the entire list of todos from the server
 server.on('load', (todos) => {
-    todos.forEach((todo) => render(todo));
+    todosList.todos = todos;
 });
 
 server.on('add', (todo) => {
-    render(todo);
+    todosList.add(todo);
 });
 
 server.on('toggle', (todo) => {
-    const todoNode = findTodoById(todo.id);
-    todoNode.setAttribute('data-complete', todo.complete);
+    todosList.toggle(todo.id);
 });
 
 server.on('delete', (todoId) => {
-    const todoNode = findTodoById(todoId);
-    todoNode.remove();
+    todosList.remove(todoId);
 });
 
 server.on('delete_all', () => {
-    list.innerHTML = '';
+    todosList.deleteAll();
 });
 
 server.on('complete_all', () => {
-    const todos = list.childNodes;
-    Array.from(todos).forEach((todo) => {
-        todo.setAttribute('data-complete', 'true');
-    });
+    todosList.completeAll();
+});
+
+server.on('sync', (data) => {
+    todosList.sync(data);
 });
