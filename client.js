@@ -97,6 +97,7 @@ function add() {
     console.warn(event);
     const input = document.getElementById('todo-input');
     const newTodo = new Todo(title=input.value);
+
     todosList.add(newTodo);
     // Emit the new todo as some data to the server
     server.emit('make', {
@@ -121,28 +122,6 @@ function deleteTodo(todo) {
     const todoId = todo.getAttribute('data-id');
     todosList.remove(todoId);
     server.emit('delete', todoId);
-}
-
-function findTodoById(todoId){
-    const todos = Array.from(list.childNodes);
-    return todos.find((todo) => todo.getAttribute('data-id') == todoId);
-}
-
-function render(todo) {
-    console.log(todo);
-    const listItem = document.createElement('li');
-    const listItemText = document.createTextNode(todo.title);
-    const deleteButton = document.createElement('span');
-
-    listItem.setAttribute('data-id', todo.id);
-    listItem.setAttribute('data-complete', todo.complete);
-
-    deleteButton.classList.add('delete-button');
-
-    listItem.appendChild(listItemText);
-    listItem.appendChild(deleteButton);
-
-    list.append(listItem);
 }
 
 list.addEventListener('click', (e) => {
