@@ -13,6 +13,50 @@ class Todo {
     }
 }
 
+class TodosList {
+    constructor() {
+        const todos = localStorage.getItem('todos');
+        this.todos = todos ? JSON.parse(todos) : [];
+    }
+
+    set todos(newTodos) {
+        localStorage.setItem('todos', JSON.stringify(newTodos));
+        this._todos = newTodos;
+    }
+
+    get todos() {
+        return this._todos;
+    }
+
+    add(todo) {
+        this.todos = [...this.todos, todo];
+    }
+
+    remove(id){
+        this.todos = this.todos.filter((item) => item.id != id);
+    }
+
+    toggle(id) {
+        this.todos = this.todos.map((item) => {
+            if (item.id == id) {
+                return Object.assign({}, item, {complete: !item.complete});
+            } else {
+                return item;
+            }
+        });
+    }
+
+    completeAll() {
+        this.todos = this.todos.map(
+            (item) => Object.assign({}, item, {complete: true})
+        )
+    }
+
+    deleteAll() {
+        this.todos = [];
+    }
+}
+
 function add() {
     console.warn(event);
     const input = document.getElementById('todo-input');
