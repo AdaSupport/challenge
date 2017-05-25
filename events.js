@@ -15,5 +15,13 @@ module.exports = (server) => ({
 
   deleteTodo(todoId) {
     server.emit('delete', todoId);
+  },
+
+  deleteAllTodos() {
+    server.emit('delete_all');
+  },
+
+  completeAllTodos() {
+    server.emit('complete_all');
   }
 });

@@ -27,6 +27,16 @@ server.on('connection', (client) => {
         events.deleteTodo(todoId);
     });
 
+    client.on('delete_all', () => {
+        DB = [];
+        events.deleteAllTodos();
+    });
+
+    client.on('complete_all', (todoId) => {
+        DB = DB.map((item) => Object.assign({}, item, {complete: true}))
+        events.completeAllTodos();
+    });
+
     // Send the DB downstream on connect
     client.emit('load', DB);
 });

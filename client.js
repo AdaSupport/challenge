@@ -60,6 +60,14 @@ list.addEventListener('click', (e) => {
     }
 });
 
+document.getElementById('delete-all').addEventListener('click', (e) => {
+    server.emit('delete_all');
+});
+
+document.getElementById('complete-all').addEventListener('click', (e) => {
+    server.emit('complete_all');
+});
+
 // NOTE: These are listeners for events from the server
 // This event is for (re)loading the entire list of todos from the server
 server.on('load', (todos) => {
@@ -78,4 +86,15 @@ server.on('toggle', (todo) => {
 server.on('delete', (todoId) => {
     const todoNode = findTodoById(todoId);
     todoNode.remove();
+});
+
+server.on('delete_all', () => {
+    list.innerHTML = '';
+});
+
+server.on('complete_all', () => {
+    const todos = list.childNodes;
+    Array.from(todos).forEach((todo) => {
+        todo.setAttribute('data-complete', 'true');
+    });
 });

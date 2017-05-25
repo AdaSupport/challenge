@@ -7,9 +7,15 @@
         <link href="style.css" rel="stylesheet" type="text/css">
     </head>
     <body>
-        <input id="todo-input" type="text" placeholder="Feed the cat" autofocus>
-        <button type="button" onclick="add()">Make</button>
-        <ul id="todo-list"></ul>
+        <div id="todo-app" class="todo-app">
+            <input id="todo-input" type="text" placeholder="Feed the cat" autofocus>
+            <button type="button" onclick="add()">Make</button>
+            <ul id="todo-list"></ul>
+            <div id="todo-footer">
+                <span id="delete-all" class="footer-link">Delete All</span>
+                <span id="complete-all" class="footer-link">Complete All</span>
+            </div>
+        </div>
     </body>
     <script src="client.js" async></script>
 </html>
