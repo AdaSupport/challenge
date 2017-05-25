@@ -78,10 +78,13 @@ class TodosList {
     }
 }
 
+const todosList = new TodosList();
+
 function add() {
     console.warn(event);
     const input = document.getElementById('todo-input');
 
+    todosList.add(new Todo(title=input.value));
     // Emit the new todo as some data to the server
     server.emit('make', {
         title : input.value
@@ -94,6 +97,7 @@ function add() {
 
 function toggle(todo) {
     const todoId = todo.getAttribute('data-id');
+    todosList.toggle(todoId);
     server.emit('toggle', {
         id: todoId
     });
@@ -101,6 +105,7 @@ function toggle(todo) {
 
 function deleteTodo(todo) {
     const todoId = todo.getAttribute('data-id');
+    todosList.remove(todoId);
     server.emit('delete', todoId);
 }
 
@@ -136,10 +141,12 @@ list.addEventListener('click', (e) => {
 });
 
 document.getElementById('delete-all').addEventListener('click', (e) => {
+    todosList.deleteAll();
     server.emit('delete_all');
 });
 
 document.getElementById('complete-all').addEventListener('click', (e) => {
+    todosList.completeAll();
     server.emit('complete_all');
 });
 
