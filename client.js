@@ -3,6 +3,16 @@ const list = document.getElementById('todo-list');
 
 // NOTE: These are all our globally scoped functions for interacting with the server
 // This function adds a new todo from the input
+
+class Todo {
+    constructor(title='', complete=false, cid=+new Date()){
+        this.title = title;
+        this.complete = complete;
+        this.cid = cid; // temp id before we get real id from the server
+        this.id = null;
+    }
+}
+
 function add() {
     console.warn(event);
     const input = document.getElementById('todo-input');
