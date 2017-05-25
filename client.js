@@ -22,6 +22,7 @@ class TodosList {
     set todos(newTodos) {
         localStorage.setItem('todos', JSON.stringify(newTodos));
         this._todos = newTodos;
+        this.render();
     }
 
     get todos() {
@@ -54,6 +55,26 @@ class TodosList {
 
     deleteAll() {
         this.todos = [];
+    }
+
+
+    render() {
+        list.innerHTML = '';
+        for(const todo of this.todos) {
+            const listItem = document.createElement('li');
+            const listItemText = document.createTextNode(todo.title);
+            const deleteButton = document.createElement('span');
+
+            listItem.setAttribute('data-id', todo.id);
+            listItem.setAttribute('data-complete', todo.complete);
+
+            deleteButton.classList.add('delete-button');
+
+            listItem.appendChild(listItemText);
+            listItem.appendChild(deleteButton);
+
+            list.append(listItem);
+        }
     }
 }
 
