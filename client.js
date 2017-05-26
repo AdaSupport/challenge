@@ -2,6 +2,12 @@
 const server = io.connect('http://localhost:3003/');
 const list = document.getElementById('todo-list');
 
+// Send server connect log
+server.on('connect', () => {
+    console.log('client is working');
+    server.emit('join', 'client is connected');
+});
+
 // Hacky
 var val = null;
 
@@ -28,18 +34,34 @@ function add() {
 }
 
 function render(todo) {
-    console.log(todo);
+    // console.log(todo);
     const listItem = document.createElement('li');
+    const listItemBtn = document.createElement('a');
+    listItemBtn.setAttribute('id', 'item');
+    // listItemBtn.setAttribute('onclick', 'complete()');
     const listItemText = document.createTextNode(todo.title);
-    listItem.appendChild(listItemText);
+    listItemBtn.appendChild(listItemText);
+    listItem.append(listItemBtn);
     list.append(listItem);
+
+    listItemBtn.onclick = complete;
+
+    function complete() {
+        // console.log('click click boom');
+        // const item = document.getElementById('item');
+        // item.addEventListener('click', function(){
+        //     console.log(this);
+        // });
+        // console.log(item.innerHTML);
+        listItem.style.color = '#2ECC71';
+
+        console.log(listItem);
+    }
 }
 
-// Send server connect log
-server.on('connect', () => {
-    console.log('client is working');
-    server.emit('join', 'client is connected');
-});
+// const item = document.addEventListener('click', complete());
+
+
 
 server.on('addTodo', (newTodo) => {
     render(newTodo);
@@ -48,7 +70,7 @@ server.on('addTodo', (newTodo) => {
 // NOTE: These are listeners for events from the server
 // This event is for (re)loading the entire list of todos from the server
 server.on('load', (todos) => {
-    console.log(todos);
+    // console.log(todos);
 
     // todos.forEach((todo) => render(todo));
     // Render with for loop
