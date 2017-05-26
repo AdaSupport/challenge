@@ -1,17 +1,17 @@
-let DB = require('./db');
+const DB = require('./db');
 const Todo = require('./todo');
 
 module.exports = {
   make(t) {
     // Make a new todo
-    const newTodo = new Todo(title=t.title);
+    const newTodo = new Todo(title = t.title);
     // Push this newly created todo to our database
     DB.push(newTodo);
     return newTodo;
   },
 
   toggle(data) {
-    const todo = DB.find((item) => item.id == data.id );
+    const todo = DB.find(item => item.id == data.id);
     if (todo) {
       todo.complete = !todo.complete;
       return todo;
@@ -23,7 +23,7 @@ module.exports = {
       todo.id == todoId;
     });
 
-    if(index){
+    if (index) {
       DB.splice(index, 1);
     }
   },
@@ -33,8 +33,8 @@ module.exports = {
   },
 
   completeAll() {
-    DB.forEach((todo)=>{
+    DB.forEach((todo) => {
       todo.complete = true;
-    })
-  }
+    });
+  },
 };
