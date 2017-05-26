@@ -41,6 +41,10 @@ server.on('connect', () => {
     server.emit('join', 'client is connected');
 });
 
+server.on('addTodo', (newTodo) => {
+    render(newTodo);
+});
+
 // NOTE: These are listeners for events from the server
 // This event is for (re)loading the entire list of todos from the server
 server.on('load', (todos) => {

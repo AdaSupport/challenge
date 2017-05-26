@@ -1,6 +1,7 @@
 // FIXME: Feel free to remove this :-)
 // console.log('\n\nGood Luck! 😅\n\n');
 
+// use express instead
 const express = require('express');
 const app = express();
 const server = require('http').createServer(app);
@@ -53,8 +54,8 @@ io.on('connection', (client) => {
     // Mismatching vars
     client.on('make', (val) => {
         // Make a new todo
-        const newTodo = new Todo;
-        val=newTodo.title;
+        const newTodo = new Todo();
+        newTodo.title = val;
 
         // Push this newly created todo to our database
         todos.push(newTodo);
