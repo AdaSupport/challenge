@@ -22,7 +22,7 @@ io.on('connection', (client) => {
     // This is going to be our fake 'database' for this application
     // Parse all default Todo's from db
 
-    console.log('server connected')
+    console.log('server connected');
 
     // FIXME: DB is reloading on client refresh. It should be persistent on new client connections from the last time the server was run...
     const DB = firstTodos.map((t) => {
@@ -33,6 +33,12 @@ io.on('connection', (client) => {
 
     // Assign todos to DB
     var todos = DB;
+
+    console.log(todos);
+
+    client.on('join', () => {
+        console.log('client connected');
+    });
 
     // Sends a message to the client to reload all todos
     const reloadTodos = () => {
