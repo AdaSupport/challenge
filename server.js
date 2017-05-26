@@ -76,4 +76,7 @@ io.on('connection', (client) => {
 });
 
 console.log('Waiting for clients to connect');
-server.listen(3003);
+// server check
+server.listen(3003, () => {
+    console.log('listening on port 3003');
+});
