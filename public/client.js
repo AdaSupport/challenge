@@ -13,7 +13,7 @@ function add() {
 
     // Emit the new todo as some data to the server
     socket.emit('make', {
-        titlé : input.value
+        title : input.value
     });
 
     // Clear the input
@@ -32,5 +32,10 @@ function render(todo) {
 // NOTE: These are listeners for events from the server
 // This event is for (re)loading the entire list of todos from the server
 socket.on('load', (todos) => {
-    todos.forEach((todo) => render(todo));
+    // Cater to initial DB to-do list load
+    if(Array.isArray(todos)){
+        todos.forEach((todo) => render(todo));
+    } else {                         //ELSE RENDER ONE TO-DO
+        render(todos);
+    }
 });
