@@ -143,6 +143,12 @@ document.getElementById('complete-all').addEventListener('click', () => {
   server.emit('complete_all');
 });
 
+document.getElementById('todo-input').addEventListener('keypress', (e) =>{
+  if(e.keyCode === 13) {
+    add();
+  }
+});
+
 // NOTE: These are listeners for events from the server
 // This event is for (re)loading the entire list of todos from the server
 server.on('load', (todos) => {
