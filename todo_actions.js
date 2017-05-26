@@ -12,8 +12,10 @@ module.exports = {
 
   toggle(data) {
     const todo = DB.find((item) => item.id == data.id );
-    todo.complete = !todo.complete;
-    return todo;
+    if (todo) {
+      todo.complete = !todo.complete;
+      return todo;
+    }
   },
 
   delete(todoId) {
