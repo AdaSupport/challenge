@@ -1,11 +1,26 @@
-// FIXME: Feel free to remove this :-)
-console.log('\n\nGood Luck! 😅\n\n');
+// Setup: Sockets io and express server
+const express = require('express');
+const app = express();
+const server = require('http').createServer(app); /// changed line
+const io = require('socket.io')(server);
 
-const server = require('socket.io')();
 const firstTodos = require('./data');
 const Todo = require('./todo');
 
-server.on('connection', (client) => {
+// Sends index.html to client's browser
+app.use(express.static(__dirname + '/public'));
+
+server.listen(3003);
+console.log('Waiting for clients to connect');
+
+// On connection to sockets server
+io.on('connection', (client) => {
+    console.log('Client connected');
+
+    client.on('join', function(data) {
+        console.log(data);
+
+    });
     // This is going to be our fake 'database' for this application
     // Parse all default Todo's from db
 
@@ -17,7 +32,7 @@ server.on('connection', (client) => {
 
     // Sends a message to the client to reload all todos
     const reloadTodos = () => {
-        server.emit('load', DB);
+        client.emit('load', DB);
     }
 
     // Accepts when a client makes a new todo
@@ -37,5 +52,5 @@ server.on('connection', (client) => {
     reloadTodos();
 });
 
-console.log('Waiting for clients to connect');
-server.listen(3003);
+
+
