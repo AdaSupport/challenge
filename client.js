@@ -1,4 +1,5 @@
-const server = io('http://localhost:3003/');
+// missing express connect
+const server = io.connect('http://localhost:3003/');
 const list = document.getElementById('todo-list');
 
 // Hacky
@@ -44,7 +45,9 @@ server.on('connect', () => {
 // This event is for (re)loading the entire list of todos from the server
 server.on('load', (todos) => {
     console.log(todos);
+
     // todos.forEach((todo) => render(todo));
+    // Render with for loop
     for (todo in todos) {
         render(todos[todo]);
     }

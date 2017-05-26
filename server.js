@@ -41,25 +41,38 @@ io.on('connection', (client) => {
     });
 
     // Sends a message to the client to reload all todos
+    // Matched client socket var
     const reloadTodos = () => {
-        server.emit('load', todos);
+        client.emit('load', todos);
     }
 
+    // Send the DB downstream on connect, reorder
+    reloadTodos();
+
     // Accepts when a client makes a new todo
-    client.on('make', (t) => {
+    // Mismatching vars
+    client.on('make', (val) => {
         // Make a new todo
-        const newTodo = new Todo(title=t.title);
+        const newTodo = new Todo;
+        val=newTodo.title;
 
         // Push this newly created todo to our database
         todos.push(newTodo);
 
+        
+
+        const addTodo = () => {
+            client.emit('addTodo', newTodo);
+            console.log(newTodo);
+        }
+
         // Send the latest todos to the client
-        // FIXME: This sends all todos every time, could this be more efficient?
-        reloadTodos();
+        // FIXME: This sends all todos every time, could this be more efficient? Yes
+        // reloadTodos();
+        addTodo();
     });
 
-    // Send the DB downstream on connect
-    reloadTodos();
+    
 });
 
 console.log('Waiting for clients to connect');
