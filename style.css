@@ -2,7 +2,7 @@
   max-width: 300px;
 }
 
-li[data-complete="true"] {
+[data-complete="true"] label {
     text-decoration: line-through;
 }
 

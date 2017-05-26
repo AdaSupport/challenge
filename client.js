@@ -76,17 +76,14 @@ class TodosList {
     list.innerHTML = '';
     for (const todo of this.todos) {
       const listItem = document.createElement('li');
-      const listItemText = document.createTextNode(todo.title);
-      const deleteButton = document.createElement('span');
-
-      listItem.setAttribute('data-id', todo.id);
-      listItem.setAttribute('data-complete', todo.complete);
-
-      deleteButton.classList.add('delete-button');
-
-      listItem.appendChild(listItemText);
-      listItem.appendChild(deleteButton);
-
+      listItem.innerHTML = `
+        <div class='todo-view' data-id='${todo.id}' data-complete='${todo.complete}'>
+          <input class='toggle' type='checkbox' ${todo.complete ? 'checked' : ''}></input>
+          <label>${todo.title}</label>
+          <button class='delete-button'>
+          </button>
+        </div>
+      `;
       list.append(listItem);
     }
   }
@@ -126,8 +123,8 @@ function deleteTodo(todo) {
 
 list.addEventListener('click', (e) => {
   const target = e.target;
-  if (target.tagName === 'LI') {
-    toggle(target);
+  if (target.classList.contains('toggle')) {
+    toggle(target.parentNode);
   } else if (target.classList.contains('delete-button')) {
     deleteTodo(target.parentNode);
   }
