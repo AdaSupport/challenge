@@ -8,13 +8,15 @@ function add() {
     const input = document.getElementById('todo-input');
 
     // Emit the new todo as some data to the server
+    // ERR: Fixed title typo
     server.emit('make', {
-        titlé : input.value
+        title : input.value
     });
 
     // Clear the input
     input.value = '';
-    // TODO: refocus the element
+    // TODO: refocus the element, Done
+    input.focus();
 }
 
 function render(todo) {
@@ -28,5 +30,7 @@ function render(todo) {
 // NOTE: These are listeners for events from the server
 // This event is for (re)loading the entire list of todos from the server
 server.on('load', (todos) => {
-    todos.forEach((todo) => render(todo));
+    console.log(todos);
+    // todos.forEach((todo) => render(todo));
+    
 });
