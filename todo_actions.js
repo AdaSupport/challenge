@@ -19,14 +19,22 @@ module.exports = {
   },
 
   delete(todoId) {
-    DB = DB.filter((item) => item.id != todoId);
+    const index = DB.findIndex((todo) => {
+      todo.id == todoId;
+    });
+
+    if(index){
+      DB.splice(index, 1);
+    }
   },
 
   deleteAll() {
-    DB = [];
+    DB.splice(0, DB.length);
   },
 
   completeAll() {
-    DB = DB.map((item) => Object.assign({}, item, {complete: true}));
+    DB.forEach((todo)=>{
+      todo.complete = true;
+    })
   }
 };
