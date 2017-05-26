@@ -1,3 +1,6 @@
+/* eslint no-param-reassign:
+   ["error", { "props": true, "ignorePropertyModificationsFor": ["todo"] }] */
+
 const DB = require('./db');
 const Todo = require('./todo');
 
@@ -11,17 +14,15 @@ module.exports = {
   },
 
   toggle(data) {
-    const todo = DB.find(item => item.id == data.id);
+    const todo = DB.find(item => item.id === data.id);
     if (todo) {
       todo.complete = !todo.complete;
-      return todo;
     }
+    return todo;
   },
 
   delete(todoId) {
-    const index = DB.findIndex((todo) => {
-      todo.id == todoId;
-    });
+    const index = DB.findIndex(todo => todo.id === todoId);
 
     if (index) {
       DB.splice(index, 1);

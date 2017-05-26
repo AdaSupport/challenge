@@ -1,6 +1,5 @@
 const server = require('socket.io')();
 const DB = require('./db');
-const Todo = require('./todo');
 const actions = require('./todo_actions');
 
 server.on('connection', (client) => {

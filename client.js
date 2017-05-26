@@ -1,3 +1,6 @@
+/* global io document localStorage */
+/* eslint no-underscore-dangle: ["error", { "allow": ["_todos"] }] */
+
 const server = io('http://localhost:3003/');
 const list = document.getElementById('todo-list');
 
@@ -34,12 +37,12 @@ class TodosList {
   }
 
   remove(id) {
-    this.todos = this.todos.filter(item => item.id != id);
+    this.todos = this.todos.filter(item => item.id !== id);
   }
 
   toggle(id) {
     this.todos = this.todos.map((item) => {
-      if (item.id == id) {
+      if (item.id === id) {
         return Object.assign({}, item, { complete: !item.complete });
       }
       return item;
@@ -60,7 +63,7 @@ class TodosList {
         // when we receive data from the server,
         // sync our data
     this.todos = this.todos.map((item) => {
-      if (item.cid == data.cid) {
+      if (item.cid === data.cid) {
         return Object.assign({}, item, data.todo);
       }
       return item;
@@ -92,7 +95,6 @@ class TodosList {
 const todosList = new TodosList();
 
 function add() {
-  console.warn(event);
   const input = document.getElementById('todo-input');
   const newTodo = new Todo(title = input.value);
 
@@ -124,19 +126,19 @@ function deleteTodo(todo) {
 
 list.addEventListener('click', (e) => {
   const target = e.target;
-  if (target.tagName == 'LI') {
+  if (target.tagName === 'LI') {
     toggle(target);
   } else if (target.classList.contains('delete-button')) {
     deleteTodo(target.parentNode);
   }
 });
 
-document.getElementById('delete-all').addEventListener('click', (e) => {
+document.getElementById('delete-all').addEventListener('click', () => {
   todosList.deleteAll();
   server.emit('delete_all');
 });
 
-document.getElementById('complete-all').addEventListener('click', (e) => {
+document.getElementById('complete-all').addEventListener('click', () => {
   todosList.completeAll();
   server.emit('complete_all');
 });
