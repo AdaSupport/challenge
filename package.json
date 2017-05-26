@@ -4,7 +4,7 @@
   "description": "Our hiring challenge to full-stack developers",
   "main": "index.js",
   "scripts": {
-    "test": "npm test",
+    "test": "mocha test --require test/helpers/chai.js",
     "start": "node server.js"
   },
   "repository": {
@@ -21,5 +21,10 @@
     "express": "^4.14.0",
     "socket.io": "^1.5.0",
     "uuid": "^3.0.1"
+  },
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "mocha": "^3.4.2",
+    "proxyquire": "^1.8.0"
   }
 }
