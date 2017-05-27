@@ -33,6 +33,8 @@ class TodoList extends Component {
     this.handleAddItem = this.handleAddItem.bind(this);
     this.handleItemCheck = this.handleItemCheck.bind(this);
     this.handleItemDelete = this.handleItemDelete.bind(this);
+    this.handleDeleteAll = this.handleDeleteAll.bind(this);
+    this.handleCompleteAll = this.handleCompleteAll.bind(this);
   }
 
   handleChange(e) {
@@ -43,13 +45,13 @@ class TodoList extends Component {
 
   handleAddItem(e) {
     e.preventDefault();
-    let todos = Object.assign(this.state.todos);
+    let todos = this.state.todos.slice();
     todos.push({title: this.state.tempItem});
     this.setState({todos: todos, tempItem: ''})
   }
 
   handleItemCheck(item){
-    let todos = Object.assign(this.state.todos);
+    let todos = this.state.todos.slice();
     
     // Would ideally use ids generated from a database, instead of title
     todos.map((todo) => {
@@ -65,14 +67,29 @@ class TodoList extends Component {
   }
 
   handleItemDelete(item) {
-      let todos = Object.assign(this.state.todos);
+      let todos = this.state.todos.slice();
 
       let filteredTodos = todos.filter(todo => {return todo.title !== item.title})
       this.setState({todos: filteredTodos});
   }
+
+  handleDeleteAll() {
+    this.setState({todos: []});
+  }
+
+  handleCompleteAll() {
+    let todos = this.state.todos.slice();
+
+    todos.map((todo) => {
+        todo.done = true;
+        return todo;
+    })
+    
+    this.setState({todos: todos});
+  }
   
   render() {
-    let todos = Object.assign(this.state.todos);
+    let todos = this.state.todos.slice();
     let todosJSX = [];
 
     todos.map((todo, i) => {
@@ -90,6 +107,8 @@ class TodoList extends Component {
             <ul>
                 {todosJSX}
             </ul>
+        <button onClick={this.handleDeleteAll}>Delete all</button>
+        <button onClick={this.handleCompleteAll}>Complete all</button>
       </div>
     )
   }
