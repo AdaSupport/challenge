@@ -1,0 +1,13 @@
+ul, li {
+    list-style: none;
+}
+
+.done {
+    color: grey;
+    text-decoration: line-through;
+}
+
+.normal {
+    color: black;
+    text-decoration: none;
+}
