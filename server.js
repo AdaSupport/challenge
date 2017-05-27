@@ -11,6 +11,14 @@ const io = require('socket.io')(server);
 const firstTodos = require('./data');
 const Todo = require('./todo');
 
+// FIXME: DB is reloading on client refresh. It should be persistent on new client connections from the last time the server was run...
+// FIXED: Now persistent on new client connections, I think
+const DB = firstTodos.map((t) => {
+    // Form new Todo objects
+    // TypeError: Todo is not a function
+    return new Todo(title=t.title);
+});
+
 
 // Express server
 app.use('/', express.static(__dirname + '/'));
@@ -25,17 +33,12 @@ io.on('connection', (client) => {
 
     console.log('server connected');
 
-    // FIXME: DB is reloading on client refresh. It should be persistent on new client connections from the last time the server was run...
-    const DB = firstTodos.map((t) => {
-        // Form new Todo objects
-        // TypeError: Todo is not a function
-        return new Todo(title=t.title);
-    });
+    
 
     // Assign todos to DB
     var todos = DB;
 
-    console.log(todos);
+    // console.log(todos);
 
     client.on('join', () => {
         console.log('client connected');

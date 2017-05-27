@@ -54,14 +54,15 @@ function render(todo) {
         // });
         // console.log(item.innerHTML);
         listItem.style.color = '#2ECC71';
+        
+        // else if (listItem.style.color = ''){
+        //     listItem.style.color = '#2ECC71';
+        // }
+        
 
         console.log(listItem);
     }
 }
-
-// const item = document.addEventListener('click', complete());
-
-
 
 server.on('addTodo', (newTodo) => {
     render(newTodo);
