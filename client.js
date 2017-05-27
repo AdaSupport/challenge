@@ -100,10 +100,9 @@ function render(todo) {
 
         // console.log(listItem);
     }
-    function remove(val) {
-        val = listItemText;
-        console.log(val);
-        server.emit('remove', val);
+    function remove() {
+        console.log(todo);
+        // server.emit('remove', val);
     }
 }
 
@@ -122,7 +121,9 @@ function completeAll() {
         }
         console.log(todo.status);
 }
+function deleteAll() {
 
+}
 
 server.on('addTodo', (newTodo) => {
     render(newTodo);
