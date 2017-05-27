@@ -1,6 +1,7 @@
 import React from 'react';
 import TodoForm from './TodoForm.jsx';
 import TodoList from './TodoList.jsx';
+import Header from './Header.jsx';
 import uuidV4 from 'uuid/v4';
 
 export default class App extends React.Component {
@@ -55,15 +56,15 @@ export default class App extends React.Component {
   render() {
     return (
       <div>
-        <h1>TODO APP</h1>
-        <TodoForm
-          addTodo={this.addTodo.bind(this)}
+        <Header
           completeAll={this.completeAll.bind(this)}
           deleteAll={this.deleteAll.bind(this)} />
         <TodoList
           list={this.state.todoList}
           deleteTodo={this.deleteTodo.bind(this)}
           completeTodo={this.completeTodo.bind(this)} />
+        <TodoForm
+          addTodo={this.addTodo.bind(this)} />
       </div>
     )
   }

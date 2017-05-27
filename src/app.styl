@@ -1,33 +1,172 @@
+$background = #7a8998;
+$black = #212a33;
+$darkgrey = #bfbfbf;
+$lightgrey = #efefef;
+$blue = #347ab9;
+$red = red;
+$green = #2ad242;
+
 * {
   box-sizing: border-box;
 }
 
-html,
 body {
-  margin: 0;
-  padding: 0;
+  background: $background;
+  font-family: 'Open Sans';
 }
 
 #app {
-  margin: 0 auto;
-  background: red;
   width: 50%;
+  margin: 0 auto;
+  overflow: hidden;
+  border-radius: 6px;
 
-  input {
+  header {
+    position: relative;
+    border-left: 3px solid transparent;
+    background: $black;
+    color: #FFF;
+    text-align: center;
+    font-size: 30px;
+    line-height: 55px;
+  }
+
+  .form-container {
+    position: relative;
+
+    input {
+      line-height: 40px;
+      font-size: 20px;
+      width: 100%;
+      text-align: center;
+      outline: none;
+      border: none;
+      color: $darkgrey;
+      background: $lightgrey;
+    }
+  }
+
+  button {
+    display: block;
     outline: 0;
     border: 0;
+    line-height: 40px;
+    width: 100%;
+    font-size: 25px;
+    background: $blue;
+    cursor: pointer;
+    transition: all 0.2s ease;
+
+    &:hover {
+      background: $blue + 10%;
+    }
   }
 
   ul {
-    margin: 0;
     padding: 0;
-    list-style-type: none;
-    text-align: left;
+    margin: 0;
 
     li {
-      background: grey;
-      border: 1px solid white;
+      position: relative;
+      text-align: left;
+      padding: 15px 50px;
+      width: 100%;
+      background: #FFF;
+      line-height: 20px;
+      transition: all 0.3s ease;
+      border-bottom: 1px solid $darkgrey;
+      border-left: 3px solid transparent;
 
+      &.completed {
+        color: $darkgrey;
+        text-decoration: line-through;
+      }
+
+      &:hover {
+        border-left: 3px solid $blue;
+      }
+
+      &:hover > .close {
+        visibility: visible;
+      }
     }
+  }
+}
+
+.checkbox {
+  cursor: pointer;
+  position: absolute;
+  width: 25px;
+  height: 25px;
+  top: 50%;
+  left: 10px;
+  background: $lightgrey;
+  border: 1px solid $darkgrey;
+  transform: translateY(-50%);
+
+  &:after {
+    opacity: 0.2;
+    content: '';
+    position: absolute;
+    width: 9px;
+    height: 5px;
+    background: transparent;
+    top: 6px;
+    left: 7px
+    border: 3px solid $black;
+    border-top: 0;
+    border-right: 0;
+    transform: rotate(-45deg);
+  }
+
+  &:hover::after {
+    opacity: 1;
+  }
+
+  &.checked {
+    border: 0;
+    background: transparent;
+
+    &::after {
+      opacity: 1;
+    }
+  }
+
+  &.all {
+    border: 0;
+    height: 30px;
+    width: 35px;
+    background: transparent;
+
+    &::after {
+      opacity: 1;
+      width: 17px;
+      height: 9px;
+      border: 4px solid $green;
+      border-top: 0;
+      border-right: 0;
+    }
+  }
+}
+
+.close {
+  visibility: hidden;
+  cursor: pointer;
+  color: $black;
+  font-size: 23px;
+  position: absolute;
+  right: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+
+  &:after {
+    content: '×';
+  }
+
+  &.all {
+    visibility: visible;
+    color: $red;
+    font-size: 35px;
+    font-weight: 700;
   }
 }
