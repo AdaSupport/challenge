@@ -3,7 +3,9 @@
 // Typo on module.exports
 module.exports = class Todo {
     // constructor(title='') { SyntaxError: Unexpected token =
-    constructor(title) {
+    // add status to track completion state
+    constructor(title, status) {
         this.title = title
+        this.status = status
     }
 }
