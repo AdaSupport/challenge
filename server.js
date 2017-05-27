@@ -16,7 +16,7 @@ const Todo = require('./todo');
 const DB = firstTodos.map((t) => {
     // Form new Todo objects
     // TypeError: Todo is not a function
-    return new Todo(title=t.title);
+    return new Todo(title=t.title, status='active');
 });
 
 
@@ -59,6 +59,7 @@ io.on('connection', (client) => {
         // Make a new todo
         const newTodo = new Todo();
         newTodo.title = val;
+        newTodo.status = "active";
 
         // Push this newly created todo to our database
         todos.push(newTodo);
@@ -74,6 +75,19 @@ io.on('connection', (client) => {
         // FIXME: This sends all todos every time, could this be more efficient? Yes
         // reloadTodos();
         addTodo();
+    });
+
+    client.on('status', (todo) => {
+        console.log(todo);
+        todo.status = status;
+        // Shouldn't reload todos
+    }); 
+
+    client.on('remove', (val) => {
+        // Needs declaration of the selected item, just removes last item right now
+        console.log(val);
+        // todos.splice(todos.indexOf(val), 1);
+        // reloadTodos();
     });
 
     

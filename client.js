@@ -37,14 +37,32 @@ function render(todo) {
     // console.log(todo);
     const listItem = document.createElement('li');
     const listItemBtn = document.createElement('a');
-    listItemBtn.setAttribute('id', 'item');
-    // listItemBtn.setAttribute('onclick', 'complete()');
+    listItemBtn.setAttribute('class', 'item');
+    const deleteBtn = document.createElement('a');
+    deleteBtn.setAttribute('class', 'btn-delete');
     const listItemText = document.createTextNode(todo.title);
-    listItemBtn.appendChild(listItemText);
+    listItemBtn.append(listItemText);
     listItem.append(listItemBtn);
+    listItem.append(deleteBtn);
     list.append(listItem);
 
     listItemBtn.onclick = complete;
+    deleteBtn.onclick = remove;
+
+    function checkStatus() {
+        switch (todo.status) {
+            case 'active':
+                listItem.style.color = '#000';
+            break;
+            case 'done':
+                listItem.style.color = '#2ecc71';
+            break;
+        }
+    }
+
+    checkStatus();
+
+    
 
     function complete() {
         // console.log('click click boom');
@@ -53,16 +71,58 @@ function render(todo) {
         //     console.log(this);
         // });
         // console.log(item.innerHTML);
-        listItem.style.color = '#2ECC71';
+        // listItem.style.color = '#2ECC71';
         
         // else if (listItem.style.color = ''){
         //     listItem.style.color = '#2ECC71';
         // }
+
+        // Create as if, refactor as switch statement
+        // if (todo.status == 'active') {
+        //     listItem.style.color = '#000';
+        // }
+
+        // console.log(todo.status);
+
+        switch (todo.status) {
+            case "active":
+            listItem.style.color = '#2ecc71';
+            todo.status = "done";
+            server.emit('status', todo);
+            break;
+            case "done":
+            listItem.style.color = "#000";
+            todo.status = "active";
+            server.emit('status', todo);
+            break;
+        }
         
 
-        console.log(listItem);
+        // console.log(listItem);
+    }
+    function remove(val) {
+        val = listItemText;
+        console.log(val);
+        server.emit('remove', val);
     }
 }
+
+function completeAll() {
+    const Items = document.querySelectorAll('.item');
+
+    switch (todo.status) {
+            case "active":
+            Items.style.color = '#2ecc71';
+            todo.status = "done";
+            break;
+            case "done":
+            Items.style.color = "#000";
+            todo.status = "active";
+            break;
+        }
+        console.log(todo.status);
+}
+
 
 server.on('addTodo', (newTodo) => {
     render(newTodo);
@@ -74,6 +134,10 @@ server.on('load', (todos) => {
     // console.log(todos);
 
     // todos.forEach((todo) => render(todo));
+
+    // Clear list before load/reload
+    list.innerHTML = '';
+
     // Render with for loop
     for (todo in todos) {
         render(todos[todo]);
