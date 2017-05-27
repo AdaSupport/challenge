@@ -1,6 +1,3 @@
-// FIXME: Feel free to remove this :-)
-console.log('\n\nGood Luck! 😅\n\n');
-
 const server = require('socket.io')();
 const firstTodos = require('./data');
 const Todo = require('./todo');
