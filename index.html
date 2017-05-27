@@ -3,8 +3,9 @@
     <head>
         <meta charset="utf-8">
         <title>ToodleDo</title>
-        <script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
-        <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Open+Sans:700,600,500,400,300" type="text/css">
+        <!--<script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>-->
+        <script src="socket.io/socket.io.js"></script>
+        <!--<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Open+Sans:700,600,500,400,300" type="text/css">-->
         <link rel="stylesheet" href="style.css" type="text/css">
     </head>
     <body>
@@ -13,6 +14,10 @@
             <input id="todo-input" type="text" placeholder="What do you want to do?" autofocus>
             <button type="button" class="addBtn" onclick="add()">add</button>
             <ul id="todo-list"></ul>
+            <div class="controls">
+                <button type="button" class="all complete" onclick="completeAll()">complete all</button>
+                <button type="button" class="all delete" onclick="deleteAll()">delete all</button>
+            </div>
         </div>
     </body>
     <script src="client.js" async></script>
