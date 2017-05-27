@@ -5,13 +5,18 @@
         <title>TODO</title>
         <script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
         <link href="style.css" rel="stylesheet" type="text/css">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
     </head>
     <body>
         <div id="todo-app" class="todo-app">
-            <input id="todo-input" type="text" placeholder="Feed the cat" autofocus>
-            <button type="button" onclick="add()">Make</button>
-            <ul id="todo-list"></ul>
-            <div id="todo-footer">
+            <div class="todo-header">
+              <button class='make-todo-btn' type="button" onclick="add()">Make</button>
+              <div class="input-wrap">
+                <input id="todo-input" class="todo-input" type="text" placeholder="Feed the cat" autofocus>
+              </div>
+            </div>
+            <ul id="todo-list" class='todo-list'></ul>
+            <div id="todo-footer" class='todo-footer'>
                 <span id="delete-all" class="footer-link">Delete All</span>
                 <span id="complete-all" class="footer-link">Complete All</span>
             </div>
