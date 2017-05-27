@@ -12,12 +12,12 @@ app.get('/', (req, res) => {
 });
 
 server.on('connection', (client) => {
-    // Accepts when a client makes a new todo
+  // Accepts when a client makes a new todo
   client.on('make', (t) => {
     const newTodo = actions.make(t);
-        // Send the latest todo to the other clients
+    // Send the latest todo to the other clients
     client.broadcast.emit('add', newTodo);
-        // Sync the todo data with the originating client
+    // Sync the todo data with the originating client
     client.emit('sync', { todo: newTodo, cid: t.cid });
   });
 
@@ -41,7 +41,7 @@ server.on('connection', (client) => {
     client.broadcast.emit('complete_all');
   });
 
-    // Send the DB downstream on connect
+  // Send the DB downstream on connect
   client.emit('load', DB);
 });
 
