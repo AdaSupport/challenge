@@ -24,7 +24,7 @@ module.exports = {
   delete(todoId) {
     const index = DB.findIndex(todo => todo.id === todoId);
 
-    if (index) {
+    if (index != -1) {
       DB.splice(index, 1);
     }
   },
