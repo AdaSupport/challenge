@@ -1,6 +1,15 @@
-const server = require('socket.io')();
+const express = require('express');
+
+const app = express();
+const server = require('socket.io')(app.listen(3003));
+const path = require('path');
 const DB = require('./db');
 const actions = require('./todo_actions');
+
+app.use(express.static(path.join(__dirname, 'assets')));
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'index.html'));
+});
 
 server.on('connection', (client) => {
     // Accepts when a client makes a new todo
@@ -37,4 +46,3 @@ server.on('connection', (client) => {
 });
 
 console.log('Waiting for clients to connect');
-server.listen(3003);
