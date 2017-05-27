@@ -1,39 +1,15 @@
-const server = require('socket.io')();
-const firstTodos = require('./data');
-const Todo = require('./todo');
+var path = require('path');
+var express = require('express');
+var app = express();
+var http = require('http').Server(app);
 
-server.on('connection', (client) => {
-    // This is going to be our fake 'database' for this application
-    // Parse all default Todo's from db
-
-    // FIXME: DB is reloading on client refresh. It should be persistent on new client connections from the last time the server was run...
-    const DB = firstTodos.map((t) => {
-        // Form new Todo objects
-        return new Todo(title=t.title);
-    });
-
-    // Sends a message to the client to reload all todos
-    const reloadTodos = () => {
-        server.emit('load', DB);
-    }
-
-    // Accepts when a client makes a new todo
-    client.on('make', (t) => {
-        // Make a new todo
-        const newTodo = new Todo(title=t.title);
-
-        // Push this newly created todo to our database
-        DB.push(newTodo);
-
-        // Send the latest todos to the client
-        // FIXME: This sends all todos every time, could this be more efficient?
-        reloadTodos();
-    });
-
-    // Send the DB downstream on connect
-    reloadTodos();
+// express server config
+app.use(express.static(path.join(__dirname, 'dist')));
+app.get('/', function(req, res) {
+  res.sendFile(path.resolve(__dirname, 'dist/index.html'));
 });
 
-console.log('Waiting for clients to connect');
-server.listen(3003);
-
+// listen for incoming connections on port 3003
+http.listen(3003, function() {
+  console.log('listening on *:3000');
+});

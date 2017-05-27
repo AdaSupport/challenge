@@ -4,8 +4,9 @@
   "description": "Our hiring challenge to full-stack developers",
   "main": "index.js",
   "scripts": {
-    "test": "npm test",
-    "start" : "node server.js"
+    "start": "./node_modules/babel-cli/bin/babel-node.js server.js",
+    "build": "./node_modules/webpack/bin/webpack.js",
+    "watch": "./node_modules/webpack/bin/webpack.js -w"
   },
   "repository": {
     "type": "git",
@@ -17,8 +18,35 @@
     "url": "https://github.com/adasupport/challenge/issues"
   },
   "homepage": "https://github.com/adasupport/challenge#readme",
+  "devDependencies": {
+    "babel-cli": "^6.24.1",
+    "babel-core": "^6.23.1",
+    "babel-loader": "^6.4.0",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-react": "^6.23.0",
+    "css-loader": "^0.27.1",
+    "express": "^4.15.3",
+    "extract-text-webpack-plugin": "^2.1.0",
+    "html-webpack-plugin": "^2.28.0",
+    "style-loader": "^0.13.2",
+    "stylus": "^0.54.5",
+    "stylus-loader": "^3.0.1",
+    "webpack": "^2.2.1"
+  },
   "dependencies": {
-    "express": "^4.14.0",
-    "socket.io": "^1.5.0"
+    "immutable": "^3.8.1",
+    "react": "^15.4.2",
+    "react-dom": "^15.4.2",
+    "react-redux": "^5.0.5",
+    "redux": "^3.6.0",
+    "socket.io": "^2.0.1",
+    "socket.io-client": "^2.0.1",
+    "uuid": "^3.0.1"
+  },
+  "babel": {
+    "presets": [
+      "es2015",
+      "react"
+    ]
   }
 }
