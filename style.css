@@ -1,14 +1,22 @@
+
+*, *:before, *:after {
+    box-sizing: border-box;
+}
 html, input, button {
     -webkit-font-smoothing: anti-aliased;
-    font-family: "Helvetica Neue", sans-serif;
+    -moz-osx-font-smoothing:greyscale;
+    font-family: "Open Sans", "Helvetica Neue", sans-serif;
     letter-spacing: 1px;
-    
+    font-size:62.5%;
+}
+html, body {
+    /*height: 100%;*/
 }
 html {
-    color:#6c7a89;
+    /*color:#6c7a89;*/
+    padding-bottom:5rem;
 }
 .app {
-    box-sizing:border-box;
     width:90%;
     padding:5rem auto 10rem;
     margin:0 auto;
@@ -17,12 +25,12 @@ html {
 h1 {
     font-size: 5rem;
     text-align: center;
-    /*color:#6c7a89;*/
+    color:#6c7a89;
 }
 input, button {
     box-sizing: border-box;
     padding:1.5rem 2rem;
-    font-size: 1.5rem;
+    font-size: 2rem;
     border:none;
     outline: none;
 }
@@ -39,12 +47,12 @@ input:focus {
     width: 10rem;
     background:#6c7a89;
     color:#fff;
-    box-shadow:1px 5px 30px #999;
+    box-shadow:0px 5px 30px #999;
     transition:all 400ms ease-in-out;
     float: right;
 }
 .addBtn:hover {
-    box-shadow: 1px 15px 30px #999;
+    box-shadow: 0px 15px 30px #999;
 }
 #todo-list {
     margin-top:3rem;
@@ -53,20 +61,20 @@ input:focus {
 }
 #todo-list li {
     list-style: none;
-    padding:1.75rem 2rem;
-    margin-bottom:.75rem;
-    font-size: 1.5rem;
+    padding:2rem;
+    /*margin-bottom:1rem;*/
+    font-size: 2rem;
     font-weight: 500;
     background:#fff;
-    box-shadow:1px 3px 10px #bbb;
-    border:1px solid #f9f9f9;
+    box-shadow:0px 5px 15px #bbb;
+    border:1px solid #f3f3f3;
     transition:all 400ms ease-in-out;
     /*border-radius:3px;*/
 
 }
 #todo-list li:hover {
-    box-shadow: 1px 8px 25px #bbb;
-    /*padding:3rem 2rem;*/
+    box-shadow:0px 7px 20px #bbb;
+    margin:2rem 0;
 }
 
 @media only screen and (min-width: 1024px) {
