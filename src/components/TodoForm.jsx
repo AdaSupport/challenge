@@ -31,6 +31,8 @@ export default class TodoForm extends React.Component {
           placeholder="Feed the cat..."
           onKeyPress={this.handleKeyPress.bind(this)} />
         <button onClick={this.handleClick.bind(this)}>Add todo</button>
+        <button onClick={() => this.props.deleteAll()}>Delete All</button>
+        <button onClick={() => this.props.completeAll()}>Complete All</button>
       </div>
     )
   }
