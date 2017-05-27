@@ -12,6 +12,10 @@ class TodoList extends Component {
     })
     return(
       <div>
+        <form>
+        <input id="todo-input" type="text" placeholder="Feed the cat" autofocus />
+        <button type="button" onclick="add()">Make</button>
+        </form>
         <ul>
           {todosJSX}
         </ul>

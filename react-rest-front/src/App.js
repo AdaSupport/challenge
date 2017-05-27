@@ -1,9 +1,10 @@
 // Component Structure
   // App
     // TodoList
-      // Todos
+      // Todo
         // completeTask()
         // deleteTask()
+    // addTodo()
     // completeAllTasks()
     // deleteAllTasks()
 
