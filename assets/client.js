@@ -1,7 +1,7 @@
 /* global io document localStorage */
 /* eslint no-underscore-dangle: ["error", { "allow": ["_todos"] }] */
 
-const server = io('http://localhost:3003/');
+const server = io();
 const list = document.getElementById('todo-list');
 
 // NOTE: These are all our globally scoped functions for interacting with the server
