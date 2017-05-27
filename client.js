@@ -93,6 +93,11 @@ const todosList = new TodosList();
 
 function add() {
   const input = document.getElementById('todo-input');
+
+  if (!input.value.trim()) {
+    return;
+  }
+
   const newTodo = new Todo(title = input.value);
 
   todosList.add(newTodo);
