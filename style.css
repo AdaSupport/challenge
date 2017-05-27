@@ -66,15 +66,17 @@ input:focus {
     font-size: 2rem;
     font-weight: 500;
     background:#fff;
-    box-shadow:0px 5px 15px #bbb;
-    border:1px solid #f3f3f3;
+    box-shadow:0px 10px 25px #bbb;
+    border:1px solid #f5f5f5;
     transition:all 400ms ease-in-out;
     /*border-radius:3px;*/
-
 }
 #todo-list li:hover {
-    box-shadow:0px 7px 20px #bbb;
+    box-shadow:0px 10px 25px #bbb;
     margin:2rem 0;
+}
+#todo-list li a {
+    cursor: pointer;
 }
 
 @media only screen and (min-width: 1024px) {
