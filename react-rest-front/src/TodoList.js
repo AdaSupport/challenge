@@ -32,6 +32,7 @@ class TodoList extends Component {
     this.handleChange = this.handleChange.bind(this);
     this.handleAddItem = this.handleAddItem.bind(this);
     this.handleItemCheck = this.handleItemCheck.bind(this);
+    this.handleItemDelete = this.handleItemDelete.bind(this);
   }
 
   handleChange(e) {
@@ -42,15 +43,15 @@ class TodoList extends Component {
 
   handleAddItem(e) {
     e.preventDefault();
-    let todos = this.state.todos;
+    let todos = Object.assign(this.state.todos);
     todos.push({title: this.state.tempItem});
     this.setState({todos: todos, tempItem: ''})
   }
 
   handleItemCheck(item){
-    let todos = this.state.todos;
+    let todos = Object.assign(this.state.todos);
     
-    // Need to use ids generated from a database to be more robust
+    // Would ideally use ids generated from a database, instead of title
     todos.map((todo) => {
         if(todo.title === item.title) {
             todo.done = !item.done;
@@ -60,15 +61,25 @@ class TodoList extends Component {
         }
     })
 
-    this.setState({todos: todos})
+    this.setState({todos: todos});
+  }
+
+  handleItemDelete(item) {
+      let todos = Object.assign(this.state.todos);
+
+      let filteredTodos = todos.filter(todo => {return todo.title !== item.title})
+      this.setState({todos: filteredTodos});
   }
   
   render() {
-    let todos = this.state.todos;
+    let todos = Object.assign(this.state.todos);
     let todosJSX = [];
 
     todos.map((todo, i) => {
-      return todosJSX.push(<Todo todo={todo} key={i} handleItemCheck={this.handleItemCheck}/>);
+      return todosJSX.push(<Todo    todo={todo}
+                                    key={i}
+                                    handleItemCheck={this.handleItemCheck}
+                                    handleItemDelete={this.handleItemDelete}/>);
     })
     return(
       <div>
@@ -82,7 +93,7 @@ class TodoList extends Component {
       </div>
     )
   }
-  
+
 }
 
 export default TodoList;

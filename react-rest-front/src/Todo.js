@@ -8,6 +8,7 @@ class Todo extends Component {
         <li className={todo.done ? 'done' : 'normal'}>
             <input type="checkbox" onClick={() => this.props.handleItemCheck(todo)} checked={todo.done}/>
             {todo.title}
+            <input type="button" onClick={() => this.props.handleItemDelete(todo)} value="del"/>
         </li>
     )
   }
