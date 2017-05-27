@@ -51,8 +51,8 @@ class TodosList {
 
   completeAll() {
     this.todos = this.todos.map(
-            item => Object.assign({}, item, { complete: true }),
-        );
+      item => Object.assign({}, item, { complete: true }),
+    );
   }
 
   deleteAll() {
@@ -60,8 +60,8 @@ class TodosList {
   }
 
   sync(data) {
-        // when we receive data from the server,
-        // sync our data
+    // when we receive data from the server,
+    // sync our data
     this.todos = this.todos.map((item) => {
       if (item.cid === data.cid) {
         return Object.assign({}, item, data.todo);
@@ -71,8 +71,8 @@ class TodosList {
   }
 
   render() {
-        // We're re-rendering the whole list every time
-        // It's inefficient; this is where a virtual dom would come in handy
+    // We're re-rendering the whole list every time
+    // It's inefficient; this is where a virtual dom would come in handy
     list.innerHTML = '';
     for (const todo of this.todos) {
       const listItem = document.createElement('li');
@@ -101,13 +101,13 @@ function add() {
   const newTodo = new Todo(title = input.value);
 
   todosList.add(newTodo);
-    // Emit the new todo as some data to the server
+  // Emit the new todo as some data to the server
   server.emit('make', {
     title: input.value,
     cid: newTodo.cid,
   });
 
-    // Clear the input
+  // Clear the input
   input.value = '';
   input.focus();
 }
