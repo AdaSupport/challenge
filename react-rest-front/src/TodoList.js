@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Todo from './Todo';
+import './TodoList.css';
 
 const todos = 
     [{
@@ -120,24 +121,25 @@ class TodoList extends Component {
   render() {
     let todos = this.state.todos.slice();
     let todosJSX = [];
-
     todos.map((todo, i) => {
-      return todosJSX.push(<Todo    todo={todo}
+        return todosJSX.push(<Todo  todo={todo}
                                     key={i}
                                     handleItemCheck={this.handleItemCheck}
                                     handleItemDelete={this.handleItemDelete}/>);
-    })
-    return(
-      <div>
-        <form onSubmit={this.handleAddItem}>
-            <input id="todo-input" value={this.state.tempItem} type="text" onChange={this.handleChange} placeholder="Feed the cat" />
-            <input type="submit" value="make" />
+        })
+    return (
+      <div >
+        <form className="text-center" onSubmit={this.handleAddItem}>
+            <input id="todo-input" value={this.state.tempItem} type="text" onChange={this.handleChange} placeholder="Feed the cat..." />
+            <input className="btn btn-sm btn-success" style={{marginLeft: '2%'}} type="submit" value="make" />
         </form>
             <ul>
                 {todosJSX}
             </ul>
-        <button onClick={this.handleDeleteAll}>Delete all</button>
-        <button onClick={this.handleCompleteAll}>Complete all</button>
+        <div className="btns-block">
+            <button className="btn btn-danger btn-block" onClick={this.handleDeleteAll}>delete all</button>
+            <button className="btn btn-success btn-block" onClick={this.handleCompleteAll}>complete all</button>
+        </div>
       </div>
     )
   }

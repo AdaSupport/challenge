@@ -1,5 +1,8 @@
 ul, li {
     list-style: none;
+    padding:1%;
+    margin: 1%;
+    font-size: 1.2em;
 }
 
 .done {
@@ -9,5 +12,10 @@ ul, li {
 
 .normal {
     color: black;
+    text-decoration: none;
+}
+
+.white {
+    color: white;
     text-decoration: none;
 }
