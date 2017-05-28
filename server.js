@@ -1,6 +1,3 @@
-// FIXME: Feel free to remove this :-)
-console.log('\n\nGood Luck! 😅\n\n');
-
 const server = require('socket.io')();
 const firstTodos = require('./data');
 const Todo = require('./todo');
@@ -10,10 +7,7 @@ server.on('connection', (client) => {
     // Parse all default Todo's from db
 
     // FIXME: DB is reloading on client refresh. It should be persistent on new client connections from the last time the server was run...
-    const DB = firstTodos.map((t) => {
-        // Form new Todo objects
-        return new Todo(title=t.title);
-    });
+    const DB = firstTodos.map(({title}) => new Todo(title));
 
     // Sends a message to the client to reload all todos
     const reloadTodos = () => {
