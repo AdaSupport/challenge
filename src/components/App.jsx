@@ -2,9 +2,11 @@ import React from 'react';
 import TodoForm from './TodoForm.jsx';
 import TodoList from './TodoList.jsx';
 import Header from './Header.jsx';
-import uuidV4 from 'uuid/v4';
+import io from 'socket.io-client';
 
-export default class App extends React.Component {
+const socket = io('http://localhost:3003/');
+
+export default class App extends React.PureComponent {
   constructor() {
     super()
 
@@ -13,44 +15,29 @@ export default class App extends React.Component {
     }
   }
 
-  // adds a new Todo with passed on 'title'
+  // listen to server 'state' events and update the state accordingly
+  componentDidMount() {
+    socket.on('state', state => this.setState(state));
+  }
+
   addTodo(title) {
-    // generate a unique Todo ID with 'uuid'
-    const newTodo = {title: title, id: uuidV4(), completed: false};
-    const newList = this.state.todoList.slice();
-    newList.push(newTodo);
-
-    return this.setState({todoList: newList});
+    return socket.emit('action', {type:'ADD_TODO', title});
   }
 
-  // deletes a Todo with passed on 'id'
   deleteTodo(id) {
-    const newList = this.state.todoList.filter(todo => todo.id !== id);
-
-    return this.setState({todoList: newList});
+    return socket.emit('action', {type:'DELETE_TODO', id});
   }
 
-  // marks a Todo as completed
   completeTodo(id) {
-    const newList = this.state.todoList.slice();
-    newList.map(item => {
-      (item.id === id) ? item.completed = true : item;
-    });
-
-    return this.setState({todoList: newList});
+    return socket.emit('action', {type:'COMPLETE_TODO', id});
   }
 
-  // deletes all Todos
   deleteAll() {
-    return this.setState({todoList: []});
+    return socket.emit('action', {type:'DELETE_ALL'});
   }
 
-  // marks all Todos as completed
   completeAll() {
-    const newList = this.state.todoList.slice();
-    newList.map(item => item.completed = true);
-
-    return this.setState({todoList: newList});
+    socket.emit('action', {type:'COMPLETE_ALL'});
   }
 
   render() {
@@ -60,7 +47,7 @@ export default class App extends React.Component {
           completeAll={this.completeAll.bind(this)}
           deleteAll={this.deleteAll.bind(this)} />
         <TodoList
-          list={this.state.todoList}
+          list={this.state.todoList || []}
           deleteTodo={this.deleteTodo.bind(this)}
           completeTodo={this.completeTodo.bind(this)} />
         <TodoForm
