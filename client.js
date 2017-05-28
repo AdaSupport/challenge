@@ -107,25 +107,26 @@ function render(todo) {
         console.log(todo);
         server.emit('remove', todo);
     }
+
 }
 
-function completeAll() {
+function completeAll(todo) {
     const Items = document.querySelectorAll('.item');
 
-    switch (todo.status) {
-            case "active":
-            Items.style.color = '#2ecc71';
-            todo.status = "done";
-            break;
-            case "done":
-            Items.style.color = "#000";
-            todo.status = "active";
-            break;
-        }
-        console.log(todo.status);
-}
-function deleteAll() {
+    console.log(Items);
 
+    Items.forEach((item) => {
+        item.style.color="#2ecc71";
+        todo.status = "active";
+        server.emit('status', todo);
+    });
+}
+function deleteAll(todo) {
+    const Items = document.querySelectorAll('.item');
+
+    Items.forEach((item) => {
+        server.emit('remove', todo);
+    });
 }
 
 server.on('addTodo', (newTodo) => {
