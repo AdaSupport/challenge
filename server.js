@@ -54,8 +54,6 @@ const DB = firstTodos.map((t) => {
         } else {
             DB_index_count ++;
             client.broadcast.emit('load', DB[DB_index_count-1]);
-            console.log(DB[DB_index_count-1]);
-            // client.emit('load', DB[DB_index_count-1]);
         }
         console.log("My DB_index_count:", DB_index_count);
     }

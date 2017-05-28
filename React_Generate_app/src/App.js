@@ -2,6 +2,7 @@ import _ from 'lodash';
 import React, { Component } from 'react';
 import CreateTodo from './components/Create-todo.js'
 import TodosList from './components/Todos-list.js'
+import './App.css';
 
 const io = require('socket.io-client')
 const socket = io.connect('http://localhost:3003/'); //
@@ -76,6 +77,7 @@ class App extends Component {
     return (
       <div className="App">
         <h1>Welcome to the TO DO list App</h1>
+        <button className="completeAllButton">Mark all tasks as completed</button>
         <CreateTodo createTask={this.createTask.bind(this)}
                     todos={this.state.todos}
         />

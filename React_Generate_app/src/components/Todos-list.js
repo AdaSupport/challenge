@@ -12,7 +12,7 @@ class TodosList extends Component {
   render() {
 
     return (
-      <div>
+      <div className="Todos-list">
         <table>
           <TodosListHeader />
             <tbody>
