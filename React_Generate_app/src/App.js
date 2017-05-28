@@ -29,13 +29,9 @@ class App extends Component {
 
   componentDidMount() {
 
-
-
-
   socket.on('connect', (data) => {
             socket.emit('join', 'Hello World from client');
   });
-
 
   socket.on('disconnect', (data) => {
 
@@ -52,8 +48,6 @@ class App extends Component {
     this.setState({ todos: this.state.todos });
   }
 
-
-
   socket.on('load', (todos) => {
       // Cater to initial DB to-do list load
       if(Array.isArray(todos)){
@@ -61,6 +55,13 @@ class App extends Component {
       } else {                         //ELSE RENDER ONE TO-DO
           loadToDos(todos);
       }
+  });
+
+  // Handling incoming task update - status
+  socket.on('incomingtaskUpdate', (todoIncoming) => {
+    const foundTodo = _.find(this.state.todos, todo => todo.task === todoIncoming.task);
+    foundTodo.isCompleted = todoIncoming.isCompleted;
+    this.setState({ todos: this.state.todos });
   });
 
 
@@ -83,9 +84,13 @@ class App extends Component {
     );
   }
 
-  toggleTask(task) {
+  toggleTask = (task) => {
       const foundTodo = _.find(this.state.todos, todo => todo.task === task);
       foundTodo.isCompleted = !foundTodo.isCompleted;
+      socket.emit('taskUpdate', {
+        task : task,
+        isCompleted: foundTodo.isCompleted
+      });
       this.setState({ todos: this.state.todos });
   }
 
@@ -94,7 +99,7 @@ class App extends Component {
       task,
       isCompleted: false
     });
-
+    // Send to sockets.io to broadcast to-do to all and store in server memory
     socket.emit('make', {
         task : task,
         isCompleted: false

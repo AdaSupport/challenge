@@ -4,6 +4,8 @@ const app = express();
 const server = require('http').createServer(app); /// changed line
 const io = require('socket.io')(server);
 
+const _ = require('lodash');
+
 const firstTodos = require('./data');
 const Todo = require('./todo');
 
@@ -68,6 +70,18 @@ io.on('connection', (client) => {
 
         // Send the latest todos to the client
         reloadTodos();
+    });
+
+
+
+    // Accepts when a client makes a new todo
+    client.on('taskUpdate', (t) => {
+       //const newTodo = new Todo(task=t.task, isCompleted=t.isCompleted);
+       // Update Server on Memory DB with task Completed Change
+       const foundTodo = _.find(DB, todo => todo.task === t.task);
+       foundTodo.isCompleted = t.isCompleted;
+       // Brodcast to other clients that they need to update task status
+       client.broadcast.emit('incomingtaskUpdate', foundTodo);
     });
 
     // Send the DB downstream on connect
