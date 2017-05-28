@@ -1,20 +1,28 @@
 [
     {
-        "title" : "Order more coffee from Pilot"
+        "task" : "Order more coffee from Pilot",
+        "isCompleted": false
     },
     {
-        "title" : "Clean the coffee machine"
+        "task" : "Clean the coffee machine",
+        "isCompleted": false
     },
     {
-        "title" : "Sweep the floor"
+        "task" : "Sweep the floor",
+        "isCompleted": false
     },
     {
-        "title" : "Order a new display for Gordon"
+        "task" : "Order a new display for Gordon",
+        "isCompleted": false
     },
     {
-        "title" : "Fix the charger for the speaker"
+        "task" : "Fix the charger for the speaker",
+        "isCompleted": false
     },
     {
-        "title" : "Finish making the hiring challenge"
+        "task" : "Finish making the hiring challenge",
+        "isCompleted": true
     }
 ]
+
+

@@ -7,15 +7,16 @@ const io = require('socket.io')(server);
 const firstTodos = require('./data');
 const Todo = require('./todo');
 
-// Sends index.html to client's browser
-app.use(express.static(__dirname + '/public'));
+// // Sends index.html to client's browser
+// app.use(express.static(__dirname + '/public'));
 
 server.listen(3003);
 console.log('Waiting for clients to connect');
 
-
-let DB_index_count = 0;   //keeps track of DB_Index
- // This is going to be our fake 'database' for this application
+// ---- Server on DB Memory initialize
+//keeps track of DB_Index
+let DB_index_count = 0;
+// This is going to be our fake 'database' for this application
 // Parse all default Todo's from db
 
 // FIXED:DB not reloading on client refresh. It should be persistent on new client connections from the last time the server was run...
@@ -23,11 +24,9 @@ const DB = firstTodos.map((t) => {
     DB_index_count ++;
     console.log("My DB_index_count:", DB_index_count);
     // Form new Todo objects
-    return new Todo(title=t.title);
+    return new Todo(task=t.task, isCompleted=t.isCompleted);
 
 });
-
-
 
 
 
@@ -42,7 +41,6 @@ io.on('connection', (client) => {
     });
     let onConnect = true;
 
-
     // Sends a message to the client to reload all todos
     // Sending all to-dos for a first time connecting client
     // Else send out the new to-do created
@@ -56,10 +54,7 @@ io.on('connection', (client) => {
             client.broadcast.emit('load', DB[DB_index_count-1]);
             client.emit('load', DB[DB_index_count-1]);
         }
-
-
         console.log("My DB_index_count:", DB_index_count);
-
     }
 
     // Accepts when a client makes a new todo

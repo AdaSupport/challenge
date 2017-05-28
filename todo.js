@@ -1,7 +1,8 @@
 // Fixed bugs
 const Todo = class Todo {
-    constructor(title) {
-        this.title = title
+    constructor(task, isCompleted) {
+        this.task = task;
+        this.isCompleted = isCompleted;
     }
 }
 
