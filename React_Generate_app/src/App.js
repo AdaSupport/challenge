@@ -32,8 +32,15 @@ class App extends Component {
 
 
 
-  socket.on('connect', function(data) {
+  socket.on('connect', (data) => {
             socket.emit('join', 'Hello World from client');
+  });
+
+
+  socket.on('disconnect', (data) => {
+
+            this.setState({ todos: []});    //Clear to-dos on disconnect
+
   });
 
   let loadToDos = (todo) => {
