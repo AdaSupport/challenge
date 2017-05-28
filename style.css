@@ -56,6 +56,12 @@ input:focus {
     transition:all 400ms ease-in-out;
     margin:1rem;
 }
+.all.complete {
+    background:#2ecc71;
+}
+.all.delete {
+    background:#FB3852;
+}
 .addBtn{
     width: 10rem;
     background:#6c7a89;
