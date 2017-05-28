@@ -30,17 +30,15 @@ class App extends Component {
   componentDidMount() {
 
   socket.on('connect', (data) => {
-            socket.emit('join', 'Hello World from client');
+    socket.emit('join', 'Hello World from client');
   });
 
   socket.on('disconnect', (data) => {
-
-            this.setState({ todos: []});    //Clear to-dos on disconnect
-
+    this.setState({ todos: []});    //Clear to-dos on disconnect
   });
 
   let loadToDos = (todo) => {
-    console.log(todo);
+    console.log(todo);                     // Testing console.log
     this.state.todos.push({
       task: todo.task,
       isCompleted: todo.isCompleted
@@ -57,10 +55,16 @@ class App extends Component {
       }
   });
 
-  // Handling incoming task update - status
+  // Handling incoming task update broadcast - status
   socket.on('incomingtaskUpdate', (todoIncoming) => {
     const foundTodo = _.find(this.state.todos, todo => todo.task === todoIncoming.task);
     foundTodo.isCompleted = todoIncoming.isCompleted;
+    this.setState({ todos: this.state.todos });
+  });
+
+  // Handling incoming task delete broadcast
+  socket.on('incomingtaskDelete', (todoIncomingDelete) => {
+    _.remove(this.state.todos, todo => todo.task === todoIncomingDelete);
     this.setState({ todos: this.state.todos });
   });
 
@@ -115,6 +119,9 @@ class App extends Component {
 
   deleteTask = (taskToDelete) => {
     _.remove(this.state.todos, todo => todo.task === taskToDelete);
+    socket.emit('taskDelete', {
+      task : taskToDelete
+    });
     this.setState({ todos: this.state.todos });
   }
 }

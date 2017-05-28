@@ -34,7 +34,7 @@ const DB = firstTodos.map((t) => {
 
 
 // On connection to sockets server
-io.on('connection', (client) => {
+    io.on('connection', (client) => {
     console.log('Client connected');
 
     client.on('join', function(data) {
@@ -54,6 +54,7 @@ io.on('connection', (client) => {
         } else {
             DB_index_count ++;
             client.broadcast.emit('load', DB[DB_index_count-1]);
+            console.log(DB[DB_index_count-1]);
             // client.emit('load', DB[DB_index_count-1]);
         }
         console.log("My DB_index_count:", DB_index_count);
@@ -63,18 +64,15 @@ io.on('connection', (client) => {
     client.on('make', (t) => {
         // Make a new todo
         const newTodo = new Todo(task=t.task, isCompleted=t.isCompleted);
-
         // Push this newly created todo to our database
         DB.push(newTodo);
-
-
         // Send the latest todos to the client
         reloadTodos();
     });
 
 
 
-    // Accepts when a client makes a new todo
+    // Accepts when a client updates task status or content
     client.on('taskUpdate', (t) => {
        //const newTodo = new Todo(task=t.task, isCompleted=t.isCompleted);
        // Update Server on Memory DB with task Completed Change
@@ -82,6 +80,15 @@ io.on('connection', (client) => {
        foundTodo.isCompleted = t.isCompleted;
        // Brodcast to other clients that they need to update task status
        client.broadcast.emit('incomingtaskUpdate', foundTodo);
+    });
+
+
+    // Accepts when a client deletes Task
+    client.on('taskDelete', (t) => {
+       console.log('I want to delete', t);
+       _.remove(DB, todo => todo.task === t.task);
+       client.broadcast.emit('incomingtaskDelete', t.task);
+       DB_index_count --;
     });
 
     // Send the DB downstream on connect
