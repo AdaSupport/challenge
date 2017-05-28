@@ -1,8 +1,8 @@
-import { createStore }  from 'redux';
-import express          from 'express';
-import { fromJS }       from 'immutable';
-import path             from 'path';
-import { reducer }      from './src/reducer';
+import { createStore }   from 'redux';
+import express           from 'express';
+import { fromJS }        from 'immutable';
+import path              from 'path';
+import { serverReducer } from './src/reducers';
 
 const app       = express();
 const http      = require('http').Server(app);
@@ -10,7 +10,7 @@ const io        = require('socket.io')(http);
 const todoList  = require('./data.json');
 
 // creates a Redux store based on the reducer function
-const store = createStore(reducer); 
+const store = createStore(serverReducer);
 
 // express server config
 app.use(express.static(path.join(__dirname, 'dist')));

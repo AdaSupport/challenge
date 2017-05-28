@@ -19,7 +19,7 @@ var stylusLoader = ExtractTextPlugin.extract({
 module.exports = {
   entry: [
     './src/index.jsx',
-    './src/app.styl'
+    './src/styles/app.styl'
   ],
   output: {
     filename: 'bundle.js',
