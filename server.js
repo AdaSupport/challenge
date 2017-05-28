@@ -91,20 +91,32 @@ io.on('connection', (client) => {
             // var index = todos.indexOf(todo);
             // can't find todo in todos
             // Returns todo as item to be indexed
-            const findTodoByIndex = (todo) => {
-                return todo;
-            }
-            var toodle = todos.findIndex(findTodoByIndex, todo.title);
+            // const findTodoByIndex = (todo) => {
+            //     return todo;
+            // }
+            
+            // var toodle = todos.findIndex(findTodoByIndex, todo.title);
 
             // Returns only the first toodle index
-            console.log(toodle);
+            // console.log(toodle);
             // Updates current todo status
             // todos[toodle].status = todo.status;
             // Check if its actually sending the right todo
-            console.log(todos[toodle]);
+            // console.log(todos[toodle]);
             // check if the status is being selected and switched
             // console.log(todos[toodle].status);
             // todos[toodle].todo.status = status;
+
+            // Return index in todos of current todo
+            const index = todos.map((todo) => {return todo.title}).indexOf(todo.title);
+
+            console.log(index);
+
+            // change todo status
+            todos[index].status = todo.status;
+
+            console.log(todos[index].status);
+
         }
         updateTodo();
         // console.log(todos[todo]);
@@ -116,21 +128,16 @@ io.on('connection', (client) => {
 
     client.on('remove', (todo) => {
         // Needs declaration of the selected item, just removes last item right now
-        // console.log(todo);
+        console.log(todo);
+
+        // Return index in todos of current todo
+        const index = todos.map((todo) => {return todo.title}).indexOf(todo.title);
+
+        console.log(index);
+
         // Finds todo at the right index and removes it, currently returning undefined, need to separate these two
-        // todos.splice(todos.FindIndex(findTodoByIndex, todo.title), 1);
-
-        // Check whether todo index returns
-
-        const findTodoByIndex = (todo) => {
-            return todo;
-        }
-
-        console.log(todos.findIndex(findTodoByIndex, todo.title));
-
-        // Check index of the todo
-        // console.log(todos);
-
+        todos.splice(index, 1);
+        
         reloadTodos();
     });
 

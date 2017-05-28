@@ -82,6 +82,7 @@ function render(todo) {
         //     listItem.style.color = '#000';
         // }
 
+        // console.log(todo);
         // console.log(todo.status);
 
         switch (todo.status) {
@@ -89,11 +90,13 @@ function render(todo) {
             listItem.style.color = '#2ecc71';
             todo.status = "done";
             server.emit('status', todo);
+            console.log(todo);
             break;
             case "done":
             listItem.style.color = "#000";
             todo.status = "active";
             server.emit('status', todo);
+            console.log(todo)
             break;
         }
         
@@ -102,7 +105,7 @@ function render(todo) {
     }
     function remove() {
         console.log(todo);
-        // server.emit('remove', val);
+        server.emit('remove', todo);
     }
 }
 
