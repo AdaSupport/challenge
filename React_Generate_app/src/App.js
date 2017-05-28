@@ -77,7 +77,7 @@ class App extends Component {
     return (
       <div className="App">
         <h1>Welcome to the TO DO list App</h1>
-        <button className="completeAllButton">Mark all tasks as completed</button>
+        <button className="completeAllButton" onClick={this.handleCompleteAll.bind(this)}>Mark all tasks as completed</button>
         <CreateTodo createTask={this.createTask.bind(this)}
                     todos={this.state.todos}
         />
@@ -88,6 +88,17 @@ class App extends Component {
         />
       </div>
     );
+  }
+  // Complete all tasks Function
+  handleCompleteAll = () => {
+    _.map(this.state.todos, (todo) => todo.isCompleted = true);
+    this.state.todos.forEach((todo) => {
+      socket.emit('taskUpdate', {
+        task : todo.task,
+        isCompleted: todo.isCompleted
+      });
+    });
+    this.setState({ todos: this.state.todos });
   }
 
   toggleTask = (task) => {
