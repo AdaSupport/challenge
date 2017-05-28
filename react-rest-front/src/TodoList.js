@@ -24,11 +24,23 @@ const todos =
 class TodoList extends Component {
   constructor() {
     super();
-    this.state =    {
-                        todos: todos,
-                        tempItem: ''
-                    };
+    let localTodos = this.getLocalData('todos');
+    let tempItem = this.getLocalData('tempItem');
 
+    if (!localTodos) {
+        this.state =    {
+                            todos: todos,
+                            tempItem: ''
+                        };
+    } else {
+        this.state =    {
+                            todos: localTodos,
+                            tempItem: tempItem
+                        }
+    }
+
+    this.getLocalData = this.getLocalData.bind(this);
+    this.setLocalData = this.setLocalData.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handleAddItem = this.handleAddItem.bind(this);
     this.handleItemCheck = this.handleItemCheck.bind(this);
@@ -37,7 +49,20 @@ class TodoList extends Component {
     this.handleCompleteAll = this.handleCompleteAll.bind(this);
   }
 
+  getLocalData(name) {
+      let  JSONName = JSON.stringify(name);
+      let data = JSON.parse(localStorage.getItem(JSONName));
+      return data;
+  }
+
+  setLocalData(name, data) {
+      let JSONName = JSON.stringify(name);
+      let JSONData = JSON.stringify(data);
+      localStorage.setItem(JSONName, JSONData);
+  }
+
   handleChange(e) {
+    this.setLocalData('tempItem', e.target.value);
     this.setState({
         tempItem: e.target.value
     });
@@ -47,6 +72,8 @@ class TodoList extends Component {
     e.preventDefault();
     let todos = this.state.todos.slice();
     todos.push({title: this.state.tempItem});
+    this.setLocalData('todos', todos);
+    this.setLocalData('tempItem', '');
     this.setState({todos: todos, tempItem: ''})
   }
 
@@ -62,18 +89,20 @@ class TodoList extends Component {
             return todo;
         }
     })
-
+    this.setLocalData('todos', todos);
     this.setState({todos: todos});
   }
 
   handleItemDelete(item) {
       let todos = this.state.todos.slice();
 
-      let filteredTodos = todos.filter(todo => {return todo.title !== item.title})
+      let filteredTodos = todos.filter(todo => {return todo.title !== item.title});
+      this.setLocalData('todos', filteredTodos);
       this.setState({todos: filteredTodos});
   }
 
   handleDeleteAll() {
+    this.setLocalData('todos', []);
     this.setState({todos: []});
   }
 
