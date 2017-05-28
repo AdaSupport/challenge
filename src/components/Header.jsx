@@ -1,13 +1,11 @@
 import React from 'react';
 
-export default class Header extends React.Component {
-  render() {
-    return (
-      <header>
-        TODO APP
-        <div className='checkbox all' onClick={() => this.props.completeAll()}></div>
-        <div className='close all' onClick={() => this.props.deleteAll()}></div>
-      </header>
-    )
-  }
-}
+const Header = ({completeAll, deleteAll}) => (
+  <header>
+    TODO APP
+    <div className='checkbox all' onClick={() => completeAll()}></div>
+    <div className='close all' onClick={() => deleteAll()}></div>
+  </header>
+)
+
+export default Header;

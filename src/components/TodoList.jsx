@@ -1,19 +1,21 @@
 import React from 'react';
 
-export default class TodoList extends React.Component {
-  render() {
-    const todoList = this.props.list.map(todo => {
-      return (
-        <li key={todo.id} className={todo.completed ? 'completed' : null}>
-          <div
-            className={todo.completed ? 'checkbox checked' : 'checkbox'}
-            onClick={() => this.props.completeTodo(todo.id)}></div>
-          {todo.title}
-          <div className='close' onClick={() => this.props.deleteTodo(todo.id)}></div>
-        </li>
-      )
-    });
+const TodoList = ({completeTodo, deleteTodo, todoList}) => (
+  <ul id='todo-list'>
+    {
+      todoList.map(todo => {
+        return (
+          <li key={todo.id} className={todo.completed ? 'completed' : null}>
+            <div
+              className={todo.completed ? 'checkbox checked' : 'checkbox'}
+              onClick={() => completeTodo(todo.id)}></div>
+            {todo.title}
+            <div className='close' onClick={() => deleteTodo(todo.id)}></div>
+          </li>
+        )
+      })
+    }
+  </ul>
+)
 
-    return <ul id='todo-list'>{ todoList }</ul>;
-  }
-}
+export default TodoList;

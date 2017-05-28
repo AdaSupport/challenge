@@ -47,7 +47,7 @@ export default class App extends React.PureComponent {
           completeAll={this.completeAll.bind(this)}
           deleteAll={this.deleteAll.bind(this)} />
         <TodoList
-          list={this.state.todoList || []}
+          todoList={this.state.todoList || []}
           deleteTodo={this.deleteTodo.bind(this)}
           completeTodo={this.completeTodo.bind(this)} />
         <TodoForm
