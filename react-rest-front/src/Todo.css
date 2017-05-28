@@ -15,14 +15,16 @@ ul, li {
     text-decoration: none;
 }
 
-.white {
-    color: white;
-    text-decoration: none;
-}
-
 .clickableText {
     background: none;
     border: none;
 }
 
 button:focus {outline:0;}
+
+.btn_width-sm {
+    display: block;
+    margin-left: auto; 
+    margin-right: auto;
+    width: 40px;
+}

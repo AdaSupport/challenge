@@ -28,7 +28,7 @@ class TodoList extends Component {
     let localTodos = this.getLocalData('todos');
     let tempItem = this.getLocalData('tempItem');
 
-    if (!localTodos) {
+    if (!localTodos || localTodos.length === 0) {
         this.state =    {
                             todos: todos,
                             tempItem: ''
@@ -136,10 +136,16 @@ class TodoList extends Component {
             <ul>
                 {todosJSX}
             </ul>
-        <div className="btns-block">
-            <button className="btn btn-danger btn-block" onClick={this.handleDeleteAll}>delete all</button>
-            <button className="btn btn-success btn-block" onClick={this.handleCompleteAll}>complete all</button>
-        </div>
+            <button className="btn btn-danger btn-block btn_width-md"
+                    onClick={this.handleDeleteAll}
+                    >
+                    delete all
+            </button>
+            <button className="btn btn-success btn-block btn_width-md"
+                    onClick={this.handleCompleteAll}
+                    >
+                    complete all
+            </button>
       </div>
     )
   }

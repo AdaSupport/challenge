@@ -1,4 +1,10 @@
 .btns-block {
-    margin-left: 10%;
-    margin-right: 10%;
+    margin:auto;
+}
+
+.btn_width-md {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 100px;
 }
