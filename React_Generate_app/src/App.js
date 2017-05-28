@@ -6,37 +6,14 @@ import TodosList from './components/Todos-list.js'
 const io = require('socket.io-client')
 const socket = io.connect('http://localhost:3003/'); //
 
-
-
-socket.on('connect', function(data) {
-            socket.emit('join', 'Hello World from client');
-});
-
 const todos = [
   {
     task: 'finish Coding challenge',
-    isCompleted: true
+    isCompleted: false
   },
-  {
-    task: 'eat dinner',
-    isCompleted: true
-  }
 ];
 
-let loadToDos = (todo) => {
-    console.log(todo);
-}
 
-
-
-socket.on('load', (todos) => {
-    // Cater to initial DB to-do list load
-    if(Array.isArray(todos)){
-        todos.forEach((todo) => loadToDos(todo));
-    } else {                         //ELSE RENDER ONE TO-DO
-        loadToDos(todos);
-    }
-});
 
 
 
@@ -49,6 +26,39 @@ class App extends Component {
         todos            //ES6 syntax like todos:todos
     };
   }
+
+  componentDidMount() {
+
+
+
+
+  socket.on('connect', function(data) {
+            socket.emit('join', 'Hello World from client');
+  });
+
+  let loadToDos = (todo) => {
+    console.log(todo);
+    this.state.todos.push({
+      task: todo.task,
+      isCompleted: todo.isCompleted
+    });
+    this.setState({ todos: this.state.todos });
+  }
+
+
+
+  socket.on('load', (todos) => {
+      // Cater to initial DB to-do list load
+      if(Array.isArray(todos)){
+          todos.forEach((todo) => loadToDos(todo));
+      } else {                         //ELSE RENDER ONE TO-DO
+          loadToDos(todos);
+      }
+  });
+
+
+  }
+
 
   render() {
     return (
@@ -76,6 +86,11 @@ class App extends Component {
     this.state.todos.push({
       task,
       isCompleted: false
+    });
+
+    socket.emit('make', {
+        task : task,
+        isCompleted: false
     });
     this.setState({ todos: this.state.todos });
   }

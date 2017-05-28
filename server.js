@@ -52,7 +52,7 @@ io.on('connection', (client) => {
         } else {
             DB_index_count ++;
             client.broadcast.emit('load', DB[DB_index_count-1]);
-            client.emit('load', DB[DB_index_count-1]);
+            // client.emit('load', DB[DB_index_count-1]);
         }
         console.log("My DB_index_count:", DB_index_count);
     }
@@ -60,7 +60,7 @@ io.on('connection', (client) => {
     // Accepts when a client makes a new todo
     client.on('make', (t) => {
         // Make a new todo
-        const newTodo = new Todo(title=t.title);
+        const newTodo = new Todo(task=t.task, isCompleted=t.isCompleted);
 
         // Push this newly created todo to our database
         DB.push(newTodo);
