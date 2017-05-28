@@ -11,9 +11,7 @@ const path = require('path');
 
 
 // viewed at http://localhost:8080
-app.get('/', function(req, res) {
-    res.sendFile(path.join(__dirname + '/index.html'));
-});
+app.use('/', express.static(path.join(__dirname, 'public')))
 
 app.listen(3000);
 
@@ -25,7 +23,7 @@ server.on('connection', (client) => {
     // FIXME: DB is reloading on client refresh. It should be persistent on new client connections from the last time the server was run...
     const DB = firstTodos.map((t) => {
         // Form new Todo objects
-        return new Todo(title=t.title);
+        return new Todo(t.title);
     });
 
     // Sends a message to the client to reload all todos
@@ -36,7 +34,7 @@ server.on('connection', (client) => {
     // Accepts when a client makes a new todo
     client.on('make', (t) => {
         // Make a new todo
-        const newTodo = new Todo(title=t.title);
+        const newTodo = new Todo(t.title);
 
         // Push this newly created todo to our database
         DB.push(newTodo);
