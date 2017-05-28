@@ -19,3 +19,10 @@ ul, li {
     color: white;
     text-decoration: none;
 }
+
+.clickableText {
+    background: none;
+    border: none;
+}
+
+button:focus {outline:0;}

@@ -114,7 +114,7 @@ class TodoList extends Component {
         todo.done = true;
         return todo;
     })
-    
+    this.setLocalData('todos', todos)
     this.setState({todos: todos});
   }
   
