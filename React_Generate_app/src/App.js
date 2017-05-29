@@ -8,10 +8,7 @@ const io = require('socket.io-client')
 const socket = io.connect('http://localhost:3003/'); //
 
 const todos = [
-  {
-    task: 'finish Coding challenge',
-    isCompleted: false
-  },
+
 ];
 
 
@@ -78,6 +75,7 @@ class App extends Component {
       <div className="App">
         <h1>Welcome to the TO DO list App</h1>
         <button className="completeAllButton" onClick={this.handleCompleteAll.bind(this)}>Mark all tasks as completed</button>
+        <button className="completeAllButton" onClick={this.handleDeleteAll.bind(this)}>Delete all tasks</button>
         <CreateTodo createTask={this.createTask.bind(this)}
                     todos={this.state.todos}
         />
@@ -88,6 +86,16 @@ class App extends Component {
         />
       </div>
     );
+  }
+
+  // Complete all tasks Function
+  handleDeleteAll = () => {
+    this.state.todos.forEach((todo) => {
+      socket.emit('taskDelete', {
+        task : todo.task
+      });
+    });
+    this.setState({ todos: []});    //Delete all to-dos from state
   }
   // Complete all tasks Function
   handleCompleteAll = () => {
