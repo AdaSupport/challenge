@@ -8,7 +8,7 @@ describe('Redux store', () => {
   it('is configured properly with the correct reducer', () => {
     const store = createStore(serverReducer);
 
-    expect(store.getState()).to.equal(Map());
+    expect(store.getState()).to.equal(Map({todoList: List()}));
 
     store.dispatch({
       type: 'LOAD_TODOS',
