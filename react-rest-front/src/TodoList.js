@@ -23,16 +23,25 @@ class TodoList extends Component {
     }
 
     socket.on('receive item', (data) => {
-        console.log('received update');
-        console.log(data);
-        this.updateItemFromSockets(data);
+        this.newItemFromSockets(data);
     })
 
-    this.socket = io('http://localhost:3003');
+    socket.on('delete item', (data) => {
+        this.deleteItemFromSockets(data);
+    })
 
+    socket.on('update', (payload) => {
+        this.updateFromSockets(payload);
+    })
+
+    // Local storage methods
     this.getLocalData = this.getLocalData.bind(this);
     this.setLocalData = this.setLocalData.bind(this);
-    this.updateItemFromSockets = this.updateItemFromSockets.bind(this);
+    // Socket methods
+    this.newItemFromSockets = this.newItemFromSockets.bind(this);
+    this.deleteItemFromSockets = this.deleteItemFromSockets.bind(this);
+    this.updateFromSockets = this.updateFromSockets.bind(this);
+    // event handlers
     this.handleChange = this.handleChange.bind(this);
     this.handleAddItem = this.handleAddItem.bind(this);
     this.handleItemCheck = this.handleItemCheck.bind(this);
@@ -47,8 +56,6 @@ class TodoList extends Component {
         if (err) {
             console.log(err);
         } else {
-            console.log('server:');
-            console.log(todos);
             this.setState({todos: todos});
         }
     });
@@ -67,11 +74,23 @@ class TodoList extends Component {
       localStorage.setItem(JSONName, JSONData);
   }
 
-  updateItemFromSockets(newData) {
-    console.log(newData);
+  newItemFromSockets(newData) {
     let todos = this.state.todos.slice();
     todos.push({title: newData.newItem});
     this.setState({todos: todos});
+  }
+
+  deleteItemFromSockets(data) {
+      let todos = this.state.todos.slice();
+      todos.splice(todos.findIndex((item) => {
+                return item.title === data.item.title;
+            }), 1
+        )
+      this.setState({todos: todos});
+  }
+
+  updateFromSockets(payload){
+    this.setState({todos: payload.todos});
   }
 
   handleChange(e) {
@@ -83,12 +102,12 @@ class TodoList extends Component {
 
   handleAddItem(e) {
     e.preventDefault();
-    socket.emit('make', {room: 'ada', newItem: this.state.tempItem});
     let todos = this.state.todos.slice();
     todos.push({title: this.state.tempItem});
     this.setLocalData('todos', todos);
     this.setLocalData('tempItem', '');
-    this.setState({todos: todos, tempItem: ''})
+    this.setState({todos: todos, tempItem: ''});
+    socket.emit('make', {room: 'ada', newItem: this.state.tempItem});
   }
 
   handleItemCheck(item){
@@ -105,6 +124,7 @@ class TodoList extends Component {
     })
     this.setLocalData('todos', todos);
     this.setState({todos: todos});
+    socket.emit('update', {room: 'ada', todos: todos});
   }
 
   handleItemDelete(item) {
@@ -113,11 +133,13 @@ class TodoList extends Component {
       let filteredTodos = todos.filter(todo => {return todo.title !== item.title});
       this.setLocalData('todos', filteredTodos);
       this.setState({todos: filteredTodos});
+      socket.emit('delete item', {room: 'ada', item: item});
   }
 
   handleDeleteAll() {
     this.setLocalData('todos', []);
     this.setState({todos: []});
+    socket.emit('update', {room: 'ada', todos: []});
   }
 
   handleCompleteAll() {
@@ -129,6 +151,7 @@ class TodoList extends Component {
     })
     this.setLocalData('todos', todos)
     this.setState({todos: todos});
+    socket.emit('update', {room: 'ada', todos: todos});
   }
   
   render() {
@@ -141,7 +164,6 @@ class TodoList extends Component {
                                     handleItemCheck={this.handleItemCheck}
                                     handleItemDelete={this.handleItemDelete}/>);
         })
-    console.log(todosJSX);
     return (
       <div >
         <form className="text-center" onSubmit={this.handleAddItem}>
