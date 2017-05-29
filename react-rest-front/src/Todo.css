@@ -28,3 +28,11 @@ button:focus {outline:0;}
     margin-right: auto;
     width: 40px;
 }
+
+.background-lightBlue {
+    background-color: lightblue;
+}
+
+.background-lightGrey {
+    background-color: lightgrey;
+}

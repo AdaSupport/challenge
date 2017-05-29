@@ -1,16 +1,20 @@
 {
-  "name": "react-rest-front",
-  "version": "0.1.0",
-  "private": true,
+  "name": "challenge",
+  "version": "1.0.0",
+  "description": "Our hiring challenge to full-stack developers",
   "dependencies": {
+    "body-parser": "^1.17.2",
+    "express": "^4.15.3",
     "react": "^15.5.4",
-    "react-dom": "^15.5.4"
+    "react-dom": "^15.5.4",
+    "socket.io": "^1.7.4"
   },
   "devDependencies": {
     "react-scripts": "1.0.7"
   },
   "scripts": {
     "start": "react-scripts start",
+    "server": "node tools/server.js",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"

@@ -4,10 +4,11 @@ import './Todo.css'
 class Todo extends Component {
   render() {
     let todo = this.props.todo;
+    let id = this.props.id;
     let doneToggle = todo.done ? 'done' : 'normal';
     let todoClassName = doneToggle+" clickableText btn-block";
     return (
-        <li >
+        <li className={id % 2 === 0 ? 'background-lightBlue' : 'background-lightGrey'}>
             <button className={todoClassName}
                     onClick={() => this.props.handleItemCheck(todo)}
                     checked={todo.done}
