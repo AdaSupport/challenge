@@ -36,7 +36,7 @@ class App extends Component {
   });
 
   let loadToDos = (todo) => {
-    console.log(todo);                     // Testing console.log
+    // console.log(todo);                     // Testing console.log
     this.state.todos.push({
       task: todo.task,
       isCompleted: todo.isCompleted
@@ -53,8 +53,15 @@ class App extends Component {
       }
   });
 
-  // Handling incoming task update broadcast - status
-  socket.on('incomingtaskUpdate', (todoIncoming) => {
+  // Handling incoming task CONTENT update broadcast
+  socket.on('incomingtaskUpdateContent', (contentUpdateIncoming) => {
+    const foundTodo = _.find(this.state.todos, todo => todo.task === contentUpdateIncoming.oldTask);
+    foundTodo.task = contentUpdateIncoming.newTask;
+    this.setState({ todos: this.state.todos });
+  });
+
+  // Handling incoming task STATUS update broadcast - status
+  socket.on('incomingtaskUpdateStatus', (todoIncoming) => {
     const foundTodo = _.find(this.state.todos, todo => todo.task === todoIncoming.task);
     foundTodo.isCompleted = todoIncoming.isCompleted;
     this.setState({ todos: this.state.todos });
@@ -101,7 +108,7 @@ class App extends Component {
   handleCompleteAll = () => {
     _.map(this.state.todos, (todo) => todo.isCompleted = true);
     this.state.todos.forEach((todo) => {
-      socket.emit('taskUpdate', {
+      socket.emit('taskUpdateStatus', {
         task : todo.task,
         isCompleted: todo.isCompleted
       });
@@ -112,7 +119,7 @@ class App extends Component {
   toggleTask = (task) => {
       const foundTodo = _.find(this.state.todos, todo => todo.task === task);
       foundTodo.isCompleted = !foundTodo.isCompleted;
-      socket.emit('taskUpdate', {
+      socket.emit('taskUpdateStatus', {
         task : task,
         isCompleted: foundTodo.isCompleted
       });
@@ -131,13 +138,17 @@ class App extends Component {
     });
     this.setState({ todos: this.state.todos });
   }
-
+  // Saves new task to state and sends change update to Server to handle
   saveTask = (oldTask, newTask) => {
     const foundTodo = _.find(this.state.todos, todo => todo.task === oldTask);
     foundTodo.task = newTask;
+    socket.emit('taskUpdateContent', {
+        oldTask : oldTask,
+        newTask: newTask
+    });
     this.setState({ todos: this.state.todos });
   }
-
+  //Delete Task - deletes specific task chosen by the user
   deleteTask = (taskToDelete) => {
     _.remove(this.state.todos, todo => todo.task === taskToDelete);
     socket.emit('taskDelete', {

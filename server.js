@@ -24,7 +24,7 @@ let DB_index_count = 0;
 // FIXED:DB not reloading on client refresh. It should be persistent on new client connections from the last time the server was run...
 const DB = firstTodos.map((t) => {
     DB_index_count ++;
-    console.log("My DB_index_count:", DB_index_count);
+    // console.log("My DB_index_count:", DB_index_count);
     // Form new Todo objects
     return new Todo(task=t.task, isCompleted=t.isCompleted);
 
@@ -55,7 +55,7 @@ const DB = firstTodos.map((t) => {
             DB_index_count ++;
             client.broadcast.emit('load', DB[DB_index_count-1]);
         }
-        console.log("My DB_index_count:", DB_index_count);
+        // console.log("My DB_index_count:", DB_index_count);
     }
 
     // Accepts when a client makes a new todo
@@ -68,22 +68,30 @@ const DB = firstTodos.map((t) => {
         reloadTodos();
     });
 
+    // Accepts when a client updates task CONTENT
+    client.on('taskUpdateContent', (t) => {
+        // Update Content on DB
+        const foundTodo = _.find(DB, todo => todo.task === t.oldTask);
+        foundTodo.task = t.newTask;
+        client.broadcast.emit('incomingtaskUpdateContent', t);
+    });
 
 
-    // Accepts when a client updates task status or content
-    client.on('taskUpdate', (t) => {
-       //const newTodo = new Todo(task=t.task, isCompleted=t.isCompleted);
+
+
+    // Accepts when a client updates task STATUS
+    client.on('taskUpdateStatus', (t) => {
        // Update Server on Memory DB with task Completed Change
        const foundTodo = _.find(DB, todo => todo.task === t.task);
        foundTodo.isCompleted = t.isCompleted;
        // Brodcast to other clients that they need to update task status
-       client.broadcast.emit('incomingtaskUpdate', foundTodo);
+       client.broadcast.emit('incomingtaskUpdateStatus', foundTodo);
     });
 
 
     // Accepts when a client deletes Task
     client.on('taskDelete', (t) => {
-       console.log('I want to delete', t);
+       // console.log('I want to delete', t);
        _.remove(DB, todo => todo.task === t.task);
        client.broadcast.emit('incomingtaskDelete', t.task);
        DB_index_count --;
@@ -93,7 +101,7 @@ const DB = firstTodos.map((t) => {
     reloadTodos();
     client.on('disconnect', () => {
         console.log('disconnected client');
-        console.log("My DB_index_count:", DB_index_count);
+        // console.log("My DB_index_count:", DB_index_count);
     });
 });
 
