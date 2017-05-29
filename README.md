@@ -1,3 +1,50 @@
+# Greetings from Ben! :)
+
+#Installation
+I've built a react app on the front end and a node/socket app on the backend.
+
+To review, first install dependencies:
+
+```sh
+npm install
+```
+To get the server up and running, in one terminal from the root directoy type:
+
+```sh
+node server.js
+```
+
+This will launch your server on port 3003.
+
+To get the client app up and running, in a second terminal from the root directory type:
+```sh
+npm start
+```
+
+This will launch the app on port 3000.
+
+#App Structure
+*** Front end ***
+Full app is rendered from index.js
+
+App.js is the app component that includes a header.
+
+TodoList.js is the intelligent list component that hosts the application state and methods. It renders a list of todos, and user input buttons for list-level functions.
+
+Todo.js is the dumb todo component that renders each todo item and the delete button.
+
+*** Back end ***
+Server.js is the server and holds logic for handling sockets.
+
+data.json is the makeshift DB.
+
+# Notes from Ben
+This was a great project for learning about sockets. With the current build, some clients may not be able to successfully broadcast to the 'ada' room. This was discovered when opening up two windows (one normal, one incognito). The client that loads most recently appears to work well.
+
+On Unit Testing. This is a brand new subject for me. I'm familiar with the concept at a high-level, but implementation will require some reading. I wanted to submit something for feedback, so if you'd like to proceed, I can write some tests after some research.
+
+Other than that, I'm looking forward to your feedback!
+
 # Challenge
 Hello :wave:
 

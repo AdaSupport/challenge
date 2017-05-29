@@ -10,45 +10,66 @@ io.on('connection', (client) => {
     // Parse all default Todo's from db
 
     console.log('connected!');
-
-    // Write DB to file on client disconnect
-    client.on('disconnect', () => {
+    
+    // FUNCTIONS
+    // Sends a message to the client to reload all todos
+    const reloadTodos = () => {
+        io.emit('load', DB);
+    }
+    // Saves data file on disconnect
+    const disconnect = () => {
         console.log('disconnected');
         jsonDB = JSON.stringify(DB);
         fs.writeFile('data.json', jsonDB, (err) => {
             if (err) {console.log(err)};
             console.log('saved');
         })
+    }
+
+    // Handles making a new todo
+    const makeTodo = (data) => {
+        client.broadcast.to(data.room).emit('receive item', data);
+        DB.push({title: data.newItem});
+    }
+
+    // Handles deleting a todo
+    const deleteTodo = (data) => {
+        client.broadcast.to(data.room).emit('delete item', data);
+        DB.splice(DB.findIndex((item) => {
+            return item.title === data.title;
+        }), 1)
+    }
+
+    // handles general use updates (complete all, delete all, completing a todo)
+    const update = (data) => {
+        client.broadcast.to(data.room).emit('update', data);
+        DB = data.todos;
+    }
+
+    // LISTENERS
+    // Write DB to file on client disconnect
+    client.on('disconnect', () => {
+        disconnect();
     })
 
+    // Handle room joining 
     client.on('load', (data) => {
         client.join(data.room);
     })
-    
-    // Sends a message to the client to reload all todos
-    const reloadTodos = () => {
-        io.emit('load', DB);
-    }
 
     // Accepts when a client makes a new todo
-    client.on('make', (t) => {
-        client.broadcast.to(t.room).emit('receive item', t);
-        DB.push({title: t.newItem});
+    client.on('make', (data) => {
+        makeTodo(data);
     });
 
     // Accepts deletion of an item
-    client.on('delete item', (t) => {
-        client.broadcast.to(t.room).emit('delete item', t);
-        DB.splice(DB.findIndex((item) => {
-                return item.title === t.title;
-            }), 1
-        )
+    client.on('delete item', (data) => {
+        deleteTodo(data);
     });
 
     // Handles generic updates
-    client.on('update', (t) => {
-        client.broadcast.to(t.room).emit('update', t);
-        DB = t.todos;
+    client.on('update', (data) => {
+        update(data);
     });
 
     // Send the DB downstream on connect
@@ -57,3 +78,4 @@ io.on('connection', (client) => {
 
 console.log('Waiting for clients to connect');
 io.listen(3003);
+
