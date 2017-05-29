@@ -10,7 +10,7 @@ const TodoList = ({completeTodo, deleteTodo, todoList}) => (
               className={todo.get('completed') ? 'checkbox checked' : 'checkbox'}
               onClick={() => completeTodo(todo.get('id'))}></div>
             {todo.get('title')}
-            <div className='close' onClick={() => deleteTodo(todo.get('id'))}></div>
+            <div className='delete' onClick={() => deleteTodo(todo.get('id'))}></div>
           </li>
         )
       })

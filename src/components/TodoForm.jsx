@@ -1,37 +1,37 @@
 import React from 'react';
 
-export default class TodoForm extends React.Component {
-  // click to add a new Todo
-  handleClick() {
-    let input = document.getElementById('todo-input');
+const TodoForm = ({addTodo}) => {
+  const input = document.getElementById('todo-input');
 
-    // use trim() to prevent adding empty Todos
-    input.value.trim() ? (
-      this.props.addTodo(input.value),
-      input.value = ''
-    ) : null;
+  const onAddTodo = (title) => {
+    if (!title.trim()) {
+      return null;
+    }
+
+    addTodo(title);
+    return input.value = '';
   }
 
-  // press the 'Enter' key to add a new Todo
-  handleKeyPress(event) {
-    let input = event.target;
+  // allow pressing the 'Enter' key to add a new Todo
+  const onKeyPress = (ev) => {
+    const key = ev.which;
+    const title = ev.target.value;
 
-    (event.key === 'Enter' && input.value.trim()) ? (
-      this.props.addTodo(input.value),
-      input.value = ''
-    ) : null
+    if (key === 13 && title.trim()) {
+      return onAddTodo(title);
+    }
   }
 
-  render() {
-    return (
-      <div className='form-container'>
-        <input
-          id="todo-input"
-          type="text"
-          placeholder="Feed the cat..."
-          onKeyPress={this.handleKeyPress.bind(this)} />
-        <button onClick={this.handleClick.bind(this)}>+</button>
-      </div>
-    )
-  }
+  return (
+    <div>
+      <input
+        id="todo-input"
+        type="text"
+        placeholder="add task..."
+        onKeyPress={onKeyPress} />
+      <div className='add' onClick={() => onAddTodo(input.value)}>+</div>
+    </div>
+  )
 }
+
+export default TodoForm;

@@ -4,7 +4,7 @@ const Header = ({completeAll, deleteAll}) => (
   <header>
     TODO APP
     <div className='checkbox all' onClick={() => completeAll()}></div>
-    <div className='close all' onClick={() => deleteAll()}></div>
+    <div className='delete all' onClick={() => deleteAll()}></div>
   </header>
 )
 
