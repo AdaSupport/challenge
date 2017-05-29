@@ -9,7 +9,6 @@
 
 
 .completeAllButton {
-
   display: inline;
   float: right;
   margin-right: 10%;
@@ -17,22 +16,17 @@
 }
 
 .createTask {
-
   display: inline;
   float: left;
   margin-left: 5%;
   margin-right: 10%;
   margin-bottom: 5%;
-
 }
 
 .Todos-list{
-
   display: inline;
   float: left;
   margin-top:5%;
-
-
 }
 
 .App-header {

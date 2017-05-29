@@ -12,7 +12,7 @@ class CreateTodo extends Component {
   }
 
   renderError = () => {
-    if(!this.state.error) {
+    if (!this.state.error) {
       return null;
     }
 
@@ -22,7 +22,7 @@ class CreateTodo extends Component {
   render() {
 
     return (
-        <form className="createTask" onSubmit={this.handleCreate.bind(this)}>
+      <form className="createTask" onSubmit={this.handleCreate.bind(this)}>
             <input type="text" placeholder="What do I need to do?" ref="createInput"/>
             <button>Create</button>
             { this.renderError() }
@@ -37,18 +37,22 @@ class CreateTodo extends Component {
     const task = createInput.value;
     const validateInput = this.validateInput(task);
 
-    if(validateInput) {
-      this.setState({error: validateInput});
+    if (validateInput) {
+      this.setState({
+        error: validateInput
+      });
       return;
     }
 
-    this.setState({error: null});
+    this.setState({
+      error: null
+    });
     this.props.createTask(task);
-    this.refs.createInput.value ='';
+    this.refs.createInput.value = '';
   }
 
   validateInput = (task) => {
-    if(!task){
+    if (!task) {
       return 'Please enter a task';
     } else if (_.find(this.props.todos, todo => todo.task === task)) {
       return 'Task already exists.';
