@@ -32,6 +32,12 @@ server.on('connection', (client) => {
         reloadTodos(DB);
     });
 
+    client.on('delete', (ids) => {
+        DB = DB.filter(todo => !ids.includes(todo.id));
+
+        reloadTodos(DB);
+    });
+
     // Send the DB downstream on connect
     reloadTodos(DB);
 });

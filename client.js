@@ -23,10 +23,14 @@ function render(todo) {
     checkBox.checked = todo.isChecked;
     checkBox.addEventListener('change', () => server.emit('check', [todo.id]));
 
+    const deleteButton = document.createElement('button');
+    deleteButton.innerText = 'Delete';
+    deleteButton.addEventListener('click', () => server.emit('delete', [todo.id]));
 
     const listItemText = document.createTextNode(todo.title);
     listItem.appendChild(checkBox);
     listItem.appendChild(listItemText);
+    listItem.appendChild(deleteButton);
     list.append(listItem);
 }
 
