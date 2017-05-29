@@ -2,7 +2,7 @@ const server = require('socket.io')();
 const firstTodos = require('./data');
 const Todo = require('./todo');
 
-const DB = firstTodos.map((todo) => new Todo(todo.title));
+let DB = firstTodos.map((todo) => new Todo(todo.title));
 
 server.on('connection', (client) => {
     // This is going to be our fake 'database' for this application
@@ -23,6 +23,12 @@ server.on('connection', (client) => {
 
         // Send the latest todos to the client
         // FIXME: This sends all todos every time, could this be more efficient?
+        reloadTodos(DB);
+    });
+
+    client.on('check', (ids) => {
+        DB = DB.map(todo => ids.includes(todo.id) ? (new Todo(todo.title, !todo.isChecked, todo.id)) : todo);
+
         reloadTodos(DB);
     });
 

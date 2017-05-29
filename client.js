@@ -13,15 +13,24 @@ function add() {
 
     // Clear the input
     input.value = '';
-    // TODO: refocus the element
+    input.focus();
 }
 
 function render(todo) {
     const listItem = document.createElement('li');
+    const checkBox = document.createElement('input');
+    checkBox.type = 'checkbox';
+    checkBox.checked = todo.isChecked;
+    checkBox.addEventListener('change', () => server.emit('check', [todo.id]));
+
+
     const listItemText = document.createTextNode(todo.title);
+    listItem.appendChild(checkBox);
     listItem.appendChild(listItemText);
     list.append(listItem);
 }
+
+
 
 // NOTE: These are listeners for events from the server
 // This event is for (re)loading the entire list of todos from the server
