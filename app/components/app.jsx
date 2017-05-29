@@ -2,6 +2,8 @@ import React from 'react';
 import {List} from 'immutable'
 import Todo from '../../todo'
 
+import TodoItem from './todoItem.jsx'
+
 const server = io('http://localhost:3003')
 
 
@@ -55,9 +57,9 @@ export default class App extends React.Component {
                 <button type="button" onClick={this.add}>Make</button>
                 <ul id="todo-list">
                     {todos.map((t, i)=>{
-                        return (<li  ref={`${i}`} >
-                                {t.title}
-                        </li>)
+                        return (
+                            <TodoItem key={i} todo={t} />
+                        )
                     })}
                 </ul>
             </div>
