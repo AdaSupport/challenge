@@ -7,7 +7,8 @@ export default class TodoItem extends React.Component {
     }
 
     render() {
-        const {title, checked, setCheck, index} = this.props.todo;
+        const {setCheck, index, todo} = this.props;
+        const {title, checked} = todo;
 
         return (
             <li>

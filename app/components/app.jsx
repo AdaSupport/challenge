@@ -15,6 +15,7 @@ export default class App extends React.Component {
 
         this.add=this.add.bind(this);
         this.handleTodoInputChange = this.handleTodoInputChange.bind(this)
+        this.setCheck = this.setCheck.bind(this)
 
         this.state={
             todoInput:"",
@@ -28,21 +29,27 @@ export default class App extends React.Component {
                 todos:todos
             })
         });
+
+        server.on('append', (todo) => {
+            this.add(todo)
+        });
     }
 
     handleTodoInputChange(e){
         this.setState({todoInput: e.target.value});
     }
 
-    add(){
+    add(todo=null){
         const {todoInput, todos} = this.state;
 
-        if(!todoInput){
+        const todoToAppend = todo || (todoInput ? new Todo(todoInput): null)
+
+        if(!todoToAppend){
             return;
         }
 
         const curTodos =  List(todos);
-        const newTodos = curTodos.push(new Todo(todoInput));
+        const newTodos = curTodos.push(todoToAppend);
 
         this.setState({
             todos: newTodos.toArray()
@@ -76,11 +83,11 @@ export default class App extends React.Component {
         return (
             <div>
                 <input id="todo-input" type="text" placeholder="Feed the cat" value={todoInput} onChange={this.handleTodoInputChange} autoFocus />
-                <button type="button" onClick={this.add}>Make</button>
+                <button type="button" onClick={()=>this.add()}>Make</button>
                 <ul id="todo-list" className={style.todos}>
                     {todos.map((t, i)=>{
                         return (
-                            <TodoItem key={i} todo={t} index={i}/>
+                            <TodoItem key={i} todo={t} index={i} setCheck={this.setCheck}/>
                         )
                     })}
                 </ul>
