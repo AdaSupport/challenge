@@ -14,3 +14,7 @@ body {
 ul {
     list-style-type: none;
 }
+
+.checked {
+    text-decoration: line-through;
+}

@@ -26,20 +26,26 @@ function completeAll() {
 
 function render(todo) {
 
-    const checkBox = document.createElement('input');
-    checkBox.type = 'checkbox';
-    checkBox.checked = todo.isChecked;
-    checkBox.addEventListener('change', () => server.emit('check', [todo.id]));
 
-    const deleteButton = document.createElement('button');
+    const deleteButton = document.createElement('td');
+    deleteButton.classList.add('mdl-data-table__cell--non-numeric');
     deleteButton.innerText = 'Delete';
     deleteButton.addEventListener('click', () => server.emit('delete', [todo.id]));
 
-    const listItem = document.createElement('li');
+    const listItem = document.createElement('tr');
+
     const listItemText = document.createTextNode(todo.title);
 
-    listItem.appendChild(checkBox);
-    listItem.appendChild(listItemText);
+
+    let titleTd = document.createElement('td');
+    titleTd.addEventListener('click', () => server.emit('check', [todo.id]));
+    titleTd.appendChild(listItemText);
+    titleTd.classList.add('mdl-data-table__cell--non-numeric');
+    titleTd.classList.add(todo.isChecked ? 'checked' : 'unchecked');
+
+
+
+    listItem.appendChild(titleTd);
     listItem.appendChild(deleteButton);
     list.append(listItem);
 }
