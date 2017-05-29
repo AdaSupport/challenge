@@ -5,16 +5,11 @@ import TodosList from './components/Todos-list.js'
 import './App.css';
 
 const io = require('socket.io-client')
-const socket = io.connect('http://localhost:3003/'); //
+const socket = io.connect('http://localhost:3003/');
 
-const todos = [
+const todos = [];
 
-];
-
-
-
-
-
+let serverConnecLost = false;
 
 class App extends Component {
   constructor(props) {
@@ -32,7 +27,8 @@ class App extends Component {
   });
 
   socket.on('disconnect', (data) => {
-    this.setState({ todos: []});    //Clear to-dos on disconnect
+
+    serverConnecLost = true;
   });
 
   let loadToDos = (todo) => {
@@ -46,11 +42,17 @@ class App extends Component {
 
   socket.on('load', (todos) => {
       // Cater to initial DB to-do list load
+    if (serverConnecLost){
+      this.setState({ todos: []});    //Clear to-dos on disconnect
+      serverConnecLost = false;
+    }
+
       if(Array.isArray(todos)){
           todos.forEach((todo) => loadToDos(todo));
       } else {                         //ELSE RENDER ONE TO-DO
           loadToDos(todos);
       }
+
   });
 
   // Handling incoming task CONTENT update broadcast
