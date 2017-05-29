@@ -4,9 +4,9 @@ const Todo = require('./todo');
 
 let DB = firstTodos.map((todo) => new Todo(todo.title));
 
+
+
 server.on('connection', (client) => {
-    // This is going to be our fake 'database' for this application
-    // Parse all default Todo's from db
 
     // Sends a message to the client to reload all todos
     const reloadTodos = (todoArray) => {
@@ -22,7 +22,6 @@ server.on('connection', (client) => {
         DB.push(newTodo);
 
         // Send the latest todos to the client
-        // FIXME: This sends all todos every time, could this be more efficient?
         reloadTodos(DB);
     });
 

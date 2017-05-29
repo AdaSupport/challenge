@@ -1,12 +1,12 @@
 const server = io('http://localhost:3003/');
 const list = document.getElementById('todo-list');
 
-// NOTE: These are all our globally scoped functions for interacting with the server
-// This function adds a new todo from the input
+let todoIds = [];
+
 function add() {
     const input = document.getElementById('todo-input');
 
-    // Emit the new todo as some data to the server
+    // Emit the new todo to server
     server.emit('make', {
         title : input.value
     });
@@ -16,8 +16,16 @@ function add() {
     input.focus();
 }
 
+function deleteAll() {
+    server.emit('delete', todoIds)
+}
+
+function completeAll() {
+    server.emit('check', todoIds)
+}
+
 function render(todo) {
-    const listItem = document.createElement('li');
+
     const checkBox = document.createElement('input');
     checkBox.type = 'checkbox';
     checkBox.checked = todo.isChecked;
@@ -27,7 +35,9 @@ function render(todo) {
     deleteButton.innerText = 'Delete';
     deleteButton.addEventListener('click', () => server.emit('delete', [todo.id]));
 
+    const listItem = document.createElement('li');
     const listItemText = document.createTextNode(todo.title);
+
     listItem.appendChild(checkBox);
     listItem.appendChild(listItemText);
     listItem.appendChild(deleteButton);
@@ -36,9 +46,10 @@ function render(todo) {
 
 
 
-// NOTE: These are listeners for events from the server
-// This event is for (re)loading the entire list of todos from the server
+//listeners for events from the server
 server.on('load', (todos) => {
     list.innerHTML = '';
     todos.forEach((todo) => render(todo));
+    todoIds = todos.map(todo => todo.id);
+    console.log(todoIds);
 });

@@ -1,0 +1,16 @@
+@-ms-viewport{
+    width: device-width;
+}
+
+body {
+    color: black;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+ul {
+    list-style-type: none;
+}
