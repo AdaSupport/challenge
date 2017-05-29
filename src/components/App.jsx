@@ -1,8 +1,10 @@
 import React from 'react';
+import { connect } from 'react-redux';
 
 import TodoForm from './TodoForm.jsx';
 import TodoList from './TodoList.jsx';
 import Header from './Header.jsx';
+import * as actions from '../actions';
 
 const App = ({deleteAll, completeAll, todoList, deleteTodo, completeTodo, addTodo}) => (
   <div>
@@ -17,3 +19,5 @@ const App = ({deleteAll, completeAll, todoList, deleteTodo, completeTodo, addTod
       addTodo={addTodo} />
   </div>
 );
+
+export const AppContainer = connect(state => ({todoList: state.get('todoList')}), actions)(App);
