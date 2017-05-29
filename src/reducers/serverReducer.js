@@ -1,5 +1,5 @@
-import { List, Map } from 'immutable';
-import uuidV4        from 'uuid';
+import { List, Map, fromJS } from 'immutable';
+import uuidV4 from 'uuid';
 
 const INITIAL_STATE = Map();
 
@@ -27,7 +27,7 @@ const serverReducer = (state = INITIAL_STATE, action) => {
       return state.deleteIn(['todoList', getIndex(state, action.id)]);
 
     case 'LOAD_TODOS':
-      return state.set('todoList', action.todoList);
+      return state.set('todoList', fromJS(action.todoList));
   }
 
   return state;
