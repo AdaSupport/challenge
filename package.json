@@ -4,8 +4,10 @@
   "description": "Our hiring challenge to full-stack developers",
   "main": "index.js",
   "scripts": {
-    "test": "npm test",
-    "start" : "node server.js"
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject"
   },
   "repository": {
     "type": "git",
@@ -18,7 +20,14 @@
   },
   "homepage": "https://github.com/adasupport/challenge#readme",
   "dependencies": {
-    "express": "^4.14.0",
-    "socket.io": "^1.5.0"
+    "body-parser": "^1.17.2",
+    "express": "^4.15.3",
+    "react": "^15.5.4",
+    "react-dom": "^15.5.4",
+    "socket.io": "^1.7.4",
+    "tape": "^4.6.3"
+  },
+  "devDependencies": {
+    "react-scripts": "1.0.7"
   }
 }
