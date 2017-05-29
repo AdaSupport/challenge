@@ -6,13 +6,18 @@ export default class TodoItem extends React.Component {
         super();
     }
 
-
     render() {
-        const {title} = this.props.todo;
+        const {title, checked, setCheck, index} = this.props.todo;
 
         return (
             <li>
-                <span>{title}</span>
+                <label>
+                    <input
+                        type="checkbox"
+                        checked={checked}
+                        onChange={()=>setCheck(index)} />
+                    {title}
+                </label>
             </li>
         )
     }
