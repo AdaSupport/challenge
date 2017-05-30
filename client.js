@@ -1,8 +1,10 @@
 const server = io('http://localhost:3003/');
 const list = document.getElementById('todo-list');
 
-//Updated each time server sends todos on load
-let allTodos = [];
+//Gets todos from local storage on page load, if undefined (eg. initial start up of app) set to empty array
+let allTodos = localStorage.getItem('todos') ? JSON.parse(localStorage.getItem('todos')) : [];
+//Handles rendering for offline cases
+allTodos.forEach((todo) => render(todo));
 
 //Called when add task button is clicked, or on enter keydown
 function addTodo() {
@@ -56,7 +58,10 @@ function render(todo) {
 
 //Listens for load event from the server
 server.on('load', (todos) => {
+    //Clears out table list items to ensure no duplication
     list.innerHTML = '';
     todos.forEach((todo) => render(todo));
     allTodos = todos;
+    //Sets local storage value to latest todos from server
+    localStorage.setItem('todos', JSON.stringify(todos));
 });
