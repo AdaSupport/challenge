@@ -11,3 +11,18 @@
 .deleteIcon:hover{
     opacity: 1;
 }
+
+.mDeleteIcon{
+    font-size: 50px
+}
+
+.mTitle{
+    font-size: 50px
+}
+
+.mCheckbox {
+    width:30px;
+    height:30px;
+}
+
+

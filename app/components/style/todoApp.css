@@ -2,3 +2,20 @@
     list-style: none;
     padding-left: 0;
 }
+
+.mInputBox{
+    height: 50px;
+    width: calc(100% - 10px);
+    font-size: 30px;
+    margin-top: 10px;
+    border: 2px solid black;
+    padding-left: 10px;
+}
+
+.mBtn{
+    width: 100%;
+    height: 50px;
+    font-size: 30px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}

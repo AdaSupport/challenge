@@ -8,18 +8,21 @@ export default class TodoItem extends React.Component {
     }
 
     render() {
-        const {setCheck, index, todo, remove} = this.props;
+        const {setCheck, index, todo, remove, mobile} = this.props;
         const {title, checked} = todo;
+
+        const {deleteIcon, mDeleteIcon, mTitle, mCheckbox} = style;
 
         return (
             <li>
 
-                    <span onClick={remove} className={style.deleteIcon}>x</span>
+                    <span onClick={remove} className={`${deleteIcon} ${mobile ? mDeleteIcon:""}`}>x</span>
                     <input
+                        className={`${mobile ? mCheckbox:""}`}
                         type="checkbox"
                         checked={checked}
                         onChange={()=>setCheck(index)} />
-                    <span>{title}</span>
+                    <span className={`${mobile ? mTitle:""}`}>{title}</span>
 
             </li>
         )

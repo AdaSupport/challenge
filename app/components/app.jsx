@@ -23,12 +23,19 @@ export default class App extends React.Component {
 
         this.state={
             todoInput:"",
+            mobile: screen.width < 600,
             todos:[],
             removedItems:[]
         }
     }
 
     componentDidMount(){
+
+        window.addEventListener("resize",()=>{
+            this.setState({
+                mobile: screen.width <600
+            })
+        } );
 
         server.on('load', (todos) => {
             this.setState({
@@ -72,7 +79,7 @@ export default class App extends React.Component {
 
         this.setState({
             todos: newTodosArr
-        }, server.emit('setDB', newTodosArr))
+        }, ()=>{server.emit('setDB', newTodosArr)})
 
     }
 
@@ -85,7 +92,7 @@ export default class App extends React.Component {
 
         this.setState({
             todos:newTodos
-        },server.emit('setDB', newTodos))
+        }, ()=>{server.emit('setDB', newTodos)})
     }
 
     remove(index){
@@ -100,7 +107,7 @@ export default class App extends React.Component {
         this.setState({
             todos: newTodosArr,
             removedItems:removedItems
-        }, server.emit('setDB', newTodosArr))
+        }, ()=>{server.emit('setDB', newTodosArr)})
     }
 
     undoRemove(){
@@ -116,7 +123,7 @@ export default class App extends React.Component {
         this.setState({
             todos: newTodosArr,
             removedItems:[]
-        }, server.emit('setDB', newTodosArr))
+        }, ()=>{server.emit('setDB', newTodosArr)})
     }
 
     removeAll(){
@@ -124,7 +131,7 @@ export default class App extends React.Component {
         this.setState({
             todos: [],
             removedItems:todos
-        }, server.emit('setDB', []))
+        }, ()=>{server.emit('setDB', [])})
     }
 
 
@@ -144,28 +151,34 @@ export default class App extends React.Component {
 
         this.setState({
             todos: newTodosArr
-        }, server.emit('setDB', newTodosArr))
+        }, ()=>{server.emit('setDB', newTodosArr)})
 
     }
 
     render() {
-        const {todoInput, todos} = this.state;
+        const {todoInput, todos, mobile} = this.state;
+        const {mInputBox,mBtn} = style;
+        const btnClass = `${mobile? mBtn:""}`
+
         return (
             <div>
-                <input id="todo-input" type="text" placeholder="Feed the cat" value={todoInput} onChange={this.handleTodoInputChange} autoFocus />
-                <button type="button" onClick={()=>{
-                    server.emit('make', {
-                        title : todoInput
-                    });
+                <input id="todo-input" type="text" placeholder="Feed the cat" value={todoInput}
+                       className={`${mobile?mInputBox:""}`}
+                       onChange={this.handleTodoInputChange} autoFocus />
+                <button type="button"
+                        className={btnClass}
+                        onClick={()=>{
+                            server.emit('make', {
+                                title : todoInput
+                            });
+
                 }}>Add</button>
                 <div>
-                    <button type="button" onClick={()=>{server.emit('removeAll')}}>
+                    <button type="button" onClick={()=>{server.emit('removeAll')}} className={btnClass}>
                         Remove All
                     </button>
-                </div>
+                    <button type="button" onClick={()=>{server.emit('undoRemove')}} className={btnClass}>Undo Remove</button>
 
-                <div>
-                    <button type="button" onClick={()=>{server.emit('undoRemove')}}>Undo Remove</button>
                 </div>
 
                 <ul id="todo-list" className={style.todos}>
@@ -173,7 +186,8 @@ export default class App extends React.Component {
                         return (
                             <TodoItem key={i} todo={t} index={i} setCheck={this.setCheck} remove={()=>{
                                 server.emit('remove', i);
-                            }} />
+                            }} mobile={mobile}
+                            />
                         )
                     })}
                 </ul>
