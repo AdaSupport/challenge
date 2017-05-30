@@ -1,5 +1,5 @@
 import React from 'react';
-import {List} from 'immutable'
+import {List, Map} from 'immutable'
 import Todo from '../../todo'
 
 import TodoItem from './todoItem.jsx'
@@ -17,6 +17,8 @@ export default class App extends React.Component {
         this.remove=this.remove.bind(this);
         this.handleTodoInputChange = this.handleTodoInputChange.bind(this);
         this.setCheck = this.setCheck.bind(this)
+        this.completeAll = this.completeAll.bind(this)
+        this.removeAll = this.removeAll.bind(this);
 
         this.state={
             todoInput:"",
@@ -58,6 +60,17 @@ export default class App extends React.Component {
 
     }
 
+    completeAll(){
+        const {todos} = this.state;
+        const newTodos = todos.map((t)=>{
+            return Map(t).set("checked", true).toJS();
+        })
+
+        this.setState({
+            todos:newTodos
+        })
+    }
+
     remove(index){
         const {todos} = this.state;
 
@@ -66,6 +79,12 @@ export default class App extends React.Component {
 
         this.setState({
             todos: newTodos.toArray()
+        })
+    }
+
+    removeAll(){
+        this.setState({
+            todos: []
         })
     }
 
@@ -96,7 +115,9 @@ export default class App extends React.Component {
         return (
             <div>
                 <input id="todo-input" type="text" placeholder="Feed the cat" value={todoInput} onChange={this.handleTodoInputChange} autoFocus />
-                <button type="button" onClick={()=>this.add()}>Make</button>
+                <button type="button" onClick={()=>this.add()}>Add</button>
+                <button type="button" onClick={this.completeAll}>Check All</button>
+                <button type="button" onClick={this.removeAll}>Remove All</button>
                 <ul id="todo-list" className={style.todos}>
                     {todos.map((t, i)=>{
                         return (
