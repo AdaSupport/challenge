@@ -2,9 +2,7 @@ const server = require('socket.io')();
 const firstTodos = require('./data');
 const Todo = require('./todo');
 
-let DB = firstTodos.map((todo) => new Todo(todo.title));
-
-
+let DB = firstTodos.map(todo => new Todo(todo.title));
 
 server.on('connection', (client) => {
 
@@ -25,8 +23,13 @@ server.on('connection', (client) => {
         reloadTodos(DB);
     });
 
-    client.on('check', (ids) => {
-        DB = DB.map(todo => ids.includes(todo.id) ? (new Todo(todo.title, !todo.isChecked, todo.id)) : todo);
+    client.on('check', (isCheckedTodos) => {
+
+        const changedTodoIds = isCheckedTodos.map(t => t.id);
+
+        DB = DB.map(todo => changedTodoIds.includes(todo.id)
+            ? (new Todo(todo.title, isCheckedTodos.find(t => t.id === todo.id).isChecked, todo.id))
+            : todo);
 
         reloadTodos(DB);
     });
@@ -40,7 +43,6 @@ server.on('connection', (client) => {
     // Send the DB downstream on connect
     reloadTodos(DB);
 });
-
 
 console.log('Waiting for clients to connect');
 server.listen(3003);

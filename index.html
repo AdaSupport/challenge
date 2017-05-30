@@ -13,9 +13,12 @@
     <body>
     <div class="container">
         <h1>todos</h1>
-        <input id="todo-input" type="text" placeholder="add a task..." autofocus
+
+        <div class="input-make-button">
+            <input id="todo-input" type="text" placeholder="add a task..." autofocus
                onkeydown = "event.keyCode == 13 ? add() : null">
-        <button type="button" onclick="add()" class="mdl-button mdl-js-button">Make</button>
+            <button type="button" onclick="add()" class="mdl-button mdl-js-button">Add task</button>
+        </div>
 
         <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp">
             <thead>
@@ -25,12 +28,16 @@
             </tr>
             </thead>
             <tbody id="todo-list">
-
             </tbody>
-
         </table>
-        <button type="button" onClick="completeAll()">Complete All</button>
-        <button type="button" onClick="deleteAll()">Delete All</button>
+
+        <div class="complete-delete-buttons">
+            <button type="button" onClick="completeAll()"
+                class="mdl-button mdl-js-button mdl-button--raised complete">Complete All</button>
+            <button type="button" onClick="deleteAll()"
+                class="mdl-button mdl-js-button mdl-button--raised delete">Delete All</button>
+        </div>
+
     </div>
     </body>
     <script src="client.js" async></script>

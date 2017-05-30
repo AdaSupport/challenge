@@ -1,7 +1,3 @@
-@-ms-viewport{
-    width: device-width;
-}
-
 body {
     color: black;
 }
@@ -17,4 +13,25 @@ ul {
 
 .checked {
     text-decoration: line-through;
+    color: darkgrey;
+}
+
+.input-make-button {
+    display: flex;
+    flex-direction: row;
+    padding: 15px;
+}
+
+.complete-delete-buttons {
+    display: flex;
+    flex-direction: row;
+    padding: 15px;
+}
+
+.complete {
+    margin-right: 5px;
+}
+
+.delete {
+    margin-right: 5px;
 }
