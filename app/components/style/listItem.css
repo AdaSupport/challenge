@@ -1,0 +1,13 @@
+.deleteIcon{
+    position: relative;
+    top: -2px;
+    cursor: pointer;
+    color: red;
+    opacity: 0.7;
+    font-size:16px;
+    transition: all 0.10s linear;
+}
+
+.deleteIcon:hover{
+    opacity: 1;
+}

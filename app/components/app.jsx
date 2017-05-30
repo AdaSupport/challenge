@@ -14,7 +14,8 @@ export default class App extends React.Component {
         super();
 
         this.add=this.add.bind(this);
-        this.handleTodoInputChange = this.handleTodoInputChange.bind(this)
+        this.remove=this.remove.bind(this);
+        this.handleTodoInputChange = this.handleTodoInputChange.bind(this);
         this.setCheck = this.setCheck.bind(this)
 
         this.state={
@@ -42,7 +43,7 @@ export default class App extends React.Component {
     add(todo=null){
         const {todoInput, todos} = this.state;
 
-        const todoToAppend = todo || (todoInput ? new Todo(todoInput): null)
+        const todoToAppend = todo || (todoInput ? new Todo(todoInput): null);
 
         if(!todoToAppend){
             return;
@@ -56,6 +57,18 @@ export default class App extends React.Component {
         })
 
     }
+
+    remove(index){
+        const {todos} = this.state;
+
+        const curTodos =  List(todos);
+        const newTodos = curTodos.splice(index, 1);
+
+        this.setState({
+            todos: newTodos.toArray()
+        })
+    }
+
 
     setCheck(index){
         const {todos} = this.state;
@@ -87,7 +100,7 @@ export default class App extends React.Component {
                 <ul id="todo-list" className={style.todos}>
                     {todos.map((t, i)=>{
                         return (
-                            <TodoItem key={i} todo={t} index={i} setCheck={this.setCheck}/>
+                            <TodoItem key={i} todo={t} index={i} setCheck={this.setCheck} remove={this.remove} />
                         )
                     })}
                 </ul>

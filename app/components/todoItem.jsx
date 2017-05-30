@@ -1,4 +1,5 @@
 import React from 'react';
+import style from './style/listItem.css'
 
 
 export default class TodoItem extends React.Component {
@@ -7,18 +8,19 @@ export default class TodoItem extends React.Component {
     }
 
     render() {
-        const {setCheck, index, todo} = this.props;
+        const {setCheck, index, todo, remove} = this.props;
         const {title, checked} = todo;
 
         return (
             <li>
-                <label>
+
+                    <span onClick={()=>remove(index)} className={style.deleteIcon}>x</span>
                     <input
                         type="checkbox"
                         checked={checked}
                         onChange={()=>setCheck(index)} />
-                    {title}
-                </label>
+                    <span>{title}</span>
+
             </li>
         )
     }
