@@ -14,7 +14,7 @@ export default class TodoItem extends React.Component {
         return (
             <li>
 
-                    <span onClick={()=>remove(index)} className={style.deleteIcon}>x</span>
+                    <span onClick={remove} className={style.deleteIcon}>x</span>
                     <input
                         type="checkbox"
                         checked={checked}

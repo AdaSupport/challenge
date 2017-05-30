@@ -29,6 +29,7 @@ export default class App extends React.Component {
     }
 
     componentDidMount(){
+
         server.on('load', (todos) => {
             this.setState({
                 todos:todos
@@ -37,6 +38,18 @@ export default class App extends React.Component {
 
         server.on('append', (todo) => {
             this.add(todo)
+        });
+
+        server.on('remove', (index) => {
+            this.remove(index)
+        });
+
+        server.on('removeAll', () => {
+            this.removeAll()
+        });
+
+        server.on('undoRemove', () => {
+            this.undoRemove()
         });
     }
 
@@ -55,10 +68,11 @@ export default class App extends React.Component {
 
         const curTodos =  List(todos);
         const newTodos = curTodos.push(todoToAppend);
+        const newTodosArr = newTodos.toArray()
 
         this.setState({
-            todos: newTodos.toArray()
-        })
+            todos: newTodosArr
+        }, server.emit('setDB', newTodosArr))
 
     }
 
@@ -71,7 +85,7 @@ export default class App extends React.Component {
 
         this.setState({
             todos:newTodos
-        })
+        },server.emit('setDB', newTodos))
     }
 
     remove(index){
@@ -81,11 +95,12 @@ export default class App extends React.Component {
 
         const curTodos =  List(todos);
         const newTodos = curTodos.splice(index, 1);
+        const newTodosArr = newTodos.toArray()
 
         this.setState({
-            todos: newTodos.toArray(),
+            todos: newTodosArr,
             removedItems:removedItems
-        })
+        }, server.emit('setDB', newTodosArr))
     }
 
     undoRemove(){
@@ -95,12 +110,13 @@ export default class App extends React.Component {
         const todosToAdd = List(removedItems);
 
         const newTodos = curTodos.concat(todosToAdd);
+        const newTodosArr = newTodos.toArray()
 
 
         this.setState({
-            todos: newTodos.toArray(),
+            todos: newTodosArr,
             removedItems:[]
-        })
+        }, server.emit('setDB', newTodosArr))
     }
 
     removeAll(){
@@ -108,7 +124,7 @@ export default class App extends React.Component {
         this.setState({
             todos: [],
             removedItems:todos
-        })
+        }, server.emit('setDB', []))
     }
 
 
@@ -124,33 +140,40 @@ export default class App extends React.Component {
 
         const curTodos = List(todos);
         const newTodos = curTodos.set(index, item);
+        const newTodosArr = newTodos.toArray()
 
         this.setState({
-            todos: newTodos.toArray()
-        })
+            todos: newTodosArr
+        }, server.emit('setDB', newTodosArr))
 
     }
-
 
     render() {
         const {todoInput, todos} = this.state;
         return (
             <div>
                 <input id="todo-input" type="text" placeholder="Feed the cat" value={todoInput} onChange={this.handleTodoInputChange} autoFocus />
-                <button type="button" onClick={()=>this.add()}>Add</button>
+                <button type="button" onClick={()=>{
+                    server.emit('make', {
+                        title : todoInput
+                    });
+                }}>Add</button>
                 <div>
-                    <button type="button" onClick={this.completeAll}>Check All</button>
-                    <button type="button" onClick={this.removeAll}>Remove All</button>
+                    <button type="button" onClick={()=>{server.emit('removeAll')}}>
+                        Remove All
+                    </button>
                 </div>
 
                 <div>
-                    <button type="button" onClick={this.undoRemove}>Undo Remove</button>
+                    <button type="button" onClick={()=>{server.emit('undoRemove')}}>Undo Remove</button>
                 </div>
 
                 <ul id="todo-list" className={style.todos}>
                     {todos.map((t, i)=>{
                         return (
-                            <TodoItem key={i} todo={t} index={i} setCheck={this.setCheck} remove={this.remove} />
+                            <TodoItem key={i} todo={t} index={i} setCheck={this.setCheck} remove={()=>{
+                                server.emit('remove', i);
+                            }} />
                         )
                     })}
                 </ul>
