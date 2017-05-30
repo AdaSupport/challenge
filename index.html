@@ -15,9 +15,9 @@
         <h1>todos</h1>
 
         <div class="input-make-button">
-            <input id="todo-input" type="text" placeholder="add a task..." autofocus
-               onkeydown = "event.keyCode == 13 ? add() : null">
-            <button type="button" onclick="add()" class="mdl-button mdl-js-button">Add task</button>
+            <input id="todo-input" type="text" placeholder="What needs to be done?" autofocus
+               onkeydown = "event.keyCode == 13 ? addTodo() : null">
+            <button type="button" onclick="addTodo()" class="mdl-button mdl-js-button">Add task</button>
         </div>
 
         <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp">
