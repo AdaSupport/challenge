@@ -19,10 +19,12 @@ export default class App extends React.Component {
         this.setCheck = this.setCheck.bind(this)
         this.completeAll = this.completeAll.bind(this)
         this.removeAll = this.removeAll.bind(this);
+        this.undoRemove = this.undoRemove.bind(this);
 
         this.state={
             todoInput:"",
-            todos:[]
+            todos:[],
+            removedItems:[]
         }
     }
 
@@ -60,6 +62,7 @@ export default class App extends React.Component {
 
     }
 
+
     completeAll(){
         const {todos} = this.state;
         const newTodos = todos.map((t)=>{
@@ -73,18 +76,38 @@ export default class App extends React.Component {
 
     remove(index){
         const {todos} = this.state;
+        let removedItems = [];
+        removedItems.push(todos[index])
 
         const curTodos =  List(todos);
         const newTodos = curTodos.splice(index, 1);
 
         this.setState({
-            todos: newTodos.toArray()
+            todos: newTodos.toArray(),
+            removedItems:removedItems
+        })
+    }
+
+    undoRemove(){
+        const {todos, removedItems} = this.state;
+
+        const curTodos =List(todos);
+        const todosToAdd = List(removedItems);
+
+        const newTodos = curTodos.concat(todosToAdd);
+
+
+        this.setState({
+            todos: newTodos.toArray(),
+            removedItems:[]
         })
     }
 
     removeAll(){
+        const {todos} = this.state;
         this.setState({
-            todos: []
+            todos: [],
+            removedItems:todos
         })
     }
 
@@ -98,7 +121,6 @@ export default class App extends React.Component {
         }
 
         item.checked = !item.checked;
-        //TODO: check if this is mutable
 
         const curTodos = List(todos);
         const newTodos = curTodos.set(index, item);
@@ -116,8 +138,15 @@ export default class App extends React.Component {
             <div>
                 <input id="todo-input" type="text" placeholder="Feed the cat" value={todoInput} onChange={this.handleTodoInputChange} autoFocus />
                 <button type="button" onClick={()=>this.add()}>Add</button>
-                <button type="button" onClick={this.completeAll}>Check All</button>
-                <button type="button" onClick={this.removeAll}>Remove All</button>
+                <div>
+                    <button type="button" onClick={this.completeAll}>Check All</button>
+                    <button type="button" onClick={this.removeAll}>Remove All</button>
+                </div>
+
+                <div>
+                    <button type="button" onClick={this.undoRemove}>Undo Remove</button>
+                </div>
+
                 <ul id="todo-list" className={style.todos}>
                     {todos.map((t, i)=>{
                         return (
