@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
 import Todo from './todo.js'
-import Todos from '../state/todos'
-import getTodosAsync from '../state/todos'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux';
 import {showTodos} from "../redux/actions/todoActions";
@@ -40,13 +38,35 @@ class AllTodos extends Component {
           self.setState({allTodos: allTodos})
         })
   }
+  componentDidUpdate(){
+    let self = this
+    // debugger
+    // if todo is added new div is pushed to the list of todos
+    if(this.state.allTodos && this.state.allTodos.length < this.props.todos.todos.length){
+      let todos = this.state.todos
+      let newTodo = todos[todos.length - 1]
+      let oldTodos = this.state.allTodos
+      let todoDiv =
+        <div>
+          <Todo todo={newTodo.title}/>
+        </div>
+      oldTodos.push(todoDiv)
+      this.setState({allTodos: oldTodos})
+    } else if (this.state.allTodos && this.state.allTodos.length > this.props.todos.todos.length) {
+      let newTodos = this.props.todos.todos
+      let allTodos = newTodos.map((todo)=>{
+        // debugger
+        let todoDiv =
+          <div>
+            <Todo todo={todo.title}/>
+          </div>
+        return todoDiv
+      })
+      self.setState({allTodos: allTodos})
+    }
+  }
 
   render() {
-    // let allTodos
-    // console.log(this.props)
-    // if(this.state.todos){
-    //
-    // }
     return (
       <div className="todos-div">
         <ul>

@@ -3,6 +3,8 @@ import Button from 'react-bootstrap/lib/Button';
 import Todos from '../state/todos'
 import { connect } from 'react-redux'
 import axios from 'axios';
+import { bindActionCreators } from 'redux';
+import {addTodo} from "../redux/actions/todoActions";
 
 
 class AddTodo extends Component {
@@ -14,8 +16,8 @@ class AddTodo extends Component {
   }
   handleAddPost(e){
     var title = {title: this.state.title}
-    debugger
     axios.post("http://localhost:4000/newTodo", title)
+    this.props.action(addTodo(title))
   }
 
   handleChange(e){
@@ -43,4 +45,17 @@ class AddTodo extends Component {
   }
 }
 
-export default AddTodo
+
+function mapStateToProps(state, prop) {
+  return {
+    todo: state.todo,
+    todos: state.todos
+  }
+}
+function mapDispatchToProps(dispatch) {
+  return {
+    action: bindActionCreators(addTodo, dispatch)
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(AddTodo)
