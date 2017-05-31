@@ -39,6 +39,25 @@ h2{
   border: 1px groove lightgrey;
   border-radius: 4px;
 }
+ul{
+  padding: 0;
+}
+li{
+  list-style: none;
+}
 .add-todo-div{
   margin: 5px;
+}
+.todo{
+  text-align: left;
+  padding: 10px;
+  font-size: 20px;
+  margin-bottom: 0;
+}
+.buttons{
+  text-align: right;
+  padding: 0 10px 0;
+}
+.btn-xs {
+  margin-left: 3px;
 }
