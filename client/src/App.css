@@ -29,10 +29,12 @@ h2{
 
 .main-div{
   border: 1px groove lightgrey;
-  max-width: 330px;
+  max-width: 630px;
   padding: 15px;
-  margin: 0 auto;
+  margin: 50px auto;
   margin-bottom: 5vw;
+  background-color: white;
+  box-shadow: 10px 10px 5px #888888;
 }
 .todos-div{
   margin: 5px;
