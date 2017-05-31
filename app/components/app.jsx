@@ -1,6 +1,6 @@
 import React from 'react';
 import {List, Map} from 'immutable'
-import Todo from '../../todo'
+import Todo from '../../models/todo'
 
 import TodoItem from './todoItem.jsx'
 
@@ -67,6 +67,12 @@ export default class App extends React.Component {
         server.on('disconnect', ()=>{
             this.setState({
                 cacheMode:true
+            })
+        });
+
+        server.on('connect', ()=>{
+            this.setState({
+                cacheMode:false
             })
         });
     }

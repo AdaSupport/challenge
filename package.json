@@ -4,7 +4,7 @@
   "description": "Our hiring challenge to full-stack developers",
   "main": "index.js",
   "scripts": {
-    "test": "npm test",
+    "test": "mocha 'tests/*.js' --timeout 30000",
     "start": "node server.js"
   },
   "repository": {
@@ -18,8 +18,10 @@
   },
   "homepage": "https://github.com/adasupport/challenge#readme",
   "dependencies": {
+    "chai": "^4.0.0",
     "express": "^4.14.0",
     "immutable": "^3.8.1",
+    "mocha": "^3.4.2",
     "react": "^15.5.4",
     "react-dom": "^15.5.4",
     "socket.io": "^1.7.4"

@@ -1,26 +1,23 @@
-const server = require('socket.io')();
+const socketIOServer = require('socket.io')();
 const firstTodos = require('./data');
-const Todo = require('./todo');
+const Todo = require('../models/todo');
 
 const express = require('express');
-const app = express();
+const expressServer = express();
 const path = require('path');
 const Immutable = require('immutable')
 
-
-app.use('/', express.static(path.join(__dirname, 'dist')))
-
-app.listen(3000);
 
 let DB = firstTodos.map((t) => {
     return new Todo(t.title);
 });
 
+socketIOServer.on('connection', (client) => {
 
-server.on('connection', (client) => {
+    console.log("client connected")
 
     const appendTodo = (todo) =>{
-        server.emit('append', todo);
+        socketIOServer.emit('append', todo);
     }
 
     // Accepts when a client makes a new todo
@@ -33,15 +30,15 @@ server.on('connection', (client) => {
     });
 
     client.on('remove', (index) => {
-        server.emit('remove', index);
+        socketIOServer.emit('remove', index);
     });
 
     client.on('removeAll', () => {
-        server.emit('removeAll');
+        socketIOServer.emit('removeAll');
     });
 
     client.on('undoRemove', () => {
-        server.emit('undoRemove');
+        socketIOServer.emit('undoRemove');
     });
 
     client.on('setDB', (todos)=>{
@@ -49,13 +46,19 @@ server.on('connection', (client) => {
     });
 
     client.on('setCheck', (index) => {
-        server.emit('setCheck', index);
+        socketIOServer.emit('setCheck', index);
     });
 
-    server.emit('load', DB);
+    socketIOServer.emit('load', DB);
 
 });
 
-console.log('Waiting for clients to connect');
+expressServer.use('/', express.static(path.join(__dirname, '../', 'dist')))
 
-server.listen(3003);
+
+module.exports={
+    expressServer:expressServer,
+    socketIOServer:socketIOServer
+}
+
+
