@@ -6,9 +6,12 @@
     "react-scripts": "1.0.7"
   },
   "dependencies": {
+    "jumpstate": "^2.2.2",
     "react": "^15.5.4",
     "react-bootstrap": "^0.31.0",
-    "react-dom": "^15.5.4"
+    "react-dom": "^15.5.4",
+    "react-redux": "^5.0.5",
+    "redux": "^3.6.0"
   },
   "scripts": {
     "start": "react-scripts start",
