@@ -7,12 +7,13 @@ var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 var mongo = require('mongodb');
 
-
 var index = require('./routes/index');
 var users = require('./routes/users');
 var app = express();
 
-
+mongoose.Promise = global.Promise;
+mongoose.connect('mongodb://chadd980:bakura@ds157621.mlab.com:57621/ada-todo');
+var db = mongoose.connection;
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
