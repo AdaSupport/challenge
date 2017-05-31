@@ -25,4 +25,15 @@ router.post('/newTodo', function(req, res, next) {
   res.json(newTodo)
 });
 
+// delete todo
+router.post("/remove", function(req, res){
+  var todo = req.body.title
+  console.log(req.body)
+  Todo.findOneAndRemove({"title":todo}, function(err, todo){
+    if(err) throw err
+    console.log(todo)
+    res.json(todo)
+  })
+})
+
 module.exports = router;
