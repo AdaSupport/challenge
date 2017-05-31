@@ -14,14 +14,12 @@ let DB = firstTodos.map((t) => {
 
 socketIOServer.on('connection', (client) => {
 
-    console.log("client connected")
-
     const appendTodo = (todo) =>{
         socketIOServer.emit('append', todo);
     }
 
     // Accepts when a client makes a new todo
-    client.on('make', (t) => {
+    client.on('append', (t) => {
         // Make a new todo
         const newTodo = new Todo(t.title);
 
@@ -47,6 +45,10 @@ socketIOServer.on('connection', (client) => {
 
     client.on('setCheck', (index) => {
         socketIOServer.emit('setCheck', index);
+    });
+
+    client.on('getDB', () => {
+        socketIOServer.emit('getDB', DB);
     });
 
     socketIOServer.emit('load', DB);

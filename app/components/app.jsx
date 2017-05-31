@@ -185,7 +185,7 @@ export default class App extends React.Component {
                 <button type="button"
                         className={btnClass}
                         onClick={()=>{
-                            cacheMode ? this.add() : server.emit('make', {title : todoInput})}}>
+                            cacheMode ? this.add() : server.emit('append', {title : todoInput})}}>
                     Add
                 </button>
                 <div>

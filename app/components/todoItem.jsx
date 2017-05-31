@@ -8,7 +8,7 @@ export default class TodoItem extends React.Component {
     }
 
     render() {
-        const {setCheck, index, todo, remove, mobile} = this.props;
+        const {setCheck, todo, remove, mobile} = this.props;
         const {title, checked} = todo;
 
         const {deleteIcon, mDeleteIcon, mTitle, mCheckbox} = style;
