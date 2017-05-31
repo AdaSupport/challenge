@@ -1,6 +1,6 @@
-#Henry's bonafide upgrade
+# Henry's bonafide upgrade
 
-##Instructions
+## Instructions
 ```
 npm install
 webpack
@@ -9,7 +9,7 @@ npm start
 
 To see the webpage, please go to http://localhost:3000 on your browser
 
-###Test
+### Test
 ```
 npm install -g mocha
 npm test
@@ -17,7 +17,7 @@ npm test
 
 _no need to run server. test script will run on its own. Make sure the main server isn't running though._
 
-##Bonus Features:
+## Bonus Features:
 can now undo remove single item and undo remove all items
 
 # Challenge
