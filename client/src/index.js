@@ -2,25 +2,17 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
 import registerServiceWorker from './registerServiceWorker';
-import { Provider } from 'react-redux'
-import { createStore, combineReducers, applyMiddleware } from 'redux'
-import { CreateJumpstateMiddleware } from 'jumpstate'
+import { Provider } from "react-redux"
+import store from "./redux/store"
+import { connect } from 'react-redux';
 import './index.css';
-import TodosState from './state/todos'
+// import Todos from './state/todos'
 
-const states = {
-  tasks: TodosState
-}
+const StoreInstance = store()
 
-const store = createStore(
-  combineReducers(states),
-  applyMiddleware(
-    CreateJumpstateMiddleware()
-  )
-)
 
 ReactDOM.render(
-  <Provider store={store}>
+  <Provider store={StoreInstance}>
     <App />
   </Provider>, document.getElementById('root'));
 registerServiceWorker();

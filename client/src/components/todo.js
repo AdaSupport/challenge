@@ -21,7 +21,7 @@ class Todo extends Component {
     }
     return (
       <div className="todo-div">
-        <p className="todo">finish challenge</p>
+        <p className="todo">{this.props.todo}</p>
         <div className="buttons">
           <Button onClick={this.handleCompleteClick} bsSize="xs" bsStyle={completedStyle} type="button"><span className="glyphicon glyphicon-ok todo-button"></span></Button>
           <Button bsSize="xs" bsStyle="danger" type="button"><span className="glyphicon glyphicon-remove todo-button"></span></Button>

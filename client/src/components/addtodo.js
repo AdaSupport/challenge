@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Button from 'react-bootstrap/lib/Button';
-import TodosState from '../state/todos'
+import Todos from '../state/todos'
 import { connect } from 'react-redux'
 import axios from 'axios';
 
@@ -13,7 +13,7 @@ class AddTodo extends Component {
     this.handleChange = this.handleChange.bind(this);
   }
   handleAddPost(e){
-    var title = this.state.title
+    var title = {title: this.state.title}
     debugger
     axios.post("http://localhost:4000/newTodo", title)
   }
@@ -24,20 +24,16 @@ class AddTodo extends Component {
     })
   }
 
-  componentDidMount(){
-    debugger
-    TodosState.getTodos()
-  }
 
   render() {
     return (
       <div className="add-todo-div">
         <div className="form">
           <div className="input-group">
-            <input type="text" className="form-control"/>
+            <input onChange={ this.handleChange} type="text" className="form-control"/>
             <span className="input-group-btn">
               <Button onClick={ this.handleAddPost } bsStyle="primary" type="button">
-                <span onChange={ this.handleChange} >Add Task</span>
+                <span >Add Task</span>
               </Button>
             </span>
           </div>
@@ -47,8 +43,4 @@ class AddTodo extends Component {
   }
 }
 
-export default connect(state => {
-  return {
-    todos: state.todo
-  }
-})(AddTodo);
+export default AddTodo
