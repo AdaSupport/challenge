@@ -4,8 +4,8 @@
   "description": "Our hiring challenge to full-stack developers",
   "main": "index.js",
   "scripts": {
-    "test": "mocha 'tests/*.js' --timeout 30000",
-    "start": "node server.js"
+    "test": "mocha 'tests/*.js' --timeout 60000",
+    "start": "node main.js"
   },
   "repository": {
     "type": "git",
@@ -24,7 +24,8 @@
     "mocha": "^3.4.2",
     "react": "^15.5.4",
     "react-dom": "^15.5.4",
-    "socket.io": "^1.7.4"
+    "socket.io": "^1.7.4",
+    "socket.io-client": "^2.0.1"
   },
   "devDependencies": {
     "babel-core": "^6.24.1",

@@ -1,7 +1,7 @@
 
 var should = require('chai').should()
     , server = require('../server/server').socketIOServer
-    , io = require('socket.io/node_modules/socket.io-client')
+    , io = require('socket.io-client')
     , ioOptions = {
         transports: ['websocket']
         , forceNew: true
