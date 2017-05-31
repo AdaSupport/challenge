@@ -7,9 +7,11 @@ var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 var mongo = require('mongodb');
 
-var index = require('./routes/index');
+var todo = require('./routes/todo');
 var users = require('./routes/users');
 var app = express();
+var cors = require('cors');
+
 
 mongoose.Promise = global.Promise;
 mongoose.connect('mongodb://chadd980:bakura@ds157621.mlab.com:57621/ada-todo');
@@ -26,8 +28,10 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(cors())
 
-app.use('/', index);
+
+app.use('/', todo);
 app.use('/users', users);
 
 // catch 404 and forward to error handler
