@@ -25,7 +25,8 @@ export default class App extends React.Component {
             todoInput:"",
             mobile: screen.width < 600,
             todos:[],
-            removedItems:[]
+            removedItems:[],
+            cacheMode:false
         }
     }
 
@@ -57,6 +58,16 @@ export default class App extends React.Component {
 
         server.on('undoRemove', () => {
             this.undoRemove()
+        });
+
+        server.on('setCheck', (index) => {
+            this.setCheck(index)
+        });
+
+        server.on('disconnect', ()=>{
+            this.setState({
+                cacheMode:true
+            })
         });
     }
 
@@ -156,7 +167,7 @@ export default class App extends React.Component {
     }
 
     render() {
-        const {todoInput, todos, mobile} = this.state;
+        const {todoInput, todos, mobile, cacheMode} = this.state;
         const {mInputBox,mBtn} = style;
         const btnClass = `${mobile? mBtn:""}`
 
@@ -168,25 +179,34 @@ export default class App extends React.Component {
                 <button type="button"
                         className={btnClass}
                         onClick={()=>{
-                            server.emit('make', {
-                                title : todoInput
-                            });
-
-                }}>Add</button>
+                            cacheMode ? this.add() : server.emit('make', {title : todoInput})}}>
+                    Add
+                </button>
                 <div>
-                    <button type="button" onClick={()=>{server.emit('removeAll')}} className={btnClass}>
+                    <button type="button" className={btnClass} onClick={()=>{
+                        cacheMode ? this.removeAll() : server.emit('removeAll')
+                    }}>
                         Remove All
                     </button>
-                    <button type="button" onClick={()=>{server.emit('undoRemove')}} className={btnClass}>Undo Remove</button>
+                    <button type="button" className={btnClass} onClick={()=>{
+                        cacheMode ? this.undoRemove() : server.emit('undoRemove')
+                    }} >
+                        Undo Remove
+                    </button>
 
                 </div>
 
                 <ul id="todo-list" className={style.todos}>
                     {todos.map((t, i)=>{
                         return (
-                            <TodoItem key={i} todo={t} index={i} setCheck={this.setCheck} remove={()=>{
-                                server.emit('remove', i);
-                            }} mobile={mobile}
+                            <TodoItem key={i} todo={t} index={i}
+                                      setCheck={()=>{
+                                          cacheMode ? this.setCheck(i) : server.emit('setCheck', i)
+                                      }}
+                                      remove={()=>{
+                                          cacheMode ? this.remove(i) : server.emit('remove', i)
+                                      }}
+                                      mobile={mobile}
                             />
                         )
                     })}

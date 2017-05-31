@@ -48,6 +48,10 @@ server.on('connection', (client) => {
         DB =  Immutable.List(todos).toArray();
     });
 
+    client.on('setCheck', (index) => {
+        server.emit('setCheck', index);
+    });
+
     server.emit('load', DB);
 
 });

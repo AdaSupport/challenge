@@ -21,7 +21,7 @@ export default class TodoItem extends React.Component {
                         className={`${mobile ? mCheckbox:""}`}
                         type="checkbox"
                         checked={checked}
-                        onChange={()=>setCheck(index)} />
+                        onChange={setCheck} />
                     <span className={`${mobile ? mTitle:""}`}>{title}</span>
 
             </li>
