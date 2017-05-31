@@ -28,7 +28,7 @@ describe('Server tests', function(){
     })
 
     describe('load test', function(){
-        it('', function(done){
+        it('should have multiple items on load', function(done){
             receiver.on('load', function(data){
              data.length.should.be.greaterThan(0);
                 done()
