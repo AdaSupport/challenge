@@ -11,7 +11,7 @@ class AllTodos extends Component {
 
   constructor(props) {
     super(props);
-    this.state = {allTodos: null}
+    this.state = {allTodos: []}
   }
 
   componentDidMount(){
@@ -57,12 +57,12 @@ class AllTodos extends Component {
   componentDidUpdate(){
     let self = this
     // create localStorage to use if there is no connection and if it was not already created
-    if(localStorage.getItem('allTodos') !== this.state.allTodos) {
+    if(localStorage.setItem('allTodos', JSON.stringify(this.props.todos.todos)) !== this.state.allTodos) {
       localStorage.setItem('allTodos', JSON.stringify(this.props.todos.todos))
     }
     // if todo is added new div is pushed to the list of todos
     if(this.state.allTodos && this.state.allTodos.length < this.props.todos.todos.length){
-      let todos = this.state.todos
+      let todos = this.props.todos.todos
       let todo = todos[todos.length - 1]
       let oldTodos = this.state.allTodos
       let todoDiv =

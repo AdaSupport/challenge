@@ -4,3 +4,9 @@ body {
   font-family: sans-serif;
   background-color: #18bc9c;
 }
+@media (max-width: 768px){
+  body, #root {
+    width: 100%;
+    height: 100%;
+  }
+}
