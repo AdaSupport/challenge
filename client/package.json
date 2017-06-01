@@ -8,7 +8,9 @@
   "dependencies": {
     "jumpstate": "^2.2.2",
     "react": "^15.5.4",
+    "react-alert": "^2.0.1",
     "react-bootstrap": "^0.31.0",
+    "react-confirm-bootstrap": "^3.1.4",
     "react-dom": "^15.5.4",
     "react-redux": "^5.0.5",
     "redux": "^3.6.0"

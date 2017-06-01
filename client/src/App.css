@@ -36,6 +36,19 @@ h2{
   background-color: white;
   box-shadow: 10px 10px 5px #888888;
 }
+@media (max-width: 768px){
+  .main-div {
+    max-width: 100%;
+    margin: 0;
+  }
+}
+@media (min-width: 768px) {
+  .container {
+    max-width: 630px;
+    margin: 50px auto;
+  }
+}
+
 .todos-div{
   margin: 5px;
   border: 1px groove lightgrey;

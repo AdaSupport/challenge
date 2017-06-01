@@ -1,6 +1,6 @@
 export default function reducer(state={
   todos: {
-    todos: null
+    todos: []
   }
 }, action) {
   switch (action.type) {
@@ -20,18 +20,23 @@ export default function reducer(state={
         }
         case "REMOVE_TODO":
           let todos = state.todos.todos
-          let reducedTodos = todos.map((todo, index)=>{
+          todos.map((todo, index)=>{
             if(todo.title === action.todo.todo){
               todos.splice(index, 1)
-              debugger
             }
           })
           return {...state,
             todos: {
               todos: todos,
-              todo : action.todo.todo
+              todo : action.todo.todo,
             }
           }
+          case "REMOVE_ALL":
+            return {...state,
+              todos: {
+                todos: []
+              }
+            }
     default:
       return state;
   }

@@ -4,6 +4,8 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux';
 import {removeTodo} from "../redux/actions/todoActions";
 import axios from 'axios';
+var Confirm = require('react-confirm-bootstrap');
+
 
 
 class Todo extends Component {
@@ -11,7 +13,7 @@ class Todo extends Component {
     super(props);
     this.state = { completed: false, deleted: false};
     this.handleCompleteClick = this.handleCompleteClick.bind(this);
-    this.handledeleteClick = this.handledeleteClick.bind(this);
+    this.handleDeleteClick = this.handleDeleteClick.bind(this);
   }
 
   handleCompleteClick(){
@@ -20,28 +22,36 @@ class Todo extends Component {
     });
   }
 
-  handledeleteClick(){
+  handleDeleteClick(){
     let todo = {title: this.props.todo}
     axios.post("http://localhost:4000/remove", todo)
     this.props.action(removeTodo(this.props.todo))
   }
+
   render() {
     let completedButtonStyle = "inverse"
     let todoStyle
     if(this.state.completed){
-      debugger
       completedButtonStyle = "primary"
       todoStyle = {
-        "background-color": "lightgrey"
-        
+        "backgroundColor": "lightgrey",
+        "opacity": "0.3"
       }
     }
+    let deleteTodo =
+      <Confirm
+          onConfirm={this.handleDeleteClick}
+          body="Are you sure you want to delete this todo task?"
+          confirmText="Confirm Delete"
+          title="Deleting Stuff">
+          <Button bsSize="xs" bsStyle="danger" type="button"><span className="glyphicon glyphicon-remove todo-button"></span></Button>
+      </Confirm>
     return (
       <div style={todoStyle} className="todo-div">
         <p className="todo">{this.props.todo}</p>
         <div className="buttons">
           <Button onClick={this.handleCompleteClick} bsSize="xs" bsStyle={completedButtonStyle} type="button"><span className="glyphicon glyphicon-ok todo-button"></span></Button>
-          <Button onClick={this.handledeleteClick} bsSize="xs" bsStyle="danger" type="button"><span className="glyphicon glyphicon-remove todo-button"></span></Button>
+          {deleteTodo}
         </div>
       </div>
     );

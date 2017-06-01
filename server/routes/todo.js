@@ -36,4 +36,11 @@ router.post("/remove", function(req, res){
   })
 })
 
+// delete all todos
+router.post("/removeAll", function(req, res){
+  Todo.remove({}, function(err, todo){
+    if(err) throw err
+  })
+})
+
 module.exports = router;

@@ -18,3 +18,9 @@ export const removeTodo = (todo) => {
     todo
   }
 }
+
+export const removeAll = () => {
+  return {
+    type: "REMOVE_ALL"
+  }
+}
