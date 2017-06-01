@@ -17,6 +17,7 @@ export default class App extends React.Component {
         this.remove=this.remove.bind(this);
         this.handleTodoInputChange = this.handleTodoInputChange.bind(this);
         this.setCheck = this.setCheck.bind(this)
+        this.checkAll = this.checkAll.bind(this)
         this.completeAll = this.completeAll.bind(this)
         this.removeAll = this.removeAll.bind(this);
         this.undoRemove = this.undoRemove.bind(this);
@@ -62,6 +63,10 @@ export default class App extends React.Component {
 
         server.on('setCheck', (index) => {
             this.setCheck(index)
+        });
+
+        server.on('checkAll', () => {
+            this.checkAll()
         });
 
         server.on('disconnect', ()=>{
@@ -151,6 +156,19 @@ export default class App extends React.Component {
         }, ()=>{server.emit('setDB', [])})
     }
 
+    checkAll(){
+        const {todos} = this.state;
+
+        const newTodos = this.state.todos.map((t)=>{
+            t.checked=true;
+            return t;
+        })
+
+        this.setState({
+            todos: newTodos,
+            removedItems:todos
+        }, ()=>{server.emit('setDB', newTodos)})
+    }
 
     setCheck(index){
         const {todos} = this.state;
@@ -189,6 +207,11 @@ export default class App extends React.Component {
                     Add
                 </button>
                 <div>
+                    <button type="button" className={btnClass} onClick={()=>{
+                        cacheMode ? this.checkAll() : server.emit('checkAll')
+                    }}>
+                        Complete All
+                    </button>
                     <button type="button" className={btnClass} onClick={()=>{
                         cacheMode ? this.removeAll() : server.emit('removeAll')
                     }}>

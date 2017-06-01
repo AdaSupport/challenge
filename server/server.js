@@ -31,6 +31,10 @@ socketIOServer.on('connection', (client) => {
         socketIOServer.emit('remove', index);
     });
 
+    client.on('checkAll', () => {
+        socketIOServer.emit('checkAll');
+    });
+
     client.on('removeAll', () => {
         socketIOServer.emit('removeAll');
     });
