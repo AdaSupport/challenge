@@ -41,7 +41,7 @@ export default class App extends React.Component {
 
         server.on('load', (todos) => {
             this.setState({
-                todos:todos
+                todos
             })
         });
 
@@ -100,6 +100,7 @@ export default class App extends React.Component {
         const newTodosArr = newTodos.toArray()
 
         this.setState({
+            todoInput:"",
             todos: newTodosArr
         }, ()=>{server.emit('setDB', newTodosArr)})
 
@@ -195,15 +196,24 @@ export default class App extends React.Component {
         const {mInputBox,mBtn} = style;
         const btnClass = `${mobile? mBtn:""}`
 
+        const addTodoOp =()=>{
+            cacheMode ? this.add() : server.emit('append', {title : todoInput})
+        }
+
         return (
             <div>
                 <input id="todo-input" type="text" placeholder="Feed the cat" value={todoInput}
                        className={`${mobile?mInputBox:""}`}
-                       onChange={this.handleTodoInputChange} autoFocus />
+                       onChange={this.handleTodoInputChange}
+                       onKeyPress={(e)=>{
+                           if (e.key === 'Enter') {
+                               addTodoOp()
+                           }
+                       }}
+                       autoFocus />
                 <button type="button"
                         className={btnClass}
-                        onClick={()=>{
-                            cacheMode ? this.add() : server.emit('append', {title : todoInput})}}>
+                        onClick={addTodoOp}>
                     Add
                 </button>
                 <div>
