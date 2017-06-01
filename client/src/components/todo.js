@@ -29,9 +29,11 @@ class Todo extends Component {
     let completedButtonStyle = "inverse"
     let todoStyle
     if(this.state.completed){
+      debugger
       completedButtonStyle = "primary"
       todoStyle = {
         "background-color": "lightgrey"
+        
       }
     }
     return (

@@ -63,3 +63,12 @@ li{
 .btn-xs {
   margin-left: 3px;
 }
+.buttonToRuleThemAll{
+  margin: 4px 2px 0;
+}
+.completed{
+  background-color: white;
+}
+.notCompleted{
+  background-color: lightgrey;
+}

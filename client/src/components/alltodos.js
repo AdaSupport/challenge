@@ -31,7 +31,7 @@ class AllTodos extends Component {
           let allTodos = initialTodos.map((todo)=>{
             let todoDiv =
               <div>
-                <Todo todo={todo.title}/>
+                <Todo completed={self.props.completed} todo={todo.title}/>
               </div>
             return todoDiv
           })
@@ -48,7 +48,7 @@ class AllTodos extends Component {
       let oldTodos = this.state.allTodos
       let todoDiv =
         <div>
-          <Todo todo={newTodo.title}/>
+          <Todo completed={self.props.completed} todo={newTodo.title}/>
         </div>
       oldTodos.push(todoDiv)
       this.setState({allTodos: oldTodos})
@@ -58,7 +58,7 @@ class AllTodos extends Component {
         // debugger
         let todoDiv =
           <div>
-            <Todo todo={todo.title}/>
+            <Todo completed={self.props.completed} todo={todo.title}/>
           </div>
         return todoDiv
       })
@@ -68,7 +68,7 @@ class AllTodos extends Component {
 
   render() {
     return (
-      <div className="todos-div">
+      <div>
         <ul>
           <li>
             {this.state.allTodos}

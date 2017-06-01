@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import Button from 'react-bootstrap/lib/Button';
-import Todos from '../state/todos'
 import { connect } from 'react-redux'
 import axios from 'axios';
 import { bindActionCreators } from 'redux';
