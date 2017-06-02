@@ -1,36 +1,62 @@
-// FIXME: Feel free to remove this :-)
-console.log('\n\nGood Luck! 😅\n\n');
-
 const server = require('socket.io')();
 const firstTodos = require('./data');
 const Todo = require('./todo');
 
-server.on('connection', (client) => {
-    // This is going to be our fake 'database' for this application
-    // Parse all default Todo's from db
+let DB = firstTodos.map(t => {
+    return new Todo(t.title);
+});
 
-    // FIXME: DB is reloading on client refresh. It should be persistent on new client connections from the last time the server was run...
-    const DB = firstTodos.map((t) => {
-        // Form new Todo objects
-        return new Todo(title=t.title);
+const reloadTodos = () => {
+    server.emit('load', DB);
+}
+
+const createTodo = (response) => {
+    const newTodo = new Todo(response.title);
+    DB.push(newTodo);
+
+    // Timeout to simulate delayed response
+    setTimeout(() => { 
+        postTodo(newTodo); 
+    }, 3000);
+}
+
+const postTodo = (newTodo) => {
+    server.emit('post', newTodo);
+}
+
+const deleteTodo = (response) => {
+    DB = DB.filter(function(t) {
+        return t.id !== response.todo.id;
     });
 
-    // Sends a message to the client to reload all todos
-    const reloadTodos = () => {
-        server.emit('load', DB);
-    }
+    server.emit('delete', response.todo.id);
+}
+
+const updateTodo = (response) => {
+    DB.forEach((t, i) => {
+        if (t.id === response.todo.id) {
+            DB[i] = response.todo;
+        }
+    });
+
+    server.emit('update', response.todo);
+}
+
+server.on('connection', (client) => {
 
     // Accepts when a client makes a new todo
-    client.on('make', (t) => {
-        // Make a new todo
-        const newTodo = new Todo(title=t.title);
+    client.on('make', response => {
+        createTodo(response);
+    });
 
-        // Push this newly created todo to our database
-        DB.push(newTodo);
+    // Accepts when a client deletes a new todo
+    client.on('delete', response => {
+        deleteTodo(response);
+    });
 
-        // Send the latest todos to the client
-        // FIXME: This sends all todos every time, could this be more efficient?
-        reloadTodos();
+    // Accepts when a client updates a new todo
+    client.on('update', response => {
+        updateTodo(response);
     });
 
     // Send the DB downstream on connect
@@ -39,3 +65,12 @@ server.on('connection', (client) => {
 
 console.log('Waiting for clients to connect');
 server.listen(3003);
+
+
+module.exports = {
+    server,
+    postTodo,
+    deleteTodo,
+    createTodo,
+    DB
+}
