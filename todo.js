@@ -1,5 +1,9 @@
-module.export = class Todo {
-    constructor(title='') {
-        this.title = title
+const uuid = require('node-uuid');
+
+module.exports = class Todo {
+    constructor(title='', isCompleted=false) {
+        this.title = title,
+        this.id = uuid.v4(),
+        this.isCompleted = isCompleted
     }
 }
