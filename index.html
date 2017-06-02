@@ -2,13 +2,37 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <title>TODO</title>
         <script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
+
+        <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <link type="text/css" rel="stylesheet" href="node_modules/materialize-css/dist/css/materialize.css"  media="screen,projection"/>
+        <link type="text/css" rel="stylesheet" href="index_style.css"/>
+
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     </head>
+
     <body>
-        <input id="todo-input" type="text" placeholder="Feed the cat" autofocus>
-        <button type="button" onclick="add()">Make</button>
-        <ul id="todo-list"></ul>
+        <div id="todo-list"></div>
+
+        <footer id="footer">
+            <div class="container">
+                <div id="control" class="input-field">
+                    <input class="mdl-textfield__input" id="todo-input" type="text">
+                    <label class="mdl-textfield__label" for="todo-input">New Task</label>
+                </div>
+            <div>
+            <div class="row">
+                <div class="col s12">
+                    <button id="make_btn" class="waves-effect btn ctrl" type="button" onclick="addTask()">Make</button>
+                    <button class="waves-effect btn ctrl" type="button" onclick="completeAllTasks()">Complt All</button>
+                    <button class="waves-effect btn ctrl" type="button" onclick="deleteAllTasks()">Dlt All</button>
+                    <button class="waves-effect btn ctrl" type="button" onclick="deleteAllCompletedTasks()">Dlt Compltd</button>
+                </div>
+            </div>
+        </footer>  
     </body>
+
     <script src="client.js" async></script>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script type="text/javascript" src="node_modules/materialize-css/dist/js/materialize.js"></script>
 </html>
