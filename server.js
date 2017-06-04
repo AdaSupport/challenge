@@ -19,6 +19,7 @@ const DB = firstTodos.map((t) => {
     return new Todo(title=t.title, status='active');
 });
 
+// Hybrid of db and sessionStorage, foot print login system, auth token in Db
 
 // Express server
 app.use('/', express.static(__dirname + '/'));

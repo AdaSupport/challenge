@@ -1,4 +1,14 @@
-# Challenge
+# My Submission
+I fixed the TODO list and focused on what I excel at, adding a better design and including interesting interactions.
+Instead of just making it work I also decided to have some fun with it and add some branding as well.
+Here are some screenshots of what that looks like:
+![Screenshot 1 of ToodleDo](https://www.dropbox.com/s/732o2dqsbnpblpf/Screenshot%202017-06-04%2009.05.24.png?dl=0)
+![Screenshot 2 of ToodleDo](https://www.dropbox.com/s/fwbfvhc8ubp1spg/Screenshot%202017-06-04%2009.05.49.png?dl=0)
+![Screenshot 3 of ToodleDo](https://www.dropbox.com/s/at6yq6zh1huo9i8/Screenshot%202017-06-04%2009.06.02.png?dl=0)
+![Screenshot 4 of ToodleDo](https://www.dropbox.com/s/oety09wqsf9c59d/Screenshot%202017-06-04%2009.06.30.png?dl=0)
+![Screenshot 5 of ToodleDo](https://www.dropbox.com/s/86lq9fbvg558j1n/Screenshot%202017-06-04%2009.07.25.png?dl=0)
+
+# The Challenge
 Hello :wave:
 
 This is our challenge for potential new team members. The code is for a simple real-time TODO app. The challenge here is to fix some bugs, make some improvements and push your code for evaluation by @davidhariri.
