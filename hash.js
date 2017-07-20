@@ -29,11 +29,9 @@ function Hash()
         if (typeof(in_value) != 'undefined') {
             if (typeof(this.items[in_key]) == 'undefined') {
                 this.length++;
-                console.log(this.items);
                 this.items[in_key] = in_value;
-                console.log(this.items);
             } else{
-                this.items[in_key].push(in_value);
+                
             }
         }
         return in_value;

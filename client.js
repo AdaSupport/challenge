@@ -1,6 +1,9 @@
 const server = io('http://localhost:3003/');
 const list = document.getElementById('todo-list');
 var completedAll;
+
+var hashTable = new Hash();
+var counter=0;
 // NOTE: These are all our globally scoped functions for interacting with the server
 // This function adds a new todo from the input
 function add() {
@@ -40,12 +43,21 @@ function render(todo) {
 server.on('load', (todos) => {
     console.log("todos size: "+todos.length)
     $("ul").empty();
-    todos.forEach((todo) => render(todo));
+    todos.forEach((todo) => {
+
+        //populate hash table with key = todo.title, value = index of hash
+        //allows us to get index of todo item by searching the title
+        hashTable.setItem(todo.title, counter);
+        counter++;
+        render(todo);
+    });
 });
 
 server.on('returnValue', (value)=>{
     console.log('value: '+value);
 });
+
+
 //Function corresponding to the Complete All button
 function completeAll(){
     $(".checkbox").prop("checked",true);
@@ -64,9 +76,12 @@ function archive(){
     $('label').each(function(){
         var checkbox = $(this).siblings();
         if(checkbox.is(':checked')){
-            completedArray.push($(this).text());
+            //completedArray.push
+            completedArray.push(hashTable.getItem($(this).text()));
+            
         }
     })
+    console.log(completedArray);
     server.emit('archive',completedArray);
 }
 

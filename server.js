@@ -5,12 +5,9 @@ const server = require('socket.io')();
 const firstTodos = require('./data');
 const Todo = require('./todo');
 
-
 var i;
 
-//create hash tabel from hash.js
-var hashTable = new Hash();
-
+var counter=0;
 
 server.on('connection', (client) => {
     // This is going to be our fake 'database' for this application
@@ -19,9 +16,9 @@ server.on('connection', (client) => {
     // FIXME: DB is reloading on client refresh. It should be persistent on new client connections from the last time the server was run...
     const DB = firstTodos.map((t) => {
         // Form new Todo objects
-        hashTabel
         return new Todo(title=t.title, completed=t.completed);
     });
+
 
     // Sends a message to the client to reload all todos
     const reloadTodos = () => {
@@ -56,12 +53,9 @@ server.on('connection', (client) => {
 
     client.on('archive',(completedArray)=>{
         for(i=0;i<completedArray.length;i++){
-            var todo = new Todo(title='test',completed=false);
-            var index = DB.indexOf(todo);
-            server.emit('returnValue',index);
-            if(index>-1)
-                DB[index].completed=true;
+            DB[completedArray[i]].completed = true;
         }
+        reloadTodos();
     }); 
 
 
