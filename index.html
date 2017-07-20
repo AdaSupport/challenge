@@ -1,14 +1,24 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="utf-8">
-        <title>TODO</title>
-        <script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
-    </head>
-    <body>
-        <input id="todo-input" type="text" placeholder="Feed the cat" autofocus>
-        <button type="button" onclick="add()">Make</button>
-        <ul id="todo-list"></ul>
-    </body>
-    <script src="client.js" async></script>
+<head>
+    <meta charset="utf-8">
+    <title>TODO</title>
+    <script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
+    <script
+    src="https://code.jquery.com/jquery-3.2.1.min.js"
+    integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+    crossorigin="anonymous"></script>
+    <link rel="stylesheet" type="text/css" href="app.css">
+</head>
+<body>
+    <input id="todo-input" type="text" placeholder="Feed the cat" autofocus>
+    <button type="button" onclick="add()">Make</button>
+    <button type="button" onclick="completeAll()">Complete All</button>
+    <button type="button" id="undoButton" onclick="undoCompleteAll()">Undo</button>
+    <button type="button" id="archiveButton" onclick="archive()">Archive</button>
+    <ul id="todo-list"></ul>
+</body>
+<script type="text/javascript" src="hash.js"></script>
+<script type="text/javascript" src="accessories.js"></script>
+<script src="client.js" async></script>
 </html>

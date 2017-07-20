@@ -1,0 +1,7 @@
+#undoButton{
+	display: none;
+}
+/**Strikethrough when checkbox is selected**/
+input[type=checkbox]:checked + label.strikethrough{
+	text-decoration: line-through;
+}

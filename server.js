@@ -5,6 +5,13 @@ const server = require('socket.io')();
 const firstTodos = require('./data');
 const Todo = require('./todo');
 
+
+var i;
+
+//create hash tabel from hash.js
+var hashTable = new Hash();
+
+
 server.on('connection', (client) => {
     // This is going to be our fake 'database' for this application
     // Parse all default Todo's from db
@@ -12,29 +19,59 @@ server.on('connection', (client) => {
     // FIXME: DB is reloading on client refresh. It should be persistent on new client connections from the last time the server was run...
     const DB = firstTodos.map((t) => {
         // Form new Todo objects
-        return new Todo(title=t.title);
+        hashTabel
+        return new Todo(title=t.title, completed=t.completed);
     });
 
     // Sends a message to the client to reload all todos
     const reloadTodos = () => {
-        server.emit('load', DB);
+        //Creates an array of the uncompleted tasks
+        var uncompletedDB = [];
+        for(i=0;i<DB.length;i++){
+            if(!DB[i].completed){
+                uncompletedDB.push(DB[i]);
+            }
+        }
+        //emit uncompleted tasks only
+        server.emit('load', uncompletedDB);
     }
 
     // Accepts when a client makes a new todo
     client.on('make', (t) => {
         // Make a new todo
-        const newTodo = new Todo(title=t.title);
+        const newTodo = new Todo(title=t.title, completed=false);
 
         // Push this newly created todo to our database
         DB.push(newTodo);
 
+        //Updates data.json so that new users will load the all the updated todos from the DB
+        firstTodos.push({
+            title: t.title
+        });
+
         // Send the latest todos to the client
-        // FIXME: This sends all todos every time, could this be more efficient?
         reloadTodos();
     });
 
+
+    client.on('archive',(completedArray)=>{
+        for(i=0;i<completedArray.length;i++){
+            var todo = new Todo(title='test',completed=false);
+            var index = DB.indexOf(todo);
+            server.emit('returnValue',index);
+            if(index>-1)
+                DB[index].completed=true;
+        }
+    }); 
+
+
+
+
+
     // Send the DB downstream on connect
     reloadTodos();
+    
+
 });
 
 console.log('Waiting for clients to connect');
