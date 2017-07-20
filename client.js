@@ -9,15 +9,20 @@ var counter=0;
 function add() {
     console.warn(event);
     const input = document.getElementById('todo-input');
-    console.log("input: "+input.value);
     // Emit the new todo as some data to the server
-    server.emit('make', {
-        title: input.value
+    hashTable.setItem(input.title, counter);
+    counter++;
+    server.emit('add', {
+        title: input.value,
+        completed: false
     });
 
     // Clear the input
     input.value = '';
     // TODO: refocus the element
+
+
+    
 }
 
 function render(todo) {
@@ -41,20 +46,23 @@ function render(todo) {
 // NOTE: These are listeners for events from the server
 // This event is for (re)loading the entire list of todos from the server
 server.on('load', (todos) => {
-    console.log("todos size: "+todos.length)
+    hashTable = new Hash();
+    counter=0;
     $("ul").empty();
     todos.forEach((todo) => {
 
         //populate hash table with key = todo.title, value = index of hash
         //allows us to get index of todo item by searching the title
-        hashTable.setItem(todo.title, counter);
-        counter++;
-        render(todo);
+        if(todos.length>0){
+            hashTable.setItem(todo.title, counter);
+            counter++;
+            render(todo);
+        }
     });
 });
 
 server.on('returnValue', (value)=>{
-    console.log('value: '+value);
+    console.log(value);
 });
 
 
@@ -72,16 +80,16 @@ function undoCompleteAll(){
 }   
 
 function archive(){
-    var completedArray = [];
+    var completedArrayIndex = [];
     $('label').each(function(){
         var checkbox = $(this).siblings();
         if(checkbox.is(':checked')){
             //completedArray.push
-            completedArray.push(hashTable.getItem($(this).text()));
+            counter--;
+            completedArrayIndex.push(hashTable.getItem($(this).text()));
             
         }
-    })
-    console.log(completedArray);
-    server.emit('archive',completedArray);
+    });
+    server.emit('archive',completedArrayIndex);
 }
 
