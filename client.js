@@ -1,4 +1,19 @@
 const server = io('http://localhost:3003/');
+server.on('connect_error', function(err) {
+  // handle server error here
+  console.log('Error connecting to server');
+  if (typeof(Storage) !== "undefined") {
+
+    //FIX LOCALSTORAGE
+    var todos = localStorage['offlineTodoItems'];
+    console.log(todos);
+    offlineLoad(JSON.parse(todos));
+
+} else {
+    alert("You are Disconnected");
+}
+});
+
 const list = document.getElementById('todo-list');
 var completedAll;
 
@@ -19,10 +34,6 @@ function add() {
 
     // Clear the input
     input.value = '';
-    // TODO: refocus the element
-
-
-    
 }
 
 function render(todo) {
@@ -46,20 +57,49 @@ function render(todo) {
 // NOTE: These are listeners for events from the server
 // This event is for (re)loading the entire list of todos from the server
 server.on('load', (todos) => {
+    
+    //Use local storage to save most recent list of todo items
+    localStorage.setItem("offlineTodoItems",todos);
+    hashTable = new Hash();
+    counter=0;
+    $("ul").empty();
+
+    var localStorageStringArray = [];
+
+    todos.forEach((todo) => {
+        //hash table -> searching for title = O(1)
+        if(todos.length>0){
+            hashTable.setItem(todo.title, counter);
+            counter++;
+
+
+            //FIX THIS
+            localStorageStringArray.push(todo.title);
+            render(todo);
+        }
+
+    });
+    console.log(localStorageStringArray);
+    localStorage["offlineTodoItems"] = JSON.stringify(localStorageStringArray);
+});
+
+
+function offlineLoad(todos){
     hashTable = new Hash();
     counter=0;
     $("ul").empty();
     todos.forEach((todo) => {
-
-        //populate hash table with key = todo.title, value = index of hash
-        //allows us to get index of todo item by searching the title
         if(todos.length>0){
             hashTable.setItem(todo.title, counter);
             counter++;
-            render(todo);
+            render({
+                title: todo,
+                completed: false
+            });
         }
     });
-});
+}
+
 
 server.on('returnValue', (value)=>{
     console.log(value);
@@ -79,12 +119,12 @@ function undoCompleteAll(){
     $('#undoButton').css('display','none');
 }   
 
+//Function corresponding to the Archive button
 function archive(){
     var completedArrayIndex = [];
     $('label').each(function(){
         var checkbox = $(this).siblings();
         if(checkbox.is(':checked')){
-            //completedArray.push
             counter--;
             completedArrayIndex.push(hashTable.getItem($(this).text()));
             

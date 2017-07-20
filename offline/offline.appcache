@@ -1,0 +1,12 @@
+CACHE:
+../accessories.js
+../app.css
+../index.html
+../hash.js
+../client.js
+../todo.js
+
+FALLBACK:
+/ /offline.html
+
+NETWORK:
