@@ -8,7 +8,7 @@ const Todo = require('./todo');
 var i;
 
 var counter=0;
-
+var uncompletedDB = [];
 server.on('connection', (client) => {
     // This is going to be our fake 'database' for this application
     // Parse all default Todo's from db
@@ -23,10 +23,10 @@ server.on('connection', (client) => {
     // Sends a message to the client to reload all todos
     const reloadTodos = () => {
         //Creates an array of the uncompleted tasks
-        var uncompletedDB = [];
+        uncompletedDB=[];
         for(i=0;i<DB.length;i++){
             if(!DB[i].completed){
-                uncompletedDB.push(DB[i]);
+                uncompletedDB[i]=DB[i];
             }
         }
         //emit uncompleted tasks only
@@ -53,7 +53,7 @@ server.on('connection', (client) => {
 
     client.on('archive',(completedArray)=>{
         for(i=0;i<completedArray.length;i++){
-            DB[completedArray[i]].completed = true;
+            uncompletedDB[completedArray[i]].completed = true;
         }
         reloadTodos();
     }); 
