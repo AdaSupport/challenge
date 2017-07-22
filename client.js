@@ -3,34 +3,39 @@ const server = io('http://localhost:3003/');
 
 const list = document.getElementById('todo-list');
 
-var hashTable = new Hash();
+var titleHashTable = new Hash();
 var hashIndexCounter=0;
 var offlineAddedTodos = [];
-
-
+var inProgressArray = [];
+var inProgressHashTable = new Hash;
 // This function adds a new todo from the input
 function add() {
     console.warn(event);
     const input = document.getElementById('todo-input');
-    // Emit the new todo as some data to the server
-    hashTable.setItem(input.title, hashIndexCounter);
-    hashIndexCounter++;
-    
-    //emit new todo item only if server is connected
+    //Emit input text to server only if input != empty
+    if(input.value.length>0){
+        titleHashTable.setItem(input.value, hashIndexCounter);
+        hashIndexCounter++;
 
-    server.emit('add', {
-        title: input.value,
-        completed: false
-    });
-    
+
+        server.emit('add', {
+            title: input.value,
+            completed: false
+        });
+
 
 
     // Clear the input
     input.value = '';
 }
 
+}
+
 //Place each todo item into a div containing an image and span with innerHTML == todo.title
 function render(todo) {
+
+    console.log(todo.inProgress);
+    // console.log(todo);
     var rowDiv = document.createElement('div');
     var imageDiv = document.createElement('div')
     rowDiv.setAttribute('class','list-item-row');
@@ -55,6 +60,7 @@ function render(todo) {
     //Helper function from accessories.js
     setAttributes(inputItem, {"type": "checkbox", "class": "checkbox"});
 
+
     imageDiv.append(input);
     rowDiv.append(imageDiv);
     rowDiv.append(inputText);
@@ -67,25 +73,33 @@ function render(todo) {
 server.on('load', (todos) => {
     //Use local storage to save most recent list of todo items
     localStorage.setItem("offlineTodoItems",todos);
-    hashTable = new Hash();
+    titleHashTable = new Hash();
     hashIndexCounter=0;
     $("#todo-list").empty();
     $('#all-button').innerHTML = 'Complete All';
 
     var localStorageStringArray = [];
-
+    var index=0;
     todos.forEach((todo) => {
         //hash table -> searching for title = O(1)
         if(todos.length>0){
-            hashTable.setItem(todo.title, hashIndexCounter);
+            titleHashTable.setItem(todo.title, hashIndexCounter);
             hashIndexCounter++;
 
             //push each todo item to localstorage in case of disconnect
-            localStorageStringArray.push(todo.title);
+            localStorageStringArray.push({
+                title: todo.title
+            });
+            if(todo.inProgress){
+                inProgressArray.push(index);
+            }
             render(todo);
         }
-
+        index++;
     });
+    console.log(inProgressArray);
+    localStorage['inProgressArray']= JSON.stringify(inProgressArray);
+    console.log(localStorage['inProgressArray']);
     localStorage["offlineTodoItems"] = JSON.stringify(localStorageStringArray);
 });
 
@@ -102,7 +116,7 @@ function Delete(){
         if($(this).hasClass('check')){
             hashIndexCounter--;
             var checkBoxText = $(this).parent().siblings();
-            completedArrayIndex.push(hashTable.getItem(checkBoxText.text()));
+            completedArrayIndex.push(titleHashTable.getItem(checkBoxText.text()));
         }
     });
     console.log(completedArrayIndex);
@@ -110,12 +124,13 @@ function Delete(){
 }
 
 
-//Event listener for disconnect from server
+//Event listener for disconnect from server. Checks if browser supports local storage
 server.on('connect_error', function(err) {
   console.log('Error connecting to server');
   if (typeof(Storage) !== "undefined") {
+    var inProgress = localStorage['inProgressArray'];
     var todos = localStorage['offlineTodoItems'];
-    offlineLoad(JSON.parse(todos));
+    offlineLoad(JSON.parse(todos),JSON.parse(inProgress));
 } else {
     alert("You are Disconnected");
 }
@@ -123,25 +138,31 @@ server.on('connect_error', function(err) {
 
 
 //function to load todos from localstorage
-function offlineLoad(todos){
-    hashTable = new Hash();
+function offlineLoad(todos, inProgress){
+    var index=0;
+    titleHashTable = new Hash();
     hashIndexCounter=0;
-    $("ul").empty();
+    $("#todo-list").empty();
     todos.forEach((todo) => {
         if(todos.length>0){
-            hashTable.setItem(todo.title, hashIndexCounter);
+            titleHashTable.setItem(todo, hashIndexCounter);
             hashIndexCounter++;
+
+            var contains = inProgress
+            var inProgressStatus= (inProgress.indexOf(index)>-1) ? true : false;
             render({
                 title: todo,
-                completed: false
+                completed: false,
+                inProgress: inProgressStatus
             });
         }
+        index++;
     });
 }
 
 
 function emitInProgress(inProgressText){
-    var inProgressIndex = hashTable.getItem(inProgressText);
+    var inProgressIndex = titleHashTable.getItem(inProgressText);
     console.log(inProgressIndex);
     server.emit('inProgress', inProgressIndex);
 
