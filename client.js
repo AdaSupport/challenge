@@ -33,9 +33,6 @@ function add() {
 
 //Place each todo item into a div containing an image and span with innerHTML == todo.title
 function render(todo) {
-
-    console.log(todo.inProgress);
-    // console.log(todo);
     var rowDiv = document.createElement('div');
     var imageDiv = document.createElement('div')
     rowDiv.setAttribute('class','list-item-row');
@@ -97,9 +94,7 @@ server.on('load', (todos) => {
         }
         index++;
     });
-    console.log(inProgressArray);
     localStorage['inProgressArray']= JSON.stringify(inProgressArray);
-    console.log(localStorage['inProgressArray']);
     localStorage["offlineTodoItems"] = JSON.stringify(localStorageStringArray);
 });
 
@@ -119,7 +114,6 @@ function Delete(){
             completedArrayIndex.push(titleHashTable.getItem(checkBoxText.text()));
         }
     });
-    console.log(completedArrayIndex);
     server.emit('delete',completedArrayIndex);
 }
 
@@ -163,7 +157,6 @@ function offlineLoad(todos, inProgress){
 
 function emitInProgress(inProgressText){
     var inProgressIndex = titleHashTable.getItem(inProgressText);
-    console.log(inProgressIndex);
     server.emit('inProgress', inProgressIndex);
 
 }

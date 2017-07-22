@@ -1,19 +1,24 @@
 //Controller for checkbox click
 function imageClick(img){
-	if($(img).hasClass('check')){
-		console.log('true');
-		$(img).attr('src','img/square.png');
-		$(img).removeClass('check');
-		$(img).parent().siblings().removeClass('strikethrough');
+	var online = navigator.onLine;
+	if(navigator.online){
+		if($(img).hasClass('check')){
+			console.log('true');
+			$(img).attr('src','img/square.png');
+			$(img).removeClass('check');
+			$(img).parent().siblings().removeClass('strikethrough');
 
+		} else {
+			$(img).attr('src','img/check.png');
+			$(img).addClass('check');
+			$(img).parent().siblings().addClass('strikethrough');
+
+		}
+		var title = $(img).parent().siblings().text();
+		emitInProgress(title);
 	} else {
-		$(img).attr('src','img/check.png');
-		$(img).addClass('check');
-		$(img).parent().siblings().addClass('strikethrough');
-		
+		alert('You are currently offline. Please go online to make any changes.');
 	}
-	var title = $(img).parent().siblings().text();
-	emitInProgress(title);
 }
 
 //Function corresponding to the Complete All button
