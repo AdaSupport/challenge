@@ -8,7 +8,6 @@ function notify(){
 function imageClick(img){
 	if(online){
 		if($(img).hasClass('check')){
-			console.log('true');
 			$(img).attr('src','img/square.png');
 			$(img).removeClass('check');
 			$(img).parent().siblings().removeClass('strikethrough');
