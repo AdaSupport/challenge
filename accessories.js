@@ -9,29 +9,46 @@ function setAttributes(elem, attrs) {
 //If user presses in enter in input box => triggers add button
 $("#todo-input").keyup(function(event){
 	if(event.keyCode == 13){
+		if(online){
 		add();
+	} else {
+		alert('You are offline. Please go online to make any changes.');
+	}
 	}
 });
 
 
 $('#add-button').click(function(){
-	add();
+	if(online){
+		add();
+	} else {
+		alert("You are offline. Please go online to make any changes.");
+	}
 })
 
 var allToggle=true;
 $('#completeall-button').click(function(){
-	if(allToggle){
-		completeAll(this);
-	} else{
-		undoCompleteAll(this);
+	if(online){
+		if(allToggle){
+			completeAll(this);
+		} else{
+			undoCompleteAll(this);
+		}
+		allToggle = !allToggle;
+	} else {
+		alert("You are offline. Please go online to make any changes.");
 	}
-	allToggle = !allToggle;
 });
 
 
 
+
 $('#delete-button').click(function(){
-	Delete();
+	if(online){
+		Delete();
+	}else {
+		alert("You are offline. Please go online to make any changes.");
+	}
 })
 
 function hasClass(element, className) {

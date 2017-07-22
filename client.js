@@ -84,9 +84,9 @@ server.on('load', (todos) => {
             hashIndexCounter++;
 
             //push each todo item to localstorage in case of disconnect
-            localStorageStringArray.push({
-                title: todo.title
-            });
+            localStorageStringArray.push(
+                todo.title
+            );
             if(todo.inProgress){
                 inProgressArray.push(index);
             }
@@ -120,7 +120,9 @@ function Delete(){
 
 //Event listener for disconnect from server. Checks if browser supports local storage
 server.on('connect_error', function(err) {
-  console.log('Error connecting to server');
+    notify();
+
+
   if (typeof(Storage) !== "undefined") {
     var inProgress = localStorage['inProgressArray'];
     var todos = localStorage['offlineTodoItems'];

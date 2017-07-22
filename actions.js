@@ -1,7 +1,12 @@
+var online = true;
+function notify(){
+	online=false;
+  console.log('Error connecting to server');
+}
+
 //Controller for checkbox click
 function imageClick(img){
-	var online = navigator.onLine;
-	if(navigator.online){
+	if(online){
 		if($(img).hasClass('check')){
 			console.log('true');
 			$(img).attr('src','img/square.png');
