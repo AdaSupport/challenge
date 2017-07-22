@@ -1,26 +1,32 @@
 [
     {
         "title" : "Order more coffee from Pilot",
-        "completed": false
+        "completed": false,
+        "inProgress": false
     },
     {
         "title" : "Clean the coffee machine",
-        "completed": false
+        "completed": false,
+        "inProgress": false
     },
     {
         "title" : "Sweep the floor",
-        "completed": false
+        "completed": false,
+        "inProgress": false
     },
     {
         "title" : "Order a new display for Gordon",
-        "completed": false
+        "completed": false,
+        "inProgress": false
     },
     {
         "title" : "Fix the charger for the speaker",
-        "completed": false
+        "completed": false,
+        "inProgress": true
     },
     {
         "title" : "Finish making the hiring challenge",
-        "completed": false
+        "completed": false,
+        "inProgress": false
     }
 ]

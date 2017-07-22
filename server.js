@@ -8,18 +8,18 @@ var counter=0;
 var firstLoadFlag = true;
 
 var uncompletedDB = [];
-server.on('connection', (client) => {
+if(firstLoadFlag){
+    server.on('connection', (client) => {
     // This is going to be our fake 'database' for this application
     // Parse all default Todo's from db
     const DB = firstTodos.map((t) => {
 
         // Form new Todo objects
-        return new Todo(title=t.title, completed=t.completed);
+        return new Todo(title=t.title, completed=t.completed, inProgress=t.inProgress);
     });
 
     //emits on uncompleted tasks from data.json
     const initLoadTodos = () => {
-
         uncompletedDB=[];
         for(i=0;i<DB.length;i++){
             if(!DB[i].completed){
@@ -42,7 +42,7 @@ server.on('connection', (client) => {
 
     // Accepts when a client makes a new todo
     client.on('add', (t) => {
-        const newTodo = new Todo(title=t.title, completed=false);
+        const newTodo = new Todo(title=t.title, completed=false, inProgress=false);
         uncompletedDB.push(newTodo);
 
         // Send the latest todos to the client
@@ -50,12 +50,17 @@ server.on('connection', (client) => {
     });
 
     //deletes todo item
-    client.on('archive', (completedArray)=>{
+    client.on('delete', (completedArray)=>{
         for(i=0;i<completedArray.length;i++){
-            uncompletedDB[completedArray[i]].completed = true;
+            uncompletedDB[completedArray[i]].completed=true;
         }
         reloadTodos();
-    }); 
+    });
+
+    client.on('inProgress', (inProgressIndex)=>{
+        uncompletedDB[inProgressIndex].inProgress=!uncompletedDB[inProgressIndex].inProgress;
+        reloadTodos();
+    });
 
 
 
@@ -69,10 +74,11 @@ server.on('connection', (client) => {
     } else {
         reloadTodos();
     }
-    
-    
 
 });
+}
+
+
 
 console.log('Waiting for clients to connect');
 server.listen(3003);

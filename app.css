@@ -1,7 +1,102 @@
+
+
+
+html{
+	background-image: url('img/yellow-background.jpg');
+}
+
+
+.input-container{
+	padding: 0.3rem;
+}
+
+#todo-input{
+	font-size: 1.3rem;
+	font-family: 'Roboto', sans-serif;
+	border:none;
+	padding: 0.1rem;
+	background: none; 
+	vertical-align: top;
+}
+
+#todo-input:focus, #todo-input:hover{
+	outline: none !important;
+	box-shadow: 0 0 5px 2px #c1c684;
+}
+
+.button-container{
+	padding: 10px;
+	display: inline-block;
+	vertical-align: top;
+}
+
+.button{
+	/*margin: 10px;*/
+}
+.button{
+	padding: 2px 5px;
+	font-family: 'Roboto', sans-serif;
+	font-size: 0.6em;
+	/*width: 40px;*/
+	display: inline-block;
+	text-align: center; 
+	cursor: pointer;
+	border: solid;
+	border-color: rgba(0,0,0,0.5);
+}
+
+.button:hover{
+	background-color: rgba(0,0,0,0.1);
+}
 #undoButton{
 	display: none;
 }
-/**Strikethrough when checkbox is selected**/
-input[type=checkbox]:checked + label.strikethrough{
+
+.list-item-row{
+	display: flex;
+	align-items: center;
+	border-top: solid;
+	border-width: 2px;
+	border-color: #c1c684;
+}
+
+.list-item-row > div{
+	display: flex;
+}
+
+
+/*Set border for last list-item-row*/
+.list-item-row:last-of-type{
+	border-bottom: solid;
+	border-width: 2px;
+	border-color: #c1c684;
+}
+
+.list-item-row img{
+	height: 20px;
+	margin: 20px;
+	cursor: pointer;
+
+}
+
+.checkboxText{
+	font-family: Roboto, 'sans-serif';
+	font-size: 1.5em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.strikethrough{
 	text-decoration: line-through;
+}
+
+@media(min-width: 425px){
+	#todo-input{
+		font-size: 2em;
+	}
+
+	.button{
+		font-size: 1em;
+		margin-right: 10px;
+	}
 }

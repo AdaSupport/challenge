@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" manifest="/offline/offline.appcache">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+<html lang="en">
 <head>
     <meta charset="utf-8">
     <title>TODO</title>
@@ -8,16 +9,26 @@
     src="https://code.jquery.com/jquery-3.2.1.min.js"
     integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
     crossorigin="anonymous"></script>
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="app.css">
+
 </head>
 <body>
-    <input id="todo-input" type="text" placeholder="Feed the cat" autofocus>
-    <button type="button" onclick="add()">Add</button>
-    <button type="button" onclick="completeAll()">Complete All</button>
-    <button type="button" id="undoButton" onclick="undoCompleteAll()">Undo</button>
-    <button type="button" id="archiveButton" onclick="archive()">Archive</button>
-    <ul id="todo-list"></ul>
+    <div class="input-container">
+        <input id="todo-input" type="text" placeholder="Todo: Hire Owen Chak" autofocus>
+        <div class="button-container">
+
+            <div id="add-button" class="button">Add</div>
+            <!-- <button id="add-button" type="button" onclick="add()">Add</button> -->
+            <div id="completeall-button" class="button">Complete All</div>
+            <div id="delete-button" class="button">Delete</div>
+           <!--  <button type="button" class="button" id="all-button" onclick="completeAll(this)">Complete All</button>
+            <button type="button" id="archive-button" onclick="Delete()">Delete</button> -->
+        </div>
+    </div>
+    <div id="todo-list"></ul>
 </body>
+<script type="text/javascript" src="actions.js"></script>
 <script type="text/javascript" src="hash.js"></script>
 <script type="text/javascript" src="accessories.js"></script>
 <script src="client.js" async></script>
