@@ -1,41 +1,44 @@
-// FIXME: Feel free to remove this :-)
-console.log('\n\nGood Luck! 😅\n\n');
+const server = require('socket.io')()
+const firstTodos = require('./data')
+const Todo = require('./todo')
 
-const server = require('socket.io')();
-const firstTodos = require('./data');
-const Todo = require('./todo');
+// Sick "DB" bruh
+// dis bitch is global now, yolo
+const DB = []
 
-server.on('connection', (client) => {
-    // This is going to be our fake 'database' for this application
-    // Parse all default Todo's from db
+firstTodos.map(t => {
+  // Form new Todo objects
+  return new Todo(t.title)
+})
 
-    // FIXME: DB is reloading on client refresh. It should be persistent on new client connections from the last time the server was run...
-    const DB = firstTodos.map((t) => {
-        // Form new Todo objects
-        return new Todo(title=t.title);
-    });
+// initialize deez nutty
+for (let todo of firstTodos) {
+  DB.push(new Todo(todo.title))
+}
 
-    // Sends a message to the client to reload all todos
-    const reloadTodos = () => {
-        server.emit('load', DB);
-    }
+// NOTE: fires on all new client connections
+server.on('connection', client => {
+  // Dispatches an event to append an item to the end of our list
+  const appendTodoItem = todo => {
+    server.emit('append', todo)
+    //client.broadcast.emit('append', todo)
+  }
 
-    // Accepts when a client makes a new todo
-    client.on('make', (t) => {
-        // Make a new todo
-        const newTodo = new Todo(title=t.title);
+  // Accepts when a client makes a new todo
+  client.on('make', t => {
+    // Make a new todo
+    const newTodo = new Todo(t.title)
 
-        // Push this newly created todo to our database
-        DB.push(newTodo);
+    // Push this newly created todo to our database
+    DB.push(newTodo)
 
-        // Send the latest todos to the client
-        // FIXME: This sends all todos every time, could this be more efficient?
-        reloadTodos();
-    });
+    // Send the latest todos to the client
+    appendTodoItem(newTodo)
+  })
 
-    // Send the DB downstream on connect
-    reloadTodos();
-});
+  // on connect, load entire DB to just that client
+  client.emit('load', DB)
+})
 
-console.log('Waiting for clients to connect');
-server.listen(3003);
+console.log('Waiting for clients to connect')
+server.listen(3003)
