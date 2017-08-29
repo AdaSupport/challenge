@@ -1,10 +1,11 @@
 const server = require('socket.io')()
+const _ = require('lodash')
 const firstTodos = require('./data')
 const Todo = require('./todo')
 
 // Sick "DB" bruh
 // dis bitch is global now, yolo
-const DB = []
+let DB = []
 let id = 0
 
 // initialize deez nutty
@@ -20,7 +21,7 @@ server.on('connection', client => {
     server.emit('append', todo)
   }
 
-  // Actions from client ===
+  /*=== Actions from client ===*/
   // Accepts when a client makes a new todo
   client.on('make', t => {
     // Make a new todo
@@ -33,20 +34,39 @@ server.on('connection', client => {
     appendTodoItem(newTodo)
   })
 
+  // Mark todo item t as completed
   client.on('markComplete', t => {
-    for (var todo of DB) {
-      if (todo.id === t.id) {
-        todo.completed = true
-        server.emit('load', DB) // HACK: Updates frontend. Shitty but works
-        return
-      }
-    }
-    console.error(`Todo item ${t.id} was not found. Could not mark complete`)
+    updateCompleteStatus(t, true)
+  })
+
+  // Mark todo item t as incomplete
+  client.on('markIncomplete', t => {
+    updateCompleteStatus(t, false)
+  })
+
+  // Remove todo item
+  client.on('delete', t => {
+    DB = _.remove(DB, todoItem => {
+      return todoItem.id !== t.id
+    })
+    server.emit('load', DB) // HACK: Updates frontend. Shitty but works
   })
 
   // on connect, load entire DB to just that client
   client.emit('load', DB)
 })
+
+// Helper functions
+function updateCompleteStatus(t, status) {
+  for (var todo of DB) {
+    if (todo.id === t.id) {
+      todo.completed = status
+      server.emit('load', DB) // HACK: Updates frontend. Shitty but works
+      return
+    }
+  }
+  console.error(`Todo item ${t.id} was not found. Could not mark complete`)
+}
 
 console.log('Waiting for clients to connect')
 server.listen(3003)

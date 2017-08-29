@@ -31,9 +31,19 @@ function add() {
   input.focus()
 }
 
+// Deletes and item
+function deleteTodo(todo) {
+  server.emit('delete', todo)
+}
+
 // Mark an item as complete
 function complete(todo) {
   server.emit('markComplete', todo)
+}
+
+// Mark an item as complete
+function incomplete(todo) {
+  server.emit('markIncomplete', todo)
 }
 
 // Render one item
@@ -42,14 +52,26 @@ function _renderItem(todo) {
   const listItemText = document.createTextNode(todo.title)
   const completeBtn = document.createElement('button')
   const listItemStatus = document.createTextNode(todo.completed)
+  const deleteBtn = document.createElement('button')
 
-  completeBtn.onclick = function() {
-    complete(todo)
+  listItem.id = `id-${todo.id}`
+  completeBtn.innerHTML = todo.completed ? 'mark incomplete' : 'complete'
+  completeBtn.onclick = todo.completed
+    ? function() {
+        incomplete(todo)
+      }
+    : function() {
+        complete(todo)
+      }
+  deleteBtn.innerHTML = 'delete'
+  deleteBtn.onclick = function() {
+    deleteTodo(todo)
   }
 
   listItem.appendChild(listItemText)
   listItem.appendChild(completeBtn)
   listItem.appendChild(listItemStatus)
+  listItem.appendChild(deleteBtn)
 
   return listItem
 }
