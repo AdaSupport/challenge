@@ -8,6 +8,11 @@ window.addEventListener(
     completeAllBtn.innerHTML = 'complete all'
     completeAllBtn.onclick = completeAll
     document.body.appendChild(completeAllBtn)
+
+    const deleteAllBtn = document.createElement('button')
+    deleteAllBtn.innerHTML = 'delete all'
+    deleteAllBtn.onclick = deleteAll
+    document.body.appendChild(deleteAllBtn)
   },
   false
 )
