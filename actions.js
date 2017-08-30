@@ -3,6 +3,13 @@
 // server
 var server = require('socket.io-client')('http://localhost:3003/')
 
+function create(title) {
+  // Emit the new todo as some data to the server
+  server.emit('make', {
+    title: title,
+  })
+}
+
 // Deletes and item
 function deleteTodo(todo) {
   server.emit('delete', todo)
@@ -26,4 +33,11 @@ function incomplete(todo) {
   server.emit('markIncomplete', todo)
 }
 
-module.exports = { deleteTodo, deleteAll, complete, completeAll, incomplete }
+module.exports = {
+  create,
+  deleteTodo,
+  deleteAll,
+  complete,
+  completeAll,
+  incomplete,
+}

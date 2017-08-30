@@ -1,5 +1,6 @@
 var server = require('socket.io-client')('http://localhost:3003/')
 var {
+  create,
   deleteTodo,
   deleteAll,
   complete,
@@ -44,10 +45,7 @@ server.on('append', todo => {
 function add() {
   const input = document.getElementById('todo-input')
 
-  // Emit the new todo as some data to the server
-  server.emit('make', {
-    title: input.value,
-  })
+  create(input.value)
 
   // Clear the input
   input.value = ''
