@@ -4,6 +4,13 @@
 // server
 var server = require('socket.io-client')('http://localhost:3003/')
 
+function create(title) {
+  // Emit the new todo as some data to the server
+  server.emit('make', {
+    title: title,
+  })
+}
+
 // Deletes and item
 function deleteTodo(todo) {
   server.emit('delete', todo)
@@ -27,11 +34,19 @@ function incomplete(todo) {
   server.emit('markIncomplete', todo)
 }
 
-module.exports = { deleteTodo, deleteAll, complete, completeAll, incomplete }
+module.exports = {
+  create,
+  deleteTodo,
+  deleteAll,
+  complete,
+  completeAll,
+  incomplete,
+}
 
 },{"socket.io-client":34}],2:[function(require,module,exports){
 var server = require('socket.io-client')('http://localhost:3003/')
 var {
+  create,
   deleteTodo,
   deleteAll,
   complete,
@@ -43,6 +58,9 @@ const list = document.getElementById('todo-list')
 window.addEventListener(
   'load',
   function() {
+    const createTodo = document.getElementById('createTodo')
+    createTodo.onclick = add
+
     const completeAllBtn = document.createElement('button')
     completeAllBtn.innerHTML = 'complete all'
     completeAllBtn.onclick = completeAll
@@ -76,10 +94,7 @@ server.on('append', todo => {
 function add() {
   const input = document.getElementById('todo-input')
 
-  // Emit the new todo as some data to the server
-  server.emit('make', {
-    title: input.value,
-  })
+  create(input.value)
 
   // Clear the input
   input.value = ''

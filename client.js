@@ -12,6 +12,9 @@ const list = document.getElementById('todo-list')
 window.addEventListener(
   'load',
   function() {
+    const createTodo = document.getElementById('createTodo')
+    createTodo.onclick = add
+
     const completeAllBtn = document.createElement('button')
     completeAllBtn.innerHTML = 'complete all'
     completeAllBtn.onclick = completeAll
