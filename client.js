@@ -1,4 +1,11 @@
-const server = io('http://localhost:3003/')
+var server = require('socket.io-client')('http://localhost:3003/')
+var {
+  deleteTodo,
+  deleteAll,
+  complete,
+  completeAll,
+  incomplete,
+} = require('./actions')
 const list = document.getElementById('todo-list')
 
 window.addEventListener(
@@ -45,29 +52,6 @@ function add() {
   // Clear the input
   input.value = ''
   input.focus()
-}
-
-// Deletes and item
-function deleteTodo(todo) {
-  server.emit('delete', todo)
-}
-
-function deleteAll() {
-  server.emit('deleteAll')
-}
-
-// Mark an item as complete
-function complete(todo) {
-  server.emit('markComplete', todo)
-}
-
-function completeAll() {
-  server.emit('completeAll')
-}
-
-// Mark an item as complete
-function incomplete(todo) {
-  server.emit('markIncomplete', todo)
 }
 
 // Render one item
