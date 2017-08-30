@@ -1,6 +1,17 @@
 const server = io('http://localhost:3003/')
 const list = document.getElementById('todo-list')
 
+window.addEventListener(
+  'load',
+  function() {
+    const completeAllBtn = document.createElement('button')
+    completeAllBtn.innerHTML = 'complete all'
+    completeAllBtn.onclick = completeAll
+    document.body.appendChild(completeAllBtn)
+  },
+  false
+)
+
 // Server Events
 
 // NOTE: These are listeners for events from the server
@@ -36,9 +47,17 @@ function deleteTodo(todo) {
   server.emit('delete', todo)
 }
 
+function deleteAll() {
+  server.emit('deleteAll')
+}
+
 // Mark an item as complete
 function complete(todo) {
   server.emit('markComplete', todo)
+}
+
+function completeAll() {
+  server.emit('completeAll')
 }
 
 // Mark an item as complete

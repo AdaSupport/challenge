@@ -39,6 +39,13 @@ server.on('connection', client => {
     updateCompleteStatus(t, true)
   })
 
+  client.on('completeAll', () => {
+    for (var todo of DB) {
+      todo.completed = true
+    }
+    server.emit('load', DB) // HACK: Updates frontend. Shitty but works
+  })
+
   // Mark todo item t as incomplete
   client.on('markIncomplete', t => {
     updateCompleteStatus(t, false)
@@ -49,6 +56,12 @@ server.on('connection', client => {
     DB = _.remove(DB, todoItem => {
       return todoItem.id !== t.id
     })
+    server.emit('load', DB) // HACK: Updates frontend. Shitty but works
+  })
+
+  // Delete all todo items
+  client.on('deleteAll', () => {
+    DB = []
     server.emit('load', DB) // HACK: Updates frontend. Shitty but works
   })
 
