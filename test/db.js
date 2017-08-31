@@ -51,7 +51,7 @@ describe('When we have a Database', function() {
     },
   ]
 
-  before(function() {
+  beforeEach(function() {
     DB = new db(todos)
   })
 
@@ -61,6 +61,25 @@ describe('When we have a Database', function() {
     it('should contain the new todo', function() {
       DB.insert(todo)
       expect(DB.db).to.have.length(todos.length + 1)
+    })
+  })
+
+  describe('and we delete a todo', function() {
+    let todo = { id: 1, title: 'Clean the coffee machine' }
+
+    it('should not contain the new todo', function() {
+      DB.remove(todo)
+      expect(DB.db).to.have.length(todos.length - 1)
+    })
+  })
+
+  describe('and we update a todo', function() {
+    let todo = { id: 1, title: 'Clean the coffee machine' }
+
+    it('should have updated the todo', function() {
+      DB.update(todo, true)
+      expect(DB.db).to.have.length(todos.length)
+      expect(DB.db[1].completed).to.equal(true)
     })
   })
 })
