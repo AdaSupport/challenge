@@ -4,7 +4,8 @@
   "description": "Our hiring challenge to full-stack developers",
   "main": "index.js",
   "scripts": {
-    "test": "npm test",
+    "build-client": "browserify client.js -o client-bundle.js",
+    "test": "mocha",
     "start": "node server.js"
   },
   "repository": {
@@ -24,5 +25,9 @@
     "socket.io-client": "^2.0.3",
     "updeep": "^1.0.0",
     "utf-8-validate": "^3.0.3"
+  },
+  "devDependencies": {
+    "expect.js": "^0.3.1",
+    "mocha": "^3.5.0"
   }
 }
