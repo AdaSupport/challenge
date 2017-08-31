@@ -108,22 +108,22 @@ var {
   incomplete,
 } = require('./actions')
 
-// add new item from input field
-function add() {
-  const input = document.getElementById('todo-input')
-  if (input.value === '') return
-  create(input.value)
-  input.value = ''
-  input.focus()
-}
-
 // add onclick methods to static buttons
 function setupButtons() {
+  // add new item from input field
+  function newTodo() {
+    const input = document.getElementById('todo-input')
+    if (input.value === '') return
+    create(input.value)
+    input.value = ''
+    input.focus()
+  }
+
   window.addEventListener(
     'load',
     function() {
       const createTodo = document.getElementById('createTodo')
-      createTodo.onclick = add
+      createTodo.onclick = newTodo
 
       const completeAllBtn = document.getElementById('completeAll')
       completeAllBtn.onclick = completeAll
