@@ -1,7 +1,6 @@
 const Todo = require('./todo')
-const _ = require('lodash')
 
-// Our mock Database
+// Our mock Database for todos
 module.exports = class DB {
   constructor(init = []) {
     this.db = init.map((todo, id) => new Todo(id, todo.title))
@@ -16,12 +15,13 @@ module.exports = class DB {
   }
 
   remove(todo) {
-    this.db = _.remove(this.db, todoItem => {
-      return todoItem.id !== todo.id
-    })
+    this.db = this.db.reduce((acc, curr) => {
+      if (curr.id === todo.id) return acc
+      else return acc.concat(curr)
+    }, [])
   }
 
-  update(t, status, callback) {
+  update(t, status, callback = () => {}) {
     for (var todo of this.db) {
       if (todo.id === t.id) {
         todo.completed = status
