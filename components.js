@@ -40,9 +40,9 @@ function setupButtons() {
 function CompleteButton(todo) {
   const completeBtn = document.createElement('button')
   completeBtn.classList.add('complete-button')
+  completeBtn.classList.add(`${todo.completed && 'complete'}`)
   // svg shamelessly stolen from Asana
-  completeBtn.innerHTML = `<svg class="Icon CheckIcon TaskRowCompletionStatus-checkIcon ${todo.completed &&
-    'complete'}" title="CheckIcon" viewBox="0 0 32 32"> <polygon points="27.672,4.786 10.901,21.557 4.328,14.984 1.5,17.812 10.901,27.214 30.5,7.615 " /></svg>`
+  completeBtn.innerHTML = `<svg class="Icon CheckIcon TaskRowCompletionStatus-checkIcon" title="CheckIcon" viewBox="0 0 32 32"> <polygon points="27.672,4.786 10.901,21.557 4.328,14.984 1.5,17.812 10.901,27.214 30.5,7.615 " /></svg>`
   completeBtn.onclick = todo.completed
     ? function() {
         incomplete(todo)
@@ -66,6 +66,7 @@ function TodoItem(todo) {
   listItemText.innerHTML = todo.title
   listItemText.style.color = todo.completed ? '#a4a4a4' : '#333'
   deleteBtn.innerHTML = 'delete'
+  deleteBtn.style.height = '20px'
   deleteBtn.onclick = function() {
     deleteTodo(todo)
   }

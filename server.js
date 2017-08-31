@@ -22,7 +22,7 @@ server.on('connection', client => {
 
   client.on('completeAll', () => {
     for (var todo of DB.db) {
-      todo.completed = true
+      DB.update(todo, true)
     }
     server.emit('load', DB.db) // HACK: Updates frontend. Shitty but works
   })

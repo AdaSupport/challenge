@@ -6,7 +6,11 @@ body {
 }
 
 p {
-  display: inline;
+  margin: 4px 0 0;
+  line-height: 20px;
+  display: inline-flex;
+  flex: 1;
+  align-self: stretch;
 }
 
 input {
@@ -16,6 +20,7 @@ input {
 .container {
   width: 100%;
   max-width: 500px;
+  padding-top: 10px;
 }
 
 .header {
@@ -55,6 +60,8 @@ ul {
 }
 
 li {
+  flex: 1;
+  display: flex;
   list-style-type: none;
   margin: 0 20px;
   padding: 10px 0;
@@ -72,6 +79,10 @@ li {
   margin-right: 10px;
 }
 
+.complete-button.complete {
+  border: 1px solid #21e1c1;
+}
+
 svg {
   height: 12px;
   width: 12px;
@@ -83,7 +94,7 @@ svg {
   fill: #c4c4c4;
 }
 
-.CheckIcon.complete {
+.complete-button.complete .CheckIcon {
   stroke: #21e1c1;
   fill: #21e1c1;
   stroke-width: 3px;
@@ -105,7 +116,8 @@ svg {
 
 #completeAll,
 #deleteAll,
-.complete-button {
+.complete-button,
+button {
   cursor: pointer;
 }
 
