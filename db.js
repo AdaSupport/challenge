@@ -7,6 +7,10 @@ module.exports = class DB {
     this.id = init.length
   }
 
+  /**
+  * insert - insert todo item
+  * @param {Todo} - a todo item
+  */
   insert(todo) {
     const newTodo = new Todo(this.id, todo.title)
     this.db.push(newTodo)
@@ -14,6 +18,10 @@ module.exports = class DB {
     return newTodo
   }
 
+  /**
+  * remove - remove todo item
+  * @param {Todo} - a todo item
+  */
   remove(todo) {
     this.db = this.db.reduce((acc, curr) => {
       if (curr.id === todo.id) return acc
@@ -21,6 +29,12 @@ module.exports = class DB {
     }, [])
   }
 
+  /**
+  * update - update todo item t with status
+  * @param {Todo} - a todo item
+  * @param {boolean} - completed
+  * @param {function} - a callback function
+  */
   update(t, status, callback = () => {}) {
     for (var todo of this.db) {
       if (todo.id === t.id) {
