@@ -1,18 +1,7 @@
 const server = require('socket.io')()
-const _ = require('lodash')
 const firstTodos = require('./data')
-const Todo = require('./todo')
-
-// Sick "DB" bruh
-// dis bitch is global now, yolo
-let DB = []
-let id = 0 // id to keep track of todo item ids
-
-// initialize deez nutty
-for (let todo of firstTodos) {
-  DB.push(new Todo(id, todo.title))
-  id += 1
-}
+const db = require('./db')
+const DB = new db(firstTodos)
 
 // NOTE: fires on all new client connections
 server.on('connection', client => {
@@ -21,65 +10,40 @@ server.on('connection', client => {
     server.emit('append', todo)
   }
 
-  /*=== Actions from client ===*/
   // Accepts when a client makes a new todo
   client.on('make', t => {
-    // Make a new todo
-    const newTodo = new Todo(id, t.title)
-    id += 1
-
-    DB.push(newTodo)
-
-    // Send the latest todos to the client
-    appendTodoItem(newTodo)
+    const todo = DB.insert(t)
+    appendTodoItem(todo)
   })
 
-  // Mark todo item t as completed
   client.on('markComplete', t => {
-    updateCompleteStatus(t, true)
+    DB.update(t, true, () => server.emit('load', DB.db))
   })
 
   client.on('completeAll', () => {
-    for (var todo of DB) {
+    for (var todo of DB.db) {
       todo.completed = true
     }
-    server.emit('load', DB) // HACK: Updates frontend. Shitty but works
+    server.emit('load', DB.db) // HACK: Updates frontend. Shitty but works
   })
 
-  // Mark todo item t as incomplete
   client.on('markIncomplete', t => {
-    updateCompleteStatus(t, false)
+    DB.update(t, false, () => server.emit('load', DB.db))
   })
 
-  // Remove todo item
   client.on('delete', t => {
-    DB = _.remove(DB, todoItem => {
-      return todoItem.id !== t.id
-    })
-    server.emit('load', DB) // HACK: Updates frontend. Shitty but works
+    DB.remove(t)
+    server.emit('load', DB.db) // HACK: Updates frontend. Shitty but works
   })
 
-  // Delete all todo items
   client.on('deleteAll', () => {
-    DB = []
-    server.emit('load', DB) // HACK: Updates frontend. Shitty but works
+    DB.empty()
+    server.emit('load', DB.db) // HACK: Updates frontend. Shitty but works
   })
 
   // on connect, load entire DB to just that client
-  client.emit('load', DB)
+  client.emit('load', DB.db)
 })
-
-// Helper functions
-function updateCompleteStatus(t, status) {
-  for (var todo of DB) {
-    if (todo.id === t.id) {
-      todo.completed = status
-      server.emit('load', DB) // HACK: Updates frontend. Shitty but works
-      return
-    }
-  }
-  console.error(`Todo item ${t.id} was not found. Could not mark complete`)
-}
 
 console.log('Waiting for clients to connect')
 server.listen(3003)
