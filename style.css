@@ -5,6 +5,10 @@ body {
   justify-content: center;
 }
 
+p {
+  display: inline;
+}
+
 input {
   outline: none;
 }
@@ -29,10 +33,6 @@ input {
 #deleteAll {
   font-size: 14px;
   color: #a4a4a4;
-}
-
-#completeAll:hover {
-  color: #21e1c1;
 }
 
 .form {
@@ -101,6 +101,15 @@ svg {
 }
 
 #completeAll,
+#deleteAll,
 .complete-button {
   cursor: pointer;
+}
+
+#deleteAll:hover {
+  color: #e31717;
+}
+
+#completeAll:hover {
+  color: #21e1c1;
 }

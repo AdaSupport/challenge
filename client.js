@@ -77,10 +77,12 @@ function _renderCompleteButton(todo) {
 // Render one item
 function _renderItem(todo) {
   const listItem = document.createElement('li')
-  const listItemText = document.createTextNode(todo.title)
+  const listItemText = document.createElement('p')
   const deleteBtn = document.createElement('button')
 
   listItem.id = `id-${todo.id}`
+  listItemText.innerHTML = todo.title
+  listItemText.style.color = todo.completed ? '#a4a4a4' : '#333'
   deleteBtn.innerHTML = 'delete'
   deleteBtn.onclick = function() {
     deleteTodo(todo)
