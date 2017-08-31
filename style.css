@@ -1,0 +1,106 @@
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  display: flex;
+  justify-content: center;
+}
+
+input {
+  outline: none;
+}
+
+.container {
+  max-width: 500px;
+}
+
+.header {
+  padding: 10px 0;
+  display: flex;
+  border-bottom: 1px solid #e4e4e4;
+}
+
+.actions-all {
+  padding: 0 15px;
+  display: flex;
+  justify-content: space-between;
+}
+
+#completeAll,
+#deleteAll {
+  font-size: 14px;
+  color: #a4a4a4;
+}
+
+#completeAll:hover {
+  color: #21e1c1;
+}
+
+.form {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  padding: 0 15px;
+}
+
+input {
+  width: 100%;
+  font-size: 14px;
+  border: none;
+  height: 39px;
+}
+
+ul {
+  padding: 0;
+}
+
+li {
+  list-style-type: none;
+  margin: 0 20px;
+  padding: 10px 0;
+  border-bottom: 1px solid #e4e4e4;
+}
+
+.complete-button {
+  display: inline-block;
+  padding: 0;
+  background: none;
+  border-radius: 20px;
+  border: 1px solid #e4e4e4;
+  height: 20px;
+  width: 20px;
+  margin-right: 10px;
+}
+
+svg {
+  height: 12px;
+  width: 12px;
+}
+
+.CheckIcon {
+  margin-top: 1px;
+}
+
+.CheckIcon.complete {
+  stroke: #21e1c1;
+  fill: #21e1c1;
+  stroke-width: 3px;
+}
+
+.btn-1 {
+  background: none;
+  color: #8c1aff;
+  border: 2px #8c1aff solid;
+  border-radius: 4px;
+  height: 39px;
+  padding: 0 15px;
+  font-size: 14px;
+}
+
+.shadow {
+  box-shadow: 0 20px 20px rgba(0, 0, 0, 0.08);
+}
+
+#completeAll,
+.complete-button {
+  cursor: pointer;
+}

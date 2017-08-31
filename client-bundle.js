@@ -100,43 +100,34 @@ window.addEventListener(
     const createTodo = document.getElementById('createTodo')
     createTodo.onclick = add
 
-    const completeAllBtn = document.createElement('button')
-    completeAllBtn.innerHTML = 'complete all'
+    const completeAllBtn = document.getElementById('completeAll')
     completeAllBtn.onclick = completeAll
-    document.body.appendChild(completeAllBtn)
 
-    const deleteAllBtn = document.createElement('button')
-    deleteAllBtn.innerHTML = 'delete all'
+    const deleteAllBtn = document.getElementById('deleteAll')
     deleteAllBtn.onclick = deleteAll
-    document.body.appendChild(deleteAllBtn)
   },
   false
 )
 
 // Global Functions
 
-// NOTE: These are all our globally scoped functions for interacting with the server
 // This function adds a new todo from the input
 function add() {
   const input = document.getElementById('todo-input')
-
+  if (input.value === '') return
   create(input.value)
-
   // Clear the input
   input.value = ''
   input.focus()
 }
 
-// Render one item
-function _renderItem(todo) {
-  const listItem = document.createElement('li')
-  const listItemText = document.createTextNode(todo.title)
+// render our button to mark a todo as complete
+function _renderCompleteButton(todo) {
   const completeBtn = document.createElement('button')
-  const listItemStatus = document.createTextNode(todo.completed)
-  const deleteBtn = document.createElement('button')
-
-  listItem.id = `id-${todo.id}`
-  completeBtn.innerHTML = todo.completed ? 'mark incomplete' : 'complete'
+  completeBtn.classList.add('complete-button')
+  // svg shamelessly stolen from asana
+  completeBtn.innerHTML = `<svg class="Icon CheckIcon TaskRowCompletionStatus-checkIcon ${todo.completed &&
+    'complete'}" title="CheckIcon" viewBox="0 0 32 32"> <polygon points="27.672,4.786 10.901,21.557 4.328,14.984 1.5,17.812 10.901,27.214 30.5,7.615 " /></svg>`
   completeBtn.onclick = todo.completed
     ? function() {
         incomplete(todo)
@@ -144,14 +135,24 @@ function _renderItem(todo) {
     : function() {
         complete(todo)
       }
+
+  return completeBtn
+}
+
+// Render one item
+function _renderItem(todo) {
+  const listItem = document.createElement('li')
+  const listItemText = document.createTextNode(todo.title)
+  const deleteBtn = document.createElement('button')
+
+  listItem.id = `id-${todo.id}`
   deleteBtn.innerHTML = 'delete'
   deleteBtn.onclick = function() {
     deleteTodo(todo)
   }
 
+  listItem.appendChild(_renderCompleteButton(todo))
   listItem.appendChild(listItemText)
-  listItem.appendChild(completeBtn)
-  listItem.appendChild(listItemStatus)
   listItem.appendChild(deleteBtn)
 
   return listItem

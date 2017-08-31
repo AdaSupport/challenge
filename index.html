@@ -3,11 +3,26 @@
   <head>
     <meta charset="utf-8">
     <title>TODO</title>
+    <link rel="stylesheet" type="text/css" href='./style.css'/>
   </head>
   <body>
-    <input id="todo-input" type="text" placeholder="Feed the cat" autofocus>
-    <button id="createTodo" type="button">Make</button>
-    <ul id="todo-list"></ul>
+    <div class="container shadow">
+      <div class="actions-all"><a id='completeAll'>complete all</a>
+      <a id='deleteAll'>delete all</a></div>
+      <div class="header">
+        <div class="form">
+          <input id="todo-input" type="text" placeholder="Feed the cat" autofocus>
+          <button id="createTodo" class="btn-1" type="button">Add</button>
+        </div>
+      </div>
+
+      <ul id="todo-list"></ul>
+    </div>
   </body>
   <script src="client-bundle.js" async></script>
 </html>
+
+<!-- <div class="actions-all">
+  <button id="completeAll">Complete All</button>
+  <button id="deleteAll">Delete All</button>
+</div> -->

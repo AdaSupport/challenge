@@ -6,7 +6,7 @@ const Todo = require('./todo')
 // Sick "DB" bruh
 // dis bitch is global now, yolo
 let DB = []
-let id = 0
+let id = 0 // id to keep track of todo item ids
 
 // initialize deez nutty
 for (let todo of firstTodos) {
@@ -26,7 +26,7 @@ server.on('connection', client => {
   client.on('make', t => {
     // Make a new todo
     const newTodo = new Todo(id, t.title)
-    id += 1 // incerement id
+    id += 1
 
     DB.push(newTodo)
 
