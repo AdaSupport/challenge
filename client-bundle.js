@@ -55,18 +55,12 @@ function getDB() {
   return JSON.parse(localStorage.getItem('DB'))
 }
 
-// get todo item with id
-function get(id) {}
-
-// insert todo item into cache
-function insert(todo) {}
-
 module.exports = { saveDB, getDB }
 
 },{}],3:[function(require,module,exports){
 var server = require('socket.io-client')('http://localhost:3003/')
 var cache = require('./caching')
-var { setupButtons, TodoItem } = require('./components')
+var { setupButtonEventlisteners, TodoItem } = require('./components')
 const list = document.getElementById('todo-list')
 
 // Server Events
@@ -88,7 +82,7 @@ server.on('connect_error', () => {
   cache.getDB().forEach(todo => render(todo))
 })
 
-setupButtons()
+setupButtonEventlisteners()
 
 /** render - Append todo item to list element
   * @param {Todo} - a todo item
@@ -109,7 +103,7 @@ var {
 } = require('./actions')
 
 // add onclick methods to static buttons
-function setupButtons() {
+function setupButtonEventlisteners() {
   // add new item from input field
   function newTodo() {
     const input = document.getElementById('todo-input')
@@ -179,7 +173,7 @@ function TodoItem(todo) {
   return listItem
 }
 
-module.exports = { setupButtons, TodoItem, CompleteButton }
+module.exports = { setupButtonEventlisteners, TodoItem, CompleteButton }
 
 },{"./actions":1}],5:[function(require,module,exports){
 module.exports = after

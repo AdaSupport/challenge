@@ -1,6 +1,6 @@
 var server = require('socket.io-client')('http://localhost:3003/')
 var cache = require('./caching')
-var { setupButtons, TodoItem } = require('./components')
+var { setupButtonEventlisteners, TodoItem } = require('./components')
 const list = document.getElementById('todo-list')
 
 // Server Events
@@ -22,7 +22,7 @@ server.on('connect_error', () => {
   cache.getDB().forEach(todo => render(todo))
 })
 
-setupButtons()
+setupButtonEventlisteners()
 
 /** render - Append todo item to list element
   * @param {Todo} - a todo item

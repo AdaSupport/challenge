@@ -8,7 +8,7 @@ var {
 } = require('./actions')
 
 // add onclick methods to static buttons
-function setupButtons() {
+function setupButtonEventlisteners() {
   // add new item from input field
   function newTodo() {
     const input = document.getElementById('todo-input')
@@ -78,4 +78,4 @@ function TodoItem(todo) {
   return listItem
 }
 
-module.exports = { setupButtons, TodoItem, CompleteButton }
+module.exports = { setupButtonEventlisteners, TodoItem, CompleteButton }
