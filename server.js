@@ -24,7 +24,7 @@ server.on('connection', client => {
     for (var todo of DB.db) {
       DB.update(todo, true)
     }
-    server.emit('load', DB.db) // HACK: Updates frontend. Shitty but works
+    server.emit('load', DB.db) // HACK: Updates frontend. not optimal, but works
   })
 
   client.on('markIncomplete', t => {
@@ -33,12 +33,12 @@ server.on('connection', client => {
 
   client.on('delete', t => {
     DB.remove(t)
-    server.emit('load', DB.db) // HACK: Updates frontend. Shitty but works
+    server.emit('load', DB.db) // HACK: Updates frontend. not optimal, but works
   })
 
   client.on('deleteAll', () => {
     DB.empty()
-    server.emit('load', DB.db) // HACK: Updates frontend. Shitty but works
+    server.emit('load', DB.db) // HACK: Updates frontend. not optimal, but works
   })
 
   // on connect, load entire DB to just that client
