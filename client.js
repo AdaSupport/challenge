@@ -7,8 +7,28 @@ var {
   completeAll,
   incomplete,
 } = require('./actions')
+var cache = require('./caching')
 const list = document.getElementById('todo-list')
 
+// Server Events
+// NOTE: These are listeners for events from the server
+// This event is for (re)loading the entire list of todos from the server
+server.on('load', todos => {
+  list.innerHTML = '' // clear data on (re)load
+  cache.saveDB(todos)
+  todos.forEach(todo => render(todo))
+})
+
+server.on('append', todo => {
+  render(todo)
+})
+
+server.on('connect_error', () => {
+  list.innerHTML = '' // clear data on (re)load
+  cache.getDB().forEach(todo => render(todo))
+})
+
+// DOM Manupilation
 window.addEventListener(
   'load',
   function() {
@@ -27,19 +47,6 @@ window.addEventListener(
   },
   false
 )
-
-// Server Events
-
-// NOTE: These are listeners for events from the server
-// This event is for (re)loading the entire list of todos from the server
-server.on('load', todos => {
-  list.innerHTML = '' // clear data on (re)load
-  todos.forEach(todo => render(todo))
-})
-
-server.on('append', todo => {
-  render(todo)
-})
 
 // Global Functions
 
