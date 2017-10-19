@@ -4,12 +4,15 @@ const list = document.getElementById('todo-list');
 // NOTE: These are all our globally scoped functions for interacting with the server
 // This function adds a new todo from the input
 function add() {
+    if(event.keyCode != 13){
+        return;
+    }
     console.warn(event);
     const input = document.getElementById('todo-input');
 
     // Emit the new todo as some data to the server
     server.emit('make', {
-        titlé : input.value
+        title : input.value
     });
 
     // Clear the input
