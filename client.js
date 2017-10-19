@@ -21,6 +21,27 @@ function add() {
     // TODO: refocus the element
 }
 
+function completeRemaining(){
+    for(let ind = 0; ind < document.getElementsByClassName("textVal").length; ind++){
+        server.emit('completed', {
+            title : document.getElementsByClassName("textVal")[ind].textContent
+        });        
+        document.getElementsByClassName("textVal")[ind].parentNode.parentNode.removeChild(document.getElementsByClassName("textVal")[ind].parentNode);
+        ind--;
+    };
+}
+
+function deleteRemaining(){
+    for(let ind = 0; ind < document.getElementsByClassName("textVal").length; ind++){
+        console.log(document.getElementsByClassName("textVal")[ind]);
+        server.emit('deleted', {
+            title : document.getElementsByClassName("textVal")[ind].textContent
+        });        
+        document.getElementsByClassName("textVal")[ind].parentNode.parentNode.removeChild(document.getElementsByClassName("textVal")[ind].parentNode);
+        ind--;
+    };
+}
+
 function render(todo) {
     
     const done = document.createElement('i');
@@ -41,7 +62,7 @@ function render(todo) {
     cross.appendChild(crossText);
 
     const text = document.createElement('span');    
-    text.id = "textVal";
+    text.classList.add("textVal");
     const listItemText = document.createTextNode(todo.title);
     text.appendChild(listItemText);
     
@@ -99,11 +120,11 @@ document.addEventListener('click',function(e){
     var target = e.target || e.srcElement;
     if(target.id === 'done'){
         server.emit('completed', {
-            title : target.parentElement.querySelector("#textVal").textContent
+            title : target.parentElement.querySelector(".textVal").textContent
         });
     }else if(target.id === 'cancel'){
         server.emit('deleted', {
-            title : target.parentElement.querySelector("#textVal").textContent
+            title : target.parentElement.querySelector(".textVal").textContent
         });
     }
 });

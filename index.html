@@ -10,10 +10,23 @@
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     </head>
     <body>
-        <div class="container">
+        <div class="container" style="padding: 10%">
             <div class="inputField">
                 <input id="todo-input" type="text" placeholder="Feed the cat" autofocus>
-                <a onclick="add()" class="btn-floating btn-large waves-effect waves-light teal"><i class="material-icons">add</i></a>
+                <div class="row center-align">
+                    <div class="col s3">
+                        <a onclick="add()" class="btn-floating btn-small waves-effect waves-light teal"><i class="material-icons">add</i></a>                
+                    </div>
+                    <div class="col s3">
+                        <a onclick="completeRemaining()" class="btn-floating btn-small waves-effect waves-light teal"><i class="material-icons">check</i></a>                
+                    </div>
+                    <div class="col s3">
+                        <a onclick="deleteRemaining()" class="btn-floating btn-small waves-effect waves-light teal"><i class="material-icons">clear</i></a>                
+                    </div>
+                    <div class="col s3">
+                        <a onclick="new()" class="btn-floating btn-small waves-effect waves-light teal"><i class="material-icons">control_point</i></a>                
+                    </div>
+                </div>
             </div>
             <ul id="todo-list"></ul>
             <div class="container">
