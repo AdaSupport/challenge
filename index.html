@@ -7,14 +7,32 @@
                 
         <!-- Compiled and minified CSS -->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css">
-
-        <!-- Compiled and minified JavaScript -->
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     </head>
     <body>
-        <input id="todo-input" type="text" placeholder="Feed the cat" autofocus onkeydown="add()">
-        <button type="button" onclick="add()" onkeydown="add()">Make</button>
-        <ul id="todo-list"></ul>
+        <div class="container">
+            <div class="inputField">
+                <input id="todo-input" type="text" placeholder="Feed the cat" autofocus>
+                <a onclick="add()" class="btn-floating btn-large waves-effect waves-light teal"><i class="material-icons">add</i></a>
+            </div>
+            <ul id="todo-list"></ul>
+            <div class="container">
+                <div class="row">
+                    <div class="col s6">
+                        Completed:
+                        <ul id="completed-list"></ul>
+                    </div>
+                    <div class="col s6">
+                        Deleted:
+                        <ul id="deleted-list"></ul>
+                    </div>
+                </div>
+            </div>
+        </div>
     </body>
     <script src="client.js" async></script>
+    <!-- Compiled and minified JavaScript -->
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
+    
 </html>
