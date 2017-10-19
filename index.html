@@ -8,25 +8,31 @@
         <!-- Compiled and minified CSS -->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css">
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <link rel="stylesheet" type="text/css" href="./style.css">
+
     </head>
     <body>
+        <div class="valign-wrapper" style="height:100%">
         <div class="container" style="padding: 10%">
+            <h3> To-do: </h3><br><br>
             <div class="inputField">
-                <input id="todo-input" type="text" placeholder="Feed the cat" autofocus>
+                <input id="todo-input" type="text" placeholder="Feed the dog" autofocus onkeydown="addKey()">
+                <br><br>
                 <div class="row center-align">
                     <div class="col s3">
-                        <a onclick="add()" class="btn-floating btn-small waves-effect waves-light teal"><i class="material-icons">add</i></a>                
+                        <a onclick="addMouse()" class="btn-floating btn-small waves-effect waves-light teal buttons"><i class="material-icons">add</i></a>                
                     </div>
                     <div class="col s3">
-                        <a onclick="completeRemaining()" class="btn-floating btn-small waves-effect waves-light teal"><i class="material-icons">check</i></a>                
+                        <a onclick="completeRemaining()" class="btn-floating btn-small waves-effect waves-light teal buttons"><i class="material-icons">check</i></a>                
                     </div>
                     <div class="col s3">
-                        <a onclick="deleteRemaining()" class="btn-floating btn-small waves-effect waves-light teal"><i class="material-icons">clear</i></a>                
+                        <a onclick="deleteRemaining()" class="btn-floating btn-small waves-effect waves-light teal buttons"><i class="material-icons">clear</i></a>                
                     </div>
                     <div class="col s3">
-                        <a onclick="newSpace()" class="btn-floating btn-small waves-effect waves-light teal"><i class="material-icons">control_point</i></a>                
+                        <a onclick="newSpace()" class="btn-floating btn-small waves-effect waves-light teal buttons"><i class="material-icons">control_point</i></a>                
                     </div>
                 </div>
+                <br><br>
             </div>
             <ul id="todo-list"></ul>
             <div class="">
@@ -44,7 +50,8 @@
             <br><br><br>
             <hr>
             <br><br><br>
-            <a onclick="save()" class="btn-floating btn-large waves-effect waves-light teal"><i class="material-icons">save</i></a>               
+            <a onclick="save()" class="btn-floating btn-large waves-effect waves-light teal buttons"><i class="material-icons">save</i></a>               
+        </div>
         </div>
     </body>
     <script src="client.js" async></script>
