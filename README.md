@@ -35,3 +35,6 @@ Now open `index.html` in your browser. Things won't work at first, but once the 
 
 ## Done?
 Great job! When you're all finished, open a PR and we'll review it 🙌
+
+
+start :D
