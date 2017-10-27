@@ -18,6 +18,11 @@ The feature is a way for customers of Ada (those who create and manage bots) to 
 
 For context, right now you cannot do this and if you want to add new answers you need to manually input them inside the Ada editor.
  
+## Challenge Requirements
+
+- Blog post can be no more than 200 words
+- Distribution plan should be only bullet points
+
 ## Ada's Blog
 
 - [Company Blog](https://ada.support/posts/)
