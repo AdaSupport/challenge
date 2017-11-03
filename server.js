@@ -2,30 +2,41 @@ const server = require('socket.io')();
 const firstTodos = require('./data');
 const Todo = require('./todo');
 
-// This is going to be our fake 'database' for this application
+// TODO create database module
+let counter = 0;
 // Parse all default Todo's from db
-const DB = firstTodos.map((t) => {
+const DB = firstTodos.reduce((map, todo) => {
   // Form new Todo objects
-  return new Todo(title=t.title);
-});
+  map.set(counter, new Todo(counter, todo.title));
+  counter++;
+  return map;
+}, new Map());
 
 server.on('connection', (client) => {
 
     // Sends a message to the client to reload all todos
     const reloadTodos = () => {
-        client.emit('load', DB);
+        const todoList = new Array();
+        DB.forEach((val, key, map) => todoList.push(val));
+        client.emit('load', todoList);
     }
 
     // Accepts when a client makes a new todo
     client.on('make', (t) => {
         // Make a new todo
-        const newTodo = new Todo(title=t.title);
+        const newTodo = new Todo(counter, title=t.title);
+        counter++;
 
-        // Push this newly created todo to our database
-        DB.push(newTodo);
+        // Add this newly created todo to our database
+        DB[newTodo.id] = newTodo;
 
         // Sends the new todo to all clients
         server.emit('new', newTodo);
+    });
+
+    client.on('update', (t) => {
+        DB[t.id] = t;
+        server.emit('updated-todo', t);
     });
 
     // Send the DB downstream on connect

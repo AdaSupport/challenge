@@ -22,7 +22,15 @@ function add() {
 function render(todo) {
     console.log(todo);
     const listItem = document.createElement('li');
+    listItem.dataset.id = todo.id;
     const listItemText = document.createTextNode(todo.title);
+    const listItemCheckbox = document.createElement('input');
+    listItemCheckbox.type = 'checkbox';
+    listItemCheckbox.onclick = (event) => {
+      todo.completed = event.target.checked;
+      server.emit('update', todo);
+    };
+    listItem.appendChild(listItemCheckbox);
     listItem.appendChild(listItemText);
     list.append(listItem);
 }
@@ -36,4 +44,12 @@ server.on('load', (todos) => {
 
 server.on('new', (todo) => {
     render(todo);
+});
+
+server.on('updated-todo', (todo) => {
+    const todoEl = list.querySelector('[data-id="' + todo.id + '"]')
+    todoEl.querySelector('input').checked = todo.completed;
+
+    if (todo.completed) todoEl.style.textDecoration = 'line-through';
+    else todoEl.style.textDecoration = 'none';
 });
