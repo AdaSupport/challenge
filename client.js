@@ -24,11 +24,14 @@ function render(todo) {
     console.log(todo);
     const listItem = document.createElement('li');
     listItem.dataset.id = todo.id;
+    if (todo.completed) listItem.style.textDecoration = 'line-through';
+    else listItem.style.textDecoration = 'none';
 
     const listItemText = document.createTextNode(todo.title);
 
     const listItemCheckbox = document.createElement('input');
     listItemCheckbox.type = 'checkbox';
+    listItemCheckbox.checked = todo.completed;
     listItemCheckbox.onclick = (event) => {
       todo.completed = event.target.checked;
       server.emit('update', todo);
@@ -49,6 +52,14 @@ function render(todo) {
 
 function find(todo) {
     return list.querySelector('[data-id="' + todo.id + '"]');
+}
+
+function completeAll() {
+    server.emit('complete-all');
+}
+
+function deleteAll() {
+    server.emit('delete-all');
 }
 
 // NOTE: These are listeners for events from the server

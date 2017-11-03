@@ -4,9 +4,9 @@ const DB = new database();
 
 server.on('connection', (client) => {
 
-    // Sends a message to the client to reload all todos
+    // Sends a message to all clients to reload all todos
     const reloadTodos = () => {
-        client.emit('load', DB.values());
+      server.emit('load', DB.values());
     }
 
     // Accepts when a client makes a new todo
@@ -28,8 +28,18 @@ server.on('connection', (client) => {
         server.emit('deleted-todo', t);
     });
 
+    client.on('delete-all', (t) => {
+        DB.deleteAll();
+        reloadTodos();
+    });
+
+    client.on('complete-all', (t) => {
+        DB.completeAll();
+        reloadTodos();
+    });
+
     // Send the DB downstream on connect
-    reloadTodos();
+    client.emit('load', DB.values());
 });
 
 console.log('Waiting for clients to connect');

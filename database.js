@@ -28,9 +28,17 @@ class DB {
     this.todos.delete(todo.id);
   }
 
+  deleteAll() {
+    this.todos.clear();
+  }
+
+  completeAll() {
+    this.todos.forEach((todo) => todo.completed = true);
+  }
+
   values() {
     const todoList = new Array();
-    this.todos.forEach((val, key, map) => todoList.push(val));
+    this.todos.forEach((todo) => todoList.push(todo));
     return todoList;
   }
 }
