@@ -1,6 +1,11 @@
 const server = io('http://localhost:3003/');
 const list = document.getElementById('todo-list');
 
+// Startup
+const TodoCache = loadCache();
+TodoCache.forEach((todo) => render(todo));
+disableInput();
+
 // NOTE: These are all our globally scoped functions for interacting with the server
 // This function adds a new todo from the input
 function add() {
@@ -50,10 +55,6 @@ function render(todo) {
     list.append(listItem);
 }
 
-function find(todo) {
-    return list.querySelector('[data-id="' + todo.id + '"]');
-}
-
 function completeAll() {
     server.emit('complete-all');
 }
@@ -62,25 +63,77 @@ function deleteAll() {
     server.emit('delete-all');
 }
 
-// NOTE: These are listeners for events from the server
-// This event is for (re)loading the entire list of todos from the server
+// Helper Methods
+
+function saveCache() {
+    window.localStorage.todos = JSON.stringify(Array.from(TodoCache.entries()));
+}
+
+function loadCache() {
+    if (!window.localStorage.todos) return new Map();
+    return new Map(JSON.parse(window.localStorage.todos));
+}
+
+function disableInput() {
+  [...document.querySelectorAll('input')].forEach((el) => {
+    el.disabled = true;
+  });
+}
+
+function find(todo) {
+    return list.querySelector('[data-id="' + todo.id + '"]');
+}
+
+// Prevent users from interacting when connection is disabled
+server.on('disconnect', () => {
+  disableInput();
+});
+
+// Allow users to interact when connected to server
+server.on('connect', () => {
+  [...document.querySelectorAll('input')].forEach((el) => {
+    el.disabled = false;
+  });
+});
+
+// Reload the entire list of todos from the server
 server.on('load', (todos) => {
     [...list.children].forEach((el) => list.removeChild(el));
     todos.forEach((todo) => render(todo));
+    
+    // Update cache
+    TodoCache.clear();
+    todos.map((todo) => TodoCache.set(todo.id, todo));
+    saveCache();
 });
 
+// Receive new todo from server
 server.on('new', (todo) => {
     render(todo);
+
+    // Update cache
+    TodoCache.set(todo.id, todo);
+    saveCache();
 });
 
+// Receive updated todo from server
 server.on('updated-todo', (todo) => {
     const todoEl = find(todo);
     todoEl.querySelector('input').checked = todo.completed;
 
     if (todo.completed) todoEl.style.textDecoration = 'line-through';
     else todoEl.style.textDecoration = 'none';
+
+    // Update cache
+    TodoCache.set(todo.id, todo);
+    saveCache();
 });
 
+// Receive deleted todo from server
 server.on('deleted-todo', (todo) => {
     list.removeChild(find(todo));
+
+    // Update cache
+    TodoCache.delete(todo.id);
+    saveCache();
 });
