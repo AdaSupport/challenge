@@ -19,20 +19,36 @@ function add() {
     input.focus();
 }
 
+// TODO use React for rendering
 function render(todo) {
     console.log(todo);
     const listItem = document.createElement('li');
     listItem.dataset.id = todo.id;
+
     const listItemText = document.createTextNode(todo.title);
+
     const listItemCheckbox = document.createElement('input');
     listItemCheckbox.type = 'checkbox';
     listItemCheckbox.onclick = (event) => {
       todo.completed = event.target.checked;
       server.emit('update', todo);
     };
+
+    const listItemDelete = document.createElement('input');
+    listItemDelete.type = 'button';
+    listItemDelete.value = 'x';
+    listItemDelete.onclick = () => {
+      server.emit('delete', todo);
+    }
+
     listItem.appendChild(listItemCheckbox);
     listItem.appendChild(listItemText);
+    listItem.appendChild(listItemDelete);
     list.append(listItem);
+}
+
+function find(todo) {
+    return list.querySelector('[data-id="' + todo.id + '"]');
 }
 
 // NOTE: These are listeners for events from the server
@@ -47,9 +63,13 @@ server.on('new', (todo) => {
 });
 
 server.on('updated-todo', (todo) => {
-    const todoEl = list.querySelector('[data-id="' + todo.id + '"]')
+    const todoEl = find(todo);
     todoEl.querySelector('input').checked = todo.completed;
 
     if (todo.completed) todoEl.style.textDecoration = 'line-through';
     else todoEl.style.textDecoration = 'none';
+});
+
+server.on('deleted-todo', (todo) => {
+    list.removeChild(find(todo));
 });

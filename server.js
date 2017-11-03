@@ -23,6 +23,11 @@ server.on('connection', (client) => {
         server.emit('updated-todo', updatedTodo);
     });
 
+    client.on('delete', (t) => {
+        DB.deleteTodo(t);
+        server.emit('deleted-todo', t);
+    });
+
     // Send the DB downstream on connect
     reloadTodos();
 });

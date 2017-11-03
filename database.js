@@ -24,6 +24,10 @@ class DB {
     return todo;
   }
 
+  deleteTodo(todo) {
+    this.todos.delete(todo.id);
+  }
+
   values() {
     const todoList = new Array();
     this.todos.forEach((val, key, map) => todoList.push(val));
