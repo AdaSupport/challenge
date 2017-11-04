@@ -15,7 +15,7 @@ class TodoApp extends React.Component {
       React.createElement('div', {className: 'todo-header'}, 
         React.createElement('input', {className: 'todo-input', type: 'text', disabled: this.state.disabled, placeholder: 'Add a todo...', autoFocus: true}, null),
         React.createElement('input', {className: 'create-todo button', type: 'button', disabled: this.state.disabled, value: 'Make', onClick: this.createTodo}, null)),
-      React.createElement(TodoList, {todos: this.state.todos, server, disabled: this.state.disabled}, null),
+      React.createElement(TodoList, {todos: this.state.todos, disabled: this.state.disabled}, null),
       React.createElement('div', {className: 'todo-footer'}, 
         React.createElement('input', {className: 'button', type: 'button', disabled: this.state.disabled, value: 'Complete All', onClick: this.completeAll}, null),
         React.createElement('input', {className: 'button', type: 'button', disabled: this.state.disabled, value: 'Delete All', onClick: this.deleteAll}, null)));
@@ -95,25 +95,43 @@ class TodoApp extends React.Component {
 
 class TodoList extends React.Component {
 
+  renderCompleted() {
+    if ([...this.props.todos.values()].filter((todo) => todo.completed).length > 0) {
+      return React.createElement('div', {className: 'completed-todos-header'},
+        React.createElement('span', null, 'Completed'));
+    } else {
+      return null;
+    }
+  }
+
   render() {
     return React.createElement('ul', {className: 'todo-list'},
-      [...this.props.todos.values()].map((todo) => {
-        return React.createElement('li', {key: todo.id, className: 'todo-list-item'},
-          React.createElement('input', {type: 'checkbox', className: 'todo-checkbox', disabled: this.props.disabled, checked: todo.completed, onChange: this.checkboxClick.bind(this, todo.id)}, null),
-          React.createElement('span', {className: 'todo-title', style: {textDecoration: todo.completed ? 'line-through' : 'none'}}, todo.title),
-          React.createElement('input', {type: 'button', className: 'delete-todo', disabled: this.props.disabled, value: 'x', onClick: this.deleteClick.bind(this, todo.id)}, null));
+      [...this.props.todos.values()].filter((todo) => !todo.completed).map((todo) => {
+        return React.createElement(Todo, {key: todo.id, todo, disabled: this.props.disabled}, null);
+      }),
+      this.renderCompleted(),
+      [...this.props.todos.values()].filter((todo) => todo.completed).map((todo) => {
+        return React.createElement(Todo, {key: todo.id, todo, disabled: this.props.disabled}, null);
       })
     );
   }
+}
 
-  checkboxClick(todoId, event) {
-    const todo = this.props.todos.get(todoId);
-    todo.completed = event.target.checked;
-    this.props.server.emit('update', todo);
+class Todo extends React.Component {
+  render() {
+      return React.createElement('li', {className: 'todo-list-item'},
+        React.createElement('input', {type: 'checkbox', className: 'todo-checkbox', disabled: this.props.disabled, checked: this.props.todo.completed, onChange: this.checkboxClick.bind(this)}, null),
+        React.createElement('span', {className: 'todo-title', style: {textDecoration: this.props.todo.completed ? 'line-through' : 'none'}}, this.props.todo.title),
+        React.createElement('input', {type: 'button', className: 'delete-todo', disabled: this.props.disabled, value: 'x', onClick: this.deleteClick}, null));
   }
 
-  deleteClick(todoId, event) {
-    this.props.server.emit('delete', this.props.todos.get(todoId));
+  checkboxClick(event) {
+    this.props.todo.completed = event.target.checked;
+    server.emit('update', this.props.todo);
+  }
+
+  deleteClick() {
+    server.emit('update', this.props.todo);
   }
 }
 
