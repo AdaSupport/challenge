@@ -28,7 +28,7 @@ input {
   justify-content: space-between;
 }
 
-#todo-input {
+input.todo-input {
   flex: 1;
   border-radius: 3px;
   margin-right: 10px;
@@ -38,7 +38,7 @@ input {
   border: none;
   box-shadow: inset 1px 0px 3px rgba(0,0,0,.25);
 }
-#todo-input::placeholder {
+input.todo-input::placeholder {
   color: #CCC;
 }
 
@@ -56,7 +56,7 @@ input.button:hover {
   background: #999;
 }
 
-#todo-list {
+ul.todo-list {
   margin: 0px;
   list-style: none;
   padding: 0px;
