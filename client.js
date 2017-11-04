@@ -9,7 +9,6 @@ disableInput();
 // NOTE: These are all our globally scoped functions for interacting with the server
 // This function adds a new todo from the input
 function add() {
-    console.warn(event);
     const input = document.getElementById('todo-input');
 
     // Emit the new todo as some data to the server
@@ -26,15 +25,19 @@ function add() {
 
 // TODO use React for rendering
 function render(todo) {
-    console.log(todo);
     const listItem = document.createElement('li');
+    listItem.className = 'todo-list-item';
     listItem.dataset.id = todo.id;
-    if (todo.completed) listItem.style.textDecoration = 'line-through';
-    else listItem.style.textDecoration = 'none';
 
+    const listItemSpan = document.createElement('span');
+    listItemSpan.className = 'todo-title';
+    if (todo.completed) listItemSpan.style.textDecoration = 'line-through';
+    else listItemSpan.style.textDecoration = 'none';
     const listItemText = document.createTextNode(todo.title);
+    listItemSpan.appendChild(listItemText);
 
     const listItemCheckbox = document.createElement('input');
+    listItemCheckbox.className = 'todo-checkbox';
     listItemCheckbox.type = 'checkbox';
     listItemCheckbox.checked = todo.completed;
     listItemCheckbox.onclick = (event) => {
@@ -43,6 +46,7 @@ function render(todo) {
     };
 
     const listItemDelete = document.createElement('input');
+    listItemDelete.className = 'delete-todo';
     listItemDelete.type = 'button';
     listItemDelete.value = 'x';
     listItemDelete.onclick = () => {
@@ -50,7 +54,7 @@ function render(todo) {
     }
 
     listItem.appendChild(listItemCheckbox);
-    listItem.appendChild(listItemText);
+    listItem.appendChild(listItemSpan);
     listItem.appendChild(listItemDelete);
     list.append(listItem);
 }
@@ -120,9 +124,10 @@ server.on('new', (todo) => {
 server.on('updated-todo', (todo) => {
     const todoEl = find(todo);
     todoEl.querySelector('input').checked = todo.completed;
+    const todoSpan = todoEl.querySelector('span');
 
-    if (todo.completed) todoEl.style.textDecoration = 'line-through';
-    else todoEl.style.textDecoration = 'none';
+    if (todo.completed) todoSpan.style.textDecoration = 'line-through';
+    else todoSpan.style.textDecoration = 'none';
 
     // Update cache
     TodoCache.set(todo.id, todo);

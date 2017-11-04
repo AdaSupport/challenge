@@ -2,15 +2,24 @@
 <html>
     <head>
         <meta charset="utf-8">
+        <meta name="HandheldFriendly" content="True" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
         <title>TODO</title>
         <script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
+        <link rel="stylesheet" type="text/css" href="todo.css" />
+
     </head>
     <body>
-        <input id="todo-input" type="text" placeholder="Feed the cat" autofocus>
-        <input type="button" value="Make" onclick="add()" />
-        <ul id="todo-list"></ul>
-        <input type="button" value="Complete All" onclick="completeAll()" />
-        <input type="button" value="Delete All" onclick="deleteAll()" />
+      <div class="todo-header">
+        <input id="todo-input" type="text" placeholder="Add a todo..." autofocus>
+        <input class="button create-todo" type="button" value="Make" onclick="add()" />
+      </div>
+      <ul id="todo-list"></ul>
+      <div class="todo-footer">
+        <input class="button" type="button" value="Complete All" onclick="completeAll()" />
+        <input class="button" type="button" value="Delete All" onclick="deleteAll()" />
+      </div>
     </body>
     <script src="client.js" async></script>
 </html>
