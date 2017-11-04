@@ -3,15 +3,12 @@ const data = require('./data');
 const Todo = require('./todo');
 
 class DB {
-  constructor() {
+  constructor(_fileName='data.json', _syncWrites=false) {
+    this.fileName = _fileName;
+    this.syncWrites = _syncWrites;
     this.counter = 0;
     this.todos = new Map();
-    this.init();
-  }
-
-  init() {
-    this.counter = data.counter;
-    this.todos = new Map(data.map);
+    this._load();
   }
 
   newTodo(title) {
@@ -46,8 +43,20 @@ class DB {
   values() {
     const todoList = new Array();
     this.todos.forEach((todo) => todoList.push(todo));
-    this._sync();
     return todoList;
+  }
+
+  _load() {
+    // sync read database from disk
+    let data = null;
+    try { data = fs.readFileSync(this.fileName); }
+    catch (e) { return; }
+
+    if (data != null) {
+      data = JSON.parse(data);
+      this.counter = data.counter;
+      this.todos = new Map(data.map);
+    }
   }
 
   _sync() {
@@ -56,9 +65,14 @@ class DB {
       counter: this.counter,
       map: Array.from(this.todos.entries())
     }
-    fs.writeFile('data.json', JSON.stringify(data), (err) => {
+    if (this.syncWrites) {
+      const err = fs.writeFileSync(this.fileName, JSON.stringify(data))
       if (err) throw err;
-    });
+    } else {
+      fs.writeFile(this.fileName, JSON.stringify(data), (err) => {
+        if (err) throw err;
+      });
+    }
   }
 }
 module.exports = DB;
