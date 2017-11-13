@@ -1,40 +1,45 @@
-// FIXME: Feel free to remove this :-)
-console.log('\n\nGood Luck! 😅\n\n');
-
 const server = require('socket.io')();
-const firstTodos = require('./data');
-const Todo = require('./todo');
+const database = require('./database');
+const DB = new database();
 
 server.on('connection', (client) => {
-    // This is going to be our fake 'database' for this application
-    // Parse all default Todo's from db
 
-    // FIXME: DB is reloading on client refresh. It should be persistent on new client connections from the last time the server was run...
-    const DB = firstTodos.map((t) => {
-        // Form new Todo objects
-        return new Todo(title=t.title);
-    });
-
-    // Sends a message to the client to reload all todos
+    // Sends a message to all clients to reload all todos
     const reloadTodos = () => {
-        server.emit('load', DB);
+      server.emit('load', DB.values());
     }
 
     // Accepts when a client makes a new todo
     client.on('make', (t) => {
         // Make a new todo
-        const newTodo = new Todo(title=t.title);
+        const newTodo = DB.newTodo(t.title);
 
-        // Push this newly created todo to our database
-        DB.push(newTodo);
+        // Sends the new todo to all clients
+        server.emit('new', newTodo);
+    });
 
-        // Send the latest todos to the client
-        // FIXME: This sends all todos every time, could this be more efficient?
+    client.on('update', (t) => {
+        const updatedTodo = DB.updateTodo(t);
+        server.emit('updated-todo', updatedTodo);
+    });
+
+    client.on('delete', (t) => {
+        DB.deleteTodo(t);
+        server.emit('deleted-todo', t);
+    });
+
+    client.on('delete-all', (t) => {
+        DB.deleteAll();
+        reloadTodos();
+    });
+
+    client.on('complete-all', (t) => {
+        DB.completeAll();
         reloadTodos();
     });
 
     // Send the DB downstream on connect
-    reloadTodos();
+    client.emit('load', DB.values());
 });
 
 console.log('Waiting for clients to connect');
