@@ -48,7 +48,12 @@
         .todo-item {
             display: grid;
             grid-template-columns: 1fr auto auto;
+            grid-gap: 5px;
             padding-bottom: 1em;
+        }
+        .todo-item input:checked + * {
+            text-decoration: line-through;
+            opacity: 0.5;
         }
         /* undo a confusing choice by picnic.css */
         button {
