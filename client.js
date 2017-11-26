@@ -8,7 +8,7 @@ const state = {
 
 // NOTE: These are all our globally scoped functions for interacting with the server
 // This function adds a new todo from the input
-function add() {
+const add = () => {
     const input = document.getElementById('todo-input');
 
     // Emit the new todo as some data to the server
@@ -21,8 +21,8 @@ function add() {
     input.focus();
 }
 
-function remove() {
-    alert("Not implemented yet")
+const remove = (index) => (event) => {
+    server.emit('remove', index)
 }
 
 const toggleStatus = (index) => (event) => {
@@ -59,7 +59,7 @@ const TodoItem = (todo, index) => {
     return m("li.todo-item",
             m("input[type=checkbox]", {onchange: toggleStatus(index), checked: !!todo.done}),
             m(".title", todo.title),
-            m("button", {onclick: remove}, "x")
+            m("button", {onclick: remove(index)}, "x")
         )
 }
 

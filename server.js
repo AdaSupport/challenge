@@ -41,6 +41,11 @@ server.on('connection', (client) => {
         updateTodo(index);
     });
 
+    client.on('remove', (index) => {
+        DB.splice(index, 1);
+        reloadTodos();
+    })
+
     // Send the DB downstream on connect
     reloadTodos();
 });
