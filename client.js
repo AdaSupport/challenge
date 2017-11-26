@@ -72,6 +72,8 @@ server.on('update', ({index, todo}) => {
     m.redraw();
 });
 
+server.on('disconnect', m.redraw);
+
 // NOTE: These are our render functions
 const TodoItem = (todo, index) => {
     return m(".todo-item", {oncreate: ({dom}) => dom.scrollIntoView()},
