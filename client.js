@@ -3,7 +3,21 @@ const list = document.getElementById('todo-list');
 
 // NOTE: This is the entirety of the app state as seen from the client side
 const state = {
-    todos: []
+    todos: [],
+}
+
+const saveCache = () => {
+    localStorage.cacheDate = +new Date();
+    localStorage.cache = JSON.stringify(state.todos);
+}
+
+const loadCache = () => {
+    try {
+        state.todos = JSON.parse(localStorage.cache);
+    }
+    catch(error) {
+        state.todos = [];
+    }
 }
 
 // NOTE: These are all our globally scoped functions for interacting with the server
@@ -47,16 +61,19 @@ function removeAll() {
 // This event is for (re)loading the entire list of todos from the server
 server.on('load', (todos) => {
     state.todos = todos;
+    saveCache();
     m.redraw();
 });
 
 server.on('todo', (todo) => {
     state.todos.push(todo);
+    saveCache();
     m.redraw();
 });
 
 server.on('update', ({index, todo}) => {
     state.todos[index] = todo;
+    saveCache();
     m.redraw();
 });
 
@@ -77,6 +94,9 @@ const TodoApp = {
                 m("button", {onclick: add}, "Make"),
             ),
             m("main",
+                m(".status", server.connected
+                    ? `You are connected.`
+                    : `Cannot connect to server. Displaying todos from ${new Date(+localStorage.cacheDate).toLocaleString()}.`),
                 m("#todo-list", state.todos.map(TodoItem)),
             ),
             m("footer",
@@ -87,4 +107,5 @@ const TodoApp = {
     },
 }
 
+loadCache();
 m.mount(document.body, TodoApp);
