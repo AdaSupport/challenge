@@ -22,7 +22,9 @@ const add = () => {
 }
 
 const remove = (index) => (event) => {
-    server.emit('remove', index)
+    if(confirm(`You want to delete <${state.todos[index].title}>?`)) {
+        server.emit('remove', index)
+    }
 }
 
 const toggleStatus = (index) => (event) => {
@@ -30,11 +32,15 @@ const toggleStatus = (index) => (event) => {
 }
 
 function completeAll() {
-    alert("Not implemented yet")
+    if(confirm(`You want to complete all tasks?`)) {
+        server.emit('completeAll');
+    }
 }
 
 function removeAll() {
-    alert("Not implemented yet")
+    if(confirm(`You want to remove all tasks?`)) {
+        server.emit('removeAll');
+    }
 }
 
 // NOTE: These are listeners for events from the server

@@ -44,7 +44,17 @@ server.on('connection', (client) => {
     client.on('remove', (index) => {
         DB.splice(index, 1);
         reloadTodos();
-    })
+    });
+
+    client.on('completeAll', () => {
+        DB.forEach(todo => todo.done = true);
+        reloadTodos();
+    });
+
+    client.on('removeAll', () => {
+        DB.splice(0, DB.length);
+        reloadTodos();
+    });
 
     // Send the DB downstream on connect
     reloadTodos();
