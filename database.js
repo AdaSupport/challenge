@@ -26,6 +26,12 @@ class DB extends Array {
         this[index].done = !this[index].done;
     }
 
+    renameTodo(index, title) {
+        if(!this[index]) return
+        this[index].title = title;
+        return this[index]
+    }
+
     completeAll() {
         this.forEach(todo => todo.done = true);
     }

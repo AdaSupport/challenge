@@ -4,6 +4,7 @@ const list = document.getElementById('todo-list');
 // NOTE: This is the entirety of the app state as seen from the client side
 const state = {
     todos: [],
+    beingEdited: new Set(),
 }
 
 const saveCache = () => {
@@ -28,6 +29,12 @@ const add = (event) => {
     server.emit('make', {title: input.value});
     input.value = '';
     input.focus();
+}
+
+const rename = (index) => (event) => {
+    event.preventDefault();
+    server.emit('rename', index, event.target.rename.value);
+    state.beingEdited.delete(index);
 }
 
 const remove = (index) => (event) => {
@@ -77,11 +84,19 @@ server.on('disconnect', m.redraw);
 // NOTE: These are our render functions
 const TodoItem = (todo, index) => {
     return m(".todo-item", {oncreate: ({dom}) => dom.scrollIntoView()},
-        m("label",
-            m("input[type=checkbox]", {onchange: toggleStatus(index), checked: !!todo.done}),
-            m(".title.checkable", todo.title),
-        ),
-        m("button.error", {onclick: remove(index)}, "x")
+        state.beingEdited.has(index)
+        ? m("form", {onsubmit: rename(index)},
+            m("input[name=rename]", {value: todo.title}),
+            m("button.success", "save"),
+        )
+        : [
+            m("label",
+                m("input[type=checkbox]", {onchange: toggleStatus(index), checked: !!todo.done}),
+                m(".title.checkable", todo.title),
+            ),
+            m("button.warning", {onclick: () => state.beingEdited.add(index)}, "edit"),
+            m("button.error", {onclick: remove(index)}, "x"),
+        ],
     )
 }
 

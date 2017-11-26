@@ -25,6 +25,11 @@ server.on('connection', (client) => {
         updateTodo(index);
     });
 
+    client.on('rename', (index, title) => {
+        DB.renameTodo(index, title);
+        updateTodo(index);
+    })
+
     client.on('remove', (index) => {
         DB.remove(index);
         reloadTodos();

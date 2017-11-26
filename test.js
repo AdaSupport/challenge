@@ -31,6 +31,12 @@ describe("DB", function () {
         DB.filter(todo=>todo.done).should.have.length(6);
     })
 
+    it('can rename todo', () => {
+        const renamed = DB.renameTodo(0, "walk the dog");
+        DB[0].title.should.equal("walk the dog");
+        renamed.title.should.equal("walk the dog");
+    })
+
     it('removeAll method works', () => {
         DB.removeAll();
         DB.should.have.length(0);
