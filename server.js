@@ -4,9 +4,9 @@ const Todo = require('./todo');
 
 // This is going to be our fake 'database' for this application
 // Parse all default Todo's from db
-const DB = firstTodos.map((t) => {
+const DB = firstTodos.map((todo) => {
     // Form new Todo objects
-    return new Todo(title=t.title);
+    return new Todo(title=todo.title, done=todo.done);
 });
 
 server.on('connection', (client) => {
@@ -20,17 +20,25 @@ server.on('connection', (client) => {
         server.emit('todo', todo);
     }
 
+    const updateTodo = (index) => {
+        server.emit('update', {index, todo: DB[index]});
+    }
+
     // Accepts when a client makes a new todo
-    client.on('make', (t) => {
+    client.on('make', (todo) => {
         // Make a new todo
-        const newTodo = new Todo(title=t.title);
+        const newTodo = new Todo(title=todo.title);
 
         // Push this newly created todo to our database
         DB.push(newTodo);
 
         // Send the latest todos to the client
-        // FIXME: This sends all todos every time, could this be more efficient?
         pushSingleTodo(newTodo);
+    });
+
+    client.on('toggleCompletionStatus', (index) => {
+        DB[index].done = !DB[index].done;
+        updateTodo(index);
     });
 
     // Send the DB downstream on connect

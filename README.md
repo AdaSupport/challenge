@@ -14,7 +14,7 @@ When you're finished, you should have a real-time TODO app that two or more peop
 
 ##  Your Quest
 - [x] Fix all the bugs
-- [ ] Add a feature that allows users to complete tasks
+- [x] Add a feature that allows users to complete tasks
 - [ ] Add a feature that allows users to delete tasks
 - [ ] Add a feature that allows the completion of all tasks
 - [ ] Add a feature that allows the deletion of all tasks

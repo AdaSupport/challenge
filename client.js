@@ -25,8 +25,8 @@ function remove() {
     alert("Not implemented yet")
 }
 
-function toggleStatus() {
-    alert("Not implemented yet")
+const toggleStatus = (index) => (event) => {
+    server.emit('toggleCompletionStatus', index);
 }
 
 function completeAll() {
@@ -49,10 +49,15 @@ server.on('todo', (todo) => {
     m.redraw();
 });
 
+server.on('update', ({index, todo}) => {
+    state.todos[index] = todo;
+    m.redraw();
+});
+
 // NOTE: These are our render functions
-const TodoItem = (todo, i) => {
+const TodoItem = (todo, index) => {
     return m("li.todo-item",
-            m("input[type=checkbox]", {onchange: toggleStatus}),
+            m("input[type=checkbox]", {onchange: toggleStatus(index), checked: !!todo.done}),
             m(".title", todo.title),
             m("button", {onclick: remove}, "x")
         )
