@@ -22,7 +22,8 @@ const loadCache = () => {
 
 // NOTE: These are all our globally scoped functions for interacting with the server
 // This function adds a new todo from the input
-const add = () => {
+const add = (event) => {
+    event.preventDefault();
     const input = document.getElementById('todo-input');
     server.emit('make', {title: input.value});
     input.value = '';
@@ -73,7 +74,7 @@ server.on('update', ({index, todo}) => {
 
 // NOTE: These are our render functions
 const TodoItem = (todo, index) => {
-    return m(".todo-item",
+    return m(".todo-item", {oncreate: ({dom}) => dom.scrollIntoView()},
         m("label",
             m("input[type=checkbox]", {onchange: toggleStatus(index), checked: !!todo.done}),
             m(".title.checkable", todo.title),
@@ -86,8 +87,10 @@ const TodoApp = {
     view: () => {
         return [
             m("header",
-                m("input#todo-input[autofocus]", {placeholder: "Feed the cat"}),
-                m("button", {onclick: add}, "Make"),
+                m("form", {onsubmit: add},
+                    m("input#todo-input[autofocus]", {placeholder: "Feed the cat"}),
+                    m("button", "Make"),
+                ),
             ),
             m("main#todo-list", state.todos.map(TodoItem)),
             m("footer",
