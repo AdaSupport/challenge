@@ -21,7 +21,7 @@ When you're finished, you should have a real-time TODO app that two or more peop
 - [x] Add caching to the client app so that when we lose our connection we can still see our TODO's
 - [ ] Make it look right on mobile devices
 - [ ] Make a design change to improve the user experience
-- [ ] Write some unit tests for your server side code
+- [x] Write some unit tests for your server side code
 
 ## Set Up
 This is a Node app so you'll need Node and NPM to get it up on its feet.
