@@ -22,6 +22,7 @@ class DB extends Array {
     }
 
     toggleCompletionStatus(index) {
+        if(!this[index]) return
         this[index].done = !this[index].done;
     }
 

@@ -36,4 +36,8 @@ describe("DB", function () {
         DB.should.have.length(0);
     })
 
+    it('toggle element that does not exist', () => {
+        DB.toggleCompletionStatus(10);
+    })
+
 });
