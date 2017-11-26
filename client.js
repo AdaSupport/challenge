@@ -24,13 +24,7 @@ const loadCache = () => {
 // This function adds a new todo from the input
 const add = () => {
     const input = document.getElementById('todo-input');
-
-    // Emit the new todo as some data to the server
-    server.emit('make', {
-        title : input.value
-    });
-
-    // Clear the input
+    server.emit('make', {title: input.value});
     input.value = '';
     input.focus();
 }
@@ -79,11 +73,13 @@ server.on('update', ({index, todo}) => {
 
 // NOTE: These are our render functions
 const TodoItem = (todo, index) => {
-    return m("li.todo-item",
+    return m(".todo-item",
+        m("label",
             m("input[type=checkbox]", {onchange: toggleStatus(index), checked: !!todo.done}),
-            m(".title", todo.title),
-            m("button", {onclick: remove(index)}, "x")
-        )
+            m(".title.checkable", todo.title),
+        ),
+        m("button.error", {onclick: remove(index)}, "x")
+    )
 }
 
 const TodoApp = {
@@ -93,15 +89,17 @@ const TodoApp = {
                 m("input#todo-input[autofocus]", {placeholder: "Feed the cat"}),
                 m("button", {onclick: add}, "Make"),
             ),
-            m("main",
-                m(".status", server.connected
-                    ? `You are connected.`
-                    : `Cannot connect to server. Displaying todos from ${new Date(+localStorage.cacheDate).toLocaleString()}.`),
-                m("#todo-list", state.todos.map(TodoItem)),
-            ),
+            m("main#todo-list", state.todos.map(TodoItem)),
             m("footer",
-                m("button", {onclick: completeAll}, "Mark All Completed"),
-                m("button", {onclick: removeAll}, "Clear List"),
+                server.connected
+                ? [
+                    `You are connected.`,
+                    m("button", {onclick: completeAll}, "Mark All Completed"),
+                    m("button.error", {onclick: removeAll}, "Clear List"),
+                ]
+                : [
+                    `Cannot connect to server. Displaying todos from ${new Date(+localStorage.cacheDate).toLocaleString()}.`,
+                ],
             ),
         ]
     },

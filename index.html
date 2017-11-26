@@ -2,19 +2,55 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+        <meta name="viewport" content="width=device-width, initial-scale=0.7, user-scalable=no">
         <title>TODO</title>
         <script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
         <script src="https://unpkg.com/mithril"></script>
+        <link href="https://unpkg.com/picnic" rel="stylesheet">
         <style>
-        #todo-list {
-            display: table;
+        html {
+            /* lea verou css patterns */
+            background:
+                radial-gradient(circle at 100% 50%, transparent 20%, rgba(255,255,255,.3) 21%, rgba(255,255,255,.3) 34%, transparent 35%, transparent),
+                radial-gradient(circle at 0% 50%, transparent 20%, rgba(255,255,255,.3) 21%, rgba(255,255,255,.3) 34%, transparent 35%, transparent) 0 -50px;
+            background-color: slategray;
+            background-size:75px 100px;
+        }
+        body {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        header {
+            padding: 5px;
+            background-color: rgba(255,255,255,0.7);
+            position: sticky;
+            top: 0;
+            display: grid;
+            grid-template-columns: 1fr auto;
+            grid-gap: 5px;
+            z-index: 999;
+        }
+        footer {
+            padding: 5px;
+            background-color: rgba(255,255,255,0.7);
+            position: sticky;
+            bottom: 0;
+            display: grid;
+            grid-template-columns: 1fr auto auto;
+            grid-gap: 5px;
+        }
+        main {
+            padding: 5px;
+            background-color: white;
         }
         .todo-item {
-            display: table-row;
+            display: grid;
+            grid-template-columns: 1fr auto;
+            padding-bottom: 1em;
         }
-        .todo-item > * {
-            display: table-cell;
+        /* undo a confusing choice by picnic.css */
+        button {
+            margin: 0 !important;
         }
         </style>
         </head>
