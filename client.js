@@ -21,6 +21,22 @@ function add() {
     input.focus();
 }
 
+function remove() {
+    alert("Not implemented yet")
+}
+
+function toggleStatus() {
+    alert("Not implemented yet")
+}
+
+function completeAll() {
+    alert("Not implemented yet")
+}
+
+function removeAll() {
+    alert("Not implemented yet")
+}
+
 // NOTE: These are listeners for events from the server
 // This event is for (re)loading the entire list of todos from the server
 server.on('load', (todos) => {
@@ -34,12 +50,28 @@ server.on('todo', (todo) => {
 });
 
 // NOTE: These are our render functions
+const TodoItem = (todo, i) => {
+    return m("li.todo-item",
+            m("input[type=checkbox]", {onchange: toggleStatus}),
+            m(".title", todo.title),
+            m("button", {onclick: remove}, "x")
+        )
+}
+
 const TodoApp = {
     view: () => {
         return [
-            m("input#todo-input[autofocus]", {placeholder: "Feed the cat"}),
-            m("button", {onclick: add}, "Make"),
-            m("ul#todo-list", state.todos.map(todo => m("li", todo.title))),
+            m("header",
+                m("input#todo-input[autofocus]", {placeholder: "Feed the cat"}),
+                m("button", {onclick: add}, "Make"),
+            ),
+            m("main",
+                m("#todo-list", state.todos.map(TodoItem)),
+            ),
+            m("footer",
+                m("button", {onclick: completeAll}, "Mark All Completed"),
+                m("button", {onclick: removeAll}, "Clear List"),
+            ),
         ]
     },
 }
