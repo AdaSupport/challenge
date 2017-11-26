@@ -13,7 +13,7 @@ When you're finished, you should have a real-time TODO app that two or more peop
 - If you prefer a functional style (or some other style of programming) feel free to switch things up to suit how you write best. We left the codebase intentionally small to support different styles/complete rewrites. Don't let how we've set things up get in the way of showing us your best work.
 
 ##  Your Quest
-- [ ] Fix all the bugs
+- [x] Fix all the bugs
 - [ ] Add a feature that allows users to complete tasks
 - [ ] Add a feature that allows users to delete tasks
 - [ ] Add a feature that allows the completion of all tasks

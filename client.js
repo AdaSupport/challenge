@@ -1,32 +1,47 @@
-const server = io('http://localhost:3003/');
+const server = io(`http://${location.host.replace('8000', '3003')}/`);
 const list = document.getElementById('todo-list');
+
+// NOTE: This is the entirety of the app state as seen from the client side
+const state = {
+    todos: []
+}
 
 // NOTE: These are all our globally scoped functions for interacting with the server
 // This function adds a new todo from the input
 function add() {
-    console.warn(event);
     const input = document.getElementById('todo-input');
 
     // Emit the new todo as some data to the server
     server.emit('make', {
-        titlé : input.value
+        title : input.value
     });
 
     // Clear the input
     input.value = '';
-    // TODO: refocus the element
-}
-
-function render(todo) {
-    console.log(todo);
-    const listItem = document.createElement('li');
-    const listItemText = document.createTextNode(todo.title);
-    listItem.appendChild(listItemText);
-    list.append(listItem);
+    input.focus();
 }
 
 // NOTE: These are listeners for events from the server
 // This event is for (re)loading the entire list of todos from the server
 server.on('load', (todos) => {
-    todos.forEach((todo) => render(todo));
+    state.todos = todos;
+    m.redraw();
 });
+
+server.on('todo', (todo) => {
+    state.todos.push(todo);
+    m.redraw();
+});
+
+// NOTE: These are our render functions
+const TodoApp = {
+    view: () => {
+        return [
+            m("input#todo-input[autofocus]", {placeholder: "Feed the cat"}),
+            m("button", {onclick: add}, "Make"),
+            m("ul#todo-list", state.todos.map(todo => m("li", todo.title))),
+        ]
+    },
+}
+
+m.mount(document.body, TodoApp);
