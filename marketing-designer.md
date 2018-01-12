@@ -4,14 +4,16 @@ As a Marketing Designer, your job is to visually articulate all information abou
 
 At Ada, the marketing and sales teams work very closely together. Beyond the many marketing projects you'll be working on, an important activity will be supporting the sales team in revising their materials. These will include sales decks, proposals, case studies and white-papers. 
 
-Your challenge is to revise an existing Ada overview that will be sent to prospective clients in advance of a phone call or meeting. The purpose of this overview is to clearly articulate what Ada Support does and why the client should be using us.
+Your task is two-fold, the first is to take the existing overview and create a new PDF based on the one attached below. Your goal with the new PDF is to create something more polished and effective in communicating our value to new prospects. The second is to take the additional value propositions (see below) that are currently not incorporated in the existing overview and add them into the new PDF that you create.
+
+This overview will be sent to prospective clients in advance of a phone call or meeting. The purpose of this overview is to clearly articulate what Ada Support does and why the client should be using us.
 
 Please use the style and branding guidelines linked below when revising the overview.  As an additional challenge please incorporate the value props noted below as their own section.
 
 When you are finished, please send me the piece in for feedback.
-Have fun, and please be sure to ask me questions during the process. Email Nick 😊
+Have fun, and please be sure to ask me questions during the process. Email [Nick](mailto:nick@ada.support) 😊
 
-### Ada Overview to Revise:
+### Ada Overview:
 
 [Download the PDF of a very rough overview here.](https://drive.google.com/open?id=1MLO0IhtKVQxkjAecLYvhALY575GhPCII)
 
