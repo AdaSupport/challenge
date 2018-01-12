@@ -15,6 +15,7 @@
         "title" : "Fix the charger for the speaker"
     },
     {
-        "title" : "Finish making the hiring challenge"
+        "title" : "Finish making the hiring challenge",
+        "done" : true
     }
 ]

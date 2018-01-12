@@ -2,13 +2,65 @@
 <html>
     <head>
         <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=0.7, user-scalable=no">
         <title>TODO</title>
         <script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
-    </head>
-    <body>
-        <input id="todo-input" type="text" placeholder="Feed the cat" autofocus>
-        <button type="button" onclick="add()">Make</button>
-        <ul id="todo-list"></ul>
-    </body>
+        <script src="https://unpkg.com/mithril"></script>
+        <link href="https://unpkg.com/picnic" rel="stylesheet">
+        <style>
+        html {
+            /* lea verou css patterns */
+            background:
+                radial-gradient(circle at 100% 50%, transparent 20%, rgba(255,255,255,.3) 21%, rgba(255,255,255,.3) 34%, transparent 35%, transparent),
+                radial-gradient(circle at 0% 50%, transparent 20%, rgba(255,255,255,.3) 21%, rgba(255,255,255,.3) 34%, transparent 35%, transparent) 0 -50px;
+            background-color: slategray;
+            background-size:75px 100px;
+        }
+        body {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        header {
+            padding: 5px;
+            background-color: rgba(255,255,255,0.7);
+            position: sticky;
+            top: 0;
+            z-index: 999;
+        }
+        header form, main form {
+            display: grid;
+            grid-template-columns: 1fr auto;
+            grid-gap: 5px;
+        }
+        footer {
+            padding: 5px;
+            background-color: rgba(255,255,255,0.7);
+            position: sticky;
+            bottom: 0;
+            display: grid;
+            grid-template-columns: 1fr auto auto;
+            grid-gap: 5px;
+        }
+        main {
+            padding: 5px;
+            background-color: white;
+        }
+        .todo-item {
+            display: grid;
+            grid-template-columns: 1fr auto auto;
+            grid-gap: 5px;
+            padding-bottom: 1em;
+        }
+        .todo-item input:checked + * {
+            text-decoration: line-through;
+            opacity: 0.5;
+        }
+        /* undo a confusing choice by picnic.css */
+        button {
+            margin: 0 !important;
+        }
+        </style>
+        </head>
+    <body></body>
     <script src="client.js" async></script>
 </html>
