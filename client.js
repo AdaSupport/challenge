@@ -9,7 +9,7 @@ function add() {
 
     // Emit the new todo as some data to the server
     server.emit('make', {
-        titlé : input.value
+        title : input.value
     });
 
     // Clear the input
