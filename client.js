@@ -21,8 +21,20 @@ function add() {
 function render(todo) {
     console.log(todo);
     const listItem = document.createElement('li');
+    listItem.id = `${todo.id}`
     const listItemText = document.createTextNode(todo.title);
+    const completeCheck = document.createElement('input');
+    completeCheck.type = "checkbox";
+    completeCheck.name = "todo";
+    completeCheck.value = "value";
+    completeCheck.checked = "checked";
+
+    const deleteButton = document.createElement('button');
+    deleteButton.textContent = 'delete';
+
     listItem.appendChild(listItemText);
+    listItem.prepend(completeCheck);
+    listItem.appendChild(deleteButton);
     list.append(listItem);
 }
 
