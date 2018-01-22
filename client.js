@@ -27,7 +27,6 @@ function render(todo) {
     completeCheck.type = "checkbox";
     completeCheck.name = "todo";
     completeCheck.value = "value";
-    completeCheck.checked = "checked";
 
     const deleteButton = document.createElement('button');
     deleteButton.textContent = 'delete';
@@ -42,4 +41,8 @@ function render(todo) {
 // This event is for (re)loading the entire list of todos from the server
 server.on('load', (todos) => {
     todos.forEach((todo) => render(todo));
+});
+
+server.on('addNew', todo => {
+    render(todo);
 });
