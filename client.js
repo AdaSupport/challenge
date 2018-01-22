@@ -14,8 +14,8 @@ function add() {
 
     // Clear the input
     input.value = '';
-    input.focus();
     // TODO: refocus the element
+    input.focus();
 }
 
 function render(todo) {
