@@ -1,11 +1,19 @@
 const server = io('http://localhost:3003/');
 const list = document.getElementById('todo-list');
+
 // const currentDate = document.getElementById('section--current-date');
 
 
 // NOTE: These are all our globally scoped functions for interacting with the server
+remove = (todo) => {
+    server.emit('delete', todo)
+}
+
+
+
+
 // This function adds a new todo from the input
-function add() {
+add = () => {
     console.warn(event);
     const input = document.getElementById('todo-input');
 
@@ -20,7 +28,8 @@ function add() {
     input.focus();
 }
 
-function render(todo) {
+// function adds mamkes a new li node and adds the new todo to that node.
+render = (todo) => {
     console.log(todo);
     const listItem = document.createElement('li');
     listItem.id = `${todo.id}`
@@ -32,6 +41,9 @@ function render(todo) {
 
     const deleteButton = document.createElement('button');
     deleteButton.textContent = 'delete';
+    deleteButton.id = `${todo.id}`;
+    deleteButton.onClick = remove(todo)
+
 
     listItem.appendChild(listItemText);
     listItem.prepend(completeCheck);
@@ -39,12 +51,21 @@ function render(todo) {
     list.append(listItem);
 }
 
+remove = (todo) => {
+    console.log(`removing item with id: ${todo.id}`);
+}
+
 // NOTE: These are listeners for events from the server
 // This event is for (re)loading the entire list of todos from the server
 server.on('load', (todos) => {
+    // because the list keeps multiplying, clear the todo list element once connection is made
+    list.innerHTML = '';
     todos.forEach((todo) => render(todo));
 });
 
+// this event is for rendering the newly added to-do item under the current list
 server.on('addNew', todo => {
     render(todo);
 });
+
+

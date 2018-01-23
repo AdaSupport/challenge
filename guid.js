@@ -1,5 +1,5 @@
 // create a random id for each entry
-module.exports = function guid() {
+module.exports = guid = () => {
   function random() {
     return Math.floor((1 + Math.random()) * 0x10000)
       .toString(16)

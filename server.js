@@ -34,6 +34,12 @@ server.on('connection', (client) => {
         // reloadTodos();
     });
 
+    client.on('delete', (todo) => {
+        DB = DB.filter((item) => {
+            item.id !== todo.id;
+        });
+    });
+
     // Send the DB downstream on connect
     reloadTodos();
 });
