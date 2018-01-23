@@ -14,7 +14,7 @@ Slack has learned that their homepage has a high bounce rate (visitors leaving q
 
 2) The second group is visiting the homepage looking for more information to understand _who_ is using Slack and _why_ they should use it.
 
-Your challenge is to review the Slack homepage and provide **3** changes you would make to reduce the bounce rate on the **second group of visitors**.
+Your challenge is to review the [Slack homepage](https://slack.com/) and provide **3** changes you would make to reduce the bounce rate on the **second group of visitors**.
 
 When you are finished, please send me the piece in for feedback.
 Have fun, and please be sure to ask me questions during the process. Email Nick 😊
