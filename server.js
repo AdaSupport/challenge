@@ -1,12 +1,16 @@
 // FIXME: Feel free to remove this :-)
 console.log('\n\nGood Luck! 😅\n\n');
 
-const server = require('socket.io')();
+const express = require('express');
+const app = express();
+const server = require('http').Server(app);
+const io = require('socket.io')(server);
 const firstTodos = require('./data');
 const Todo = require('./todo');
 const DB = require('./DB');
 const guid = require('./guid');
-
+const path = require('path');
+server.listen(3003);
 // This is going to be our fake 'database' for this application
 // Parse all default Todo's from db
 // const DB = firstTodos.map((t) => {
@@ -14,35 +18,37 @@ const guid = require('./guid');
 //     return new Todo(title=t.title);
 // });
 
-server.on('connection', (client) => {
+app.use(express.static(path.join(__dirname, '/public')));
+app.use(express.static(path.join(__dirname, '/css')));
+app.get('/', function (req, res) {
+  res.sendFile(__dirname + '/index.html');
+});
+
+
+io.on('connection', (client) => {
+    client.emit('news', {hello: 'world'});
+    // socket.on('more news', (data) => {
+    //     console.log(data);
+    // });
 
     // Sends a message to the client to reload all todos
     const reloadTodos = () => {
-        server.emit('load', DB);
+        client.emit('load', DB);
     }
 
-    // Accepts when a client makes a new todo
+    // // Accepts when a client makes a new todo
     client.on('make', (t) => {
         const newTodo = new Todo(title=t.title, id=guid());
-
-        // Push this newly created todo to our database
         DB.push(newTodo);
-
-        // Send the latest todos to the client
-        // FIXME: This sends all todos every time, could this be more efficient?
-        server.emit('addNew', newTodo);
-        // reloadTodos();
+        client.emit('addNew', newTodo);
     });
 
     client.on('delete', (todo) => {
-        DB = DB.filter((item) => {
-            item.id !== todo.id;
-        });
+        console.log('receiving delete single function;')
     });
 
-    // Send the DB downstream on connect
+    // // Send the DB downstream on connect
     reloadTodos();
 });
 
 console.log('Waiting for clients to connect');
-server.listen(3003);
