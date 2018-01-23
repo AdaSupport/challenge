@@ -1,5 +1,7 @@
 const server = io('http://localhost:3003/');
 const list = document.getElementById('todo-list');
+// const currentDate = document.getElementById('section--current-date');
+
 
 // NOTE: These are all our globally scoped functions for interacting with the server
 // This function adds a new todo from the input

@@ -1,7 +1,24 @@
+* {
+	margin: 0;
+	padding: 0;
+	position: relative;
+}
+
+html {
+	height: 100%;
+}
+
+body {
+	margin: 0;
+  	padding: 0;
+	height: 100%;
+	background: linear-gradient(to top, #3023ae, #53a0fd);
+	background-repeat: no-repeat;
+}
+
 li {
 	list-style: none;
 }
 
-body {
-	background: linear-gradient(to top, #3023ae, #53a0fd);
-}
+
+
