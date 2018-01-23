@@ -58,7 +58,7 @@ remove = (todo) => {
 // NOTE: These are listeners for events from the server
 // This event is for (re)loading the entire list of todos from the server
 server.on('load', (todos) => {
-    // because the list keeps multiplying, clear the todo list element once connection is made
+    // because the list keeps multiplying, clear the todo list element once a connection is made
     list.innerHTML = '';
     todos.forEach((todo) => render(todo));
 });
