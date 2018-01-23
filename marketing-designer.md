@@ -2,26 +2,24 @@
 
 As a Marketing Designer, your job is to visually articulate all information about Ada and its customers through a variety of different mediums. The types of content you will produce will vary and require consistent quality, tone, and care.
 
-At Ada, the marketing and sales teams work very closely together. Beyond the many marketing projects you'll be working on, an important activity will be supporting the sales team in revising their materials. These will include sales decks, proposals, case studies and white-papers. 
+One of the most important tools in the B2B marketing toolset is the official company website. We drive all of our marketing traffic to the website, which serves as a brochure speaking directly to our target market about our product and company. Success for our website is an increased number of qualified leads (prospects that are a good fit for our product).
 
-Your challenge is to revise an existing Ada overview that will be sent to prospective clients in advance of a phone call or meeting. The purpose of this overview is to clearly articulate what Ada Support does and why the client should be using us.
+Your job will include ensuring that the website is effectively communicating through it's visual and structural design who we are and how our product helps our customers.
 
-Please use the style and branding guidelines linked below when revising the overview.  As an additional challenge please incorporate the value props noted below as their own section.
+### Challenge:
+
+Slack has learned that their homepage has a high bounce rate (visitors leaving quickly without clicking through anywhere on the page). The marketing team at Slack has learned that there are **two** distinct groups of visitors: 
+
+1) The first group is looking to sign up for the service quickly and they don't need to engage with any Slack content.
+
+2) The second group is visiting the homepage looking for more information to understand _who_ is using Slack and _why_ they should use it.
+
+Your challenge is to review the Slack homepage and provide **3** changes you would make to reduce the bounce rate on the **second group of visitors**.
 
 When you are finished, please send me the piece in for feedback.
 Have fun, and please be sure to ask me questions during the process. Email Nick 😊
 
-### Ada Overview to Revise:
 
-[Download the PDF of a very rough overview here.](https://drive.google.com/open?id=1MLO0IhtKVQxkjAecLYvhALY575GhPCII)
+### Your Submission:
 
-### Branding Guidelines:
-
-[Find them here, they are very light but you can find the fonts and colour scheme we currently use.](https://docs.google.com/a/ada.support/presentation/d/1dcmB4Cr8gvoFX52xYlKoaZyUKy-zYg3JI1OT-XSYD-8/edit?usp=sharing)
-
-### Additional Value Props
-
-1. Eliminate Tier 1 support by automating common questions via chat. Reduce your support ticket volume by 30%+
-2. Eliminate support wait times by offering customers live 24/7 customer support. 
-3. Avoid unnecessary touch-points by capturing valuable customer information upfront.
-4. Identify and solve urgent support issues through Ada’s question feed.
+Please keep the submission to 1 page or less.
