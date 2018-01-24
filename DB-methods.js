@@ -1,4 +1,4 @@
-let DB = require('./DB');
+const DB = require('./DB');
 const Todo = require('./todo');
 const guid = require('./guid');
 
@@ -9,7 +9,13 @@ const make = (todo) => {
 }
 
 const remove = (todo) => {
-	return DB.filter(item => item.id !== todo.id);
+	const todoIndex = DB.findIndex(item =>
+		item.id === todo.id
+	)
+
+	if(todoIndex !== 1) {
+		DB.splice(todoIndex, 1);
+	}
 }
 
 module.exports = {

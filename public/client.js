@@ -5,10 +5,8 @@ const list = document.getElementById('todo-list');
 
 
 // NOTE: These are all our globally scoped functions for interacting with the server
-function remove(todo) {
+function deleteItem(todo) {
     console.log(`removing item with ${todo.id}`);
-    const elementToDelete = document.getElementById(`${todo.id}`);
-    elementToDelete.remove();
     socket.emit('delete', todo);
 }
 
@@ -45,7 +43,7 @@ function render(todo) {
     deleteButton.append(text);
     deleteButton.id = `${todo.id}`;
     deleteButton.addEventListener('click', function() {
-        remove(todo);
+        deleteItem(todo);
     });
 
 
@@ -66,6 +64,7 @@ socket.on('load', (todos) => {
 
 // // this event is for rendering the newly added to-do item under the current list
 socket.on('addNew', todo => {
+    // console.log(localStorage);
     render(todo);
 });
 
@@ -73,5 +72,10 @@ socket.on('news', (data) => {
     console.log(data);
     // socket.emit('more news', {my: 'data'});
 });
+
+socket.on('delete', todo => {
+    const elementToDelete = document.getElementById(`${todo.id}`);
+    elementToDelete.remove();
+})
 
 
