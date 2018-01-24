@@ -6,7 +6,9 @@ const list = document.getElementById('todo-list');
 
 // NOTE: These are all our globally scoped functions for interacting with the server
 function remove(todo) {
-    console.log(`removing item with id: ${todo.id}`);
+    console.log(`removing item with ${todo.id}`);
+    const elementToDelete = document.getElementById(`${todo.id}`);
+    elementToDelete.remove();
     socket.emit('delete', todo);
 }
 

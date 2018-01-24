@@ -7,9 +7,10 @@ const server = require('http').Server(app);
 const io = require('socket.io')(server);
 const firstTodos = require('./data');
 const Todo = require('./todo');
-const DB = require('./DB');
+let DB = require('./DB');
 const guid = require('./guid');
 const path = require('path');
+const methods = require('./DB-methods');
 server.listen(3003);
 // This is going to be our fake 'database' for this application
 // Parse all default Todo's from db
@@ -37,14 +38,16 @@ io.on('connection', (client) => {
     }
 
     // // Accepts when a client makes a new todo
-    client.on('make', (t) => {
-        const newTodo = new Todo(title=t.title, id=guid());
-        DB.push(newTodo);
+    client.on('make', (todo) => {
+        const newTodo = methods.make(todo);
+        // DB.push(newTodo);
         client.emit('addNew', newTodo);
     });
 
     client.on('delete', (todo) => {
         console.log('receiving delete single function;')
+        DB = methods.remove(todo);
+        // client.emit()
     });
 
     // // Send the DB downstream on connect
