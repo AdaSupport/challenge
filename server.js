@@ -28,9 +28,6 @@ app.get('/', function (req, res) {
 
 io.on('connection', (client) => {
     client.emit('news', {hello: 'world'});
-    // socket.on('more news', (data) => {
-    //     console.log(data);
-    // });
 
     // Sends a message to the client to reload all todos
     const reloadTodos = () => {
@@ -47,7 +44,7 @@ io.on('connection', (client) => {
     client.on('delete', (todo) => {
         console.log('receiving delete single function;')
         DB = methods.remove(todo);
-        // client.emit()
+        reloadTodos();
     });
 
     // // Send the DB downstream on connect
