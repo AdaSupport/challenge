@@ -11,9 +11,17 @@ body {
   padding: 0;
   height: 100%;
   background: linear-gradient(to top, #3023ae, #53a0fd);
-  background-repeat: no-repeat; }
+  background-repeat: no-repeat;
+  font-family: Avenir;
+  width: 90%;
+  margin: 0 auto; }
 
 li {
   list-style: none; }
+
+.section--current-date {
+  width: 100%;
+  border: 1px solid black;
+  text-align: right; }
 
 /*# sourceMappingURL=style.css.map */

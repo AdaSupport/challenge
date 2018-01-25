@@ -7,7 +7,7 @@ const server = require('http').Server(app);
 const io = require('socket.io')(server);
 const firstTodos = require('./data');
 const Todo = require('./todo');
-const DB = require('./DB');
+let DB = require('./DB');
 const guid = require('./guid');
 const path = require('path');
 const methods = require('./DB-methods');
@@ -34,13 +34,33 @@ io.on('connection', (client) => {
     client.on('delete', (todo) => {
         console.log('receiving delete single function;')
         methods.remove(todo);
-        client.broadcast.emit('delete', todo);
+        io.emit('delete', todo);
     });
 
     client.on('markComplete', (todo) => {
-        const completeItem = methods.complete(todo);
+        const completeItem = methods.toggle(todo);
         // console.log(todo);
         io.emit('complete', completeItem);
+    });
+
+    client.on('markIncomplete', (todo) => {
+        const incompleteItem = methods.toggle(todo);
+        // console.log(todo);
+        io.emit('markIncomplete', incompleteItem);
+    });
+    // client.on('toggle', (todo) => {
+    //     const item = methods.toggleItem(todo);
+    //     io.emit('toggledItem', item);
+    // })
+    client.on('deleteAll', () => {
+        methods.deleteAll();
+        client.broadcast.emit('deleteAll');
+        io.emit('deleteAll');
+    });
+
+    client.on('completeAll', () => {
+        methods.completeAll();
+        io.emit('completeAll');
     });
 
     // // Send the DB downstream on connect

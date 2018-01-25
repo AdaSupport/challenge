@@ -1,9 +1,15 @@
 const socket = io('http://localhost:3003');
 const list = document.getElementById('todo-list');
+const date = document.getElementById('current--date');
 
 // const currentDate = document.getElementById('section--current-date');
 
-
+function getCurrentDate() {
+    var options = { month: 'long', day: 'numeric', weekday: 'long', year: 'numeric' };
+    var today = new Date();
+    date.textContent = today.toLocaleDateString("en-US", options);
+}
+getCurrentDate();
 // NOTE: These are all our globally scoped functions for interacting with the server
 function removeItem(todo) {
     console.log(`removing item with ${todo.id}`);
@@ -29,33 +35,51 @@ function add() {
     input.focus();
 }
 
+// create the complete button
+function createButton(todo) {
+    const completeCheck = document.createElement('button');
+    completeCheck.name = "todo";
+    completeCheck.textContent = "Complete";
+    completeCheck.classList.add('complete--button');
+    completeCheck.id = `buttonId-${todo.id}`;
+    completeCheck.addEventListener('click', function() {
+        // toggle(todo);
+        if(todo.complete === false) {
+            completeCheck.textContent = 'Mark Incomplete';
+            markComplete(todo);
+        } else if(todo.complete === true) {
+            completeCheck.textContent = 'Complete';
+            markIncomplete(todo);
+        }
+    });
+
+    return completeCheck;
+}
+
 function markComplete(todo) {
-    console.log('Clicking the button');
+    console.log('Markind complete');
     socket.emit('markComplete', todo);
 }
 
-// function markIncomplete(todo) {
-//     socket.emit('markIncomplete', todo);
-// }
+function markIncomplete(todo) {
+    console.log('Marking Incomplete');
+    socket.emit('markIncomplete', todo);
+}
 
+function deleteAll() {
+    console.log('clicking delete');
+    socket.emit('deleteAll');
+}
+
+function completeAll() {
+    socket.emit('completeAll');
+}
 // function adds mamkes a new li node and adds the new todo to that node.
 function render(todo) {
     console.log(todo);
     const listItem = document.createElement('li');
     listItem.id = `${todo.id}`
     const listItemText = document.createTextNode(todo.title);
-
-    // create the checkbox to mark an item complete
-    const completeCheck = document.createElement('button');
-    // completeCheck.type = "checkbox";
-    completeCheck.name = "todo";
-    completeCheck.innerHTML = "mark complete";
-    completeCheck.classList.add('complete--button');
-    completeCheck.id = `buttonId-${todo.id}`;
-    completeCheck.addEventListener('click', function() {
-        markComplete(todo);
-    });
-    // completeCheck.onclick = markComplete(todo);
 
     // create the delete button
     const deleteButton = document.createElement('button');
@@ -68,29 +92,20 @@ function render(todo) {
 
 
     listItem.appendChild(listItemText);
-    listItem.prepend(completeCheck);
+    listItem.prepend(createButton(todo));
     listItem.appendChild(deleteButton);
     list.append(listItem);
 }
 
 
 // NOTE: These are listeners for events from the server
-// This event is for (re)loading the entire list of todos from the server
 socket.on('load', (todos) => {
-    // because the list keeps multiplying, clear the todo list element once a connection is made
     list.innerHTML = '';
     todos.forEach((todo) => render(todo));
 });
 
-// // this event is for rendering the newly added to-do item under the current list
 socket.on('addNew', todo => {
-    // console.log(localStorage);
     render(todo);
-});
-
-socket.on('news', (data) => {
-    console.log(data);
-    // socket.emit('more news', {my: 'data'});
 });
 
 socket.on('delete', todo => {
@@ -100,7 +115,27 @@ socket.on('delete', todo => {
 
 socket.on('complete', todo => {
     let completeButton = document.getElementById(`buttonId-${todo.id}`);
-    completeButton.parentNode.removeChild(completeButton);
+    completeButton.textContent = 'Mark Incomplete';
+    // completeButton.parentNode.removeChild(completeButton);
+});
+
+socket.on('markIncomplete', todo => {
+    let incompleteButton = document.getElementById(`buttonId-${todo.id}`);
+
+    incompleteButton.textContent = 'Complete';
+    // completeButton.parentNode.removeChild(completeButton);
+});
+// socket.on('toggledItem', todo => {
+//     let completeCheck  = document.getElementById(`buttonId-${todo.id}`);
+//     completeCheck.textContent = `${todo.complete ? "Mark Incomplete" : "complete"}`;
+//     // completeButton.parentNode.removeChild(completeButton);
+// });
+socket.on('deleteAll', () => {
+    list.innerHTML = '';
+});
+
+socket.on('completeAll', () => {
+     console.log('completing tasks');
 });
 
 

@@ -1,4 +1,4 @@
-const DB = require('./DB');
+let DB = require('./DB');
 const Todo = require('./todo');
 const guid = require('./guid');
 
@@ -18,18 +18,49 @@ const remove = (todo) => {
 	}
 }
 
-const complete = (todo) => {
-	for(var item in DB) {
+// const toggleItem = (todo) => {
+// 	for(var item of DB) {
+// 		if(item.id === todo.id) {
+// 			todo.complete = !todo.complete;
+// 		}
+// 	}
+// 	return todo;
+// }
+
+const toggle = (todo) => {
+	for(var item of DB) {
 		if(item.id === todo.id) {
 			todo.complete = !todo.complete;
 		}
 	}
-	// todo.complete = true;
 	return todo;
 }
 
+// const incomplete = (todo) => {
+// 	for(var item of DB) {
+// 		if(item.id === todo.id) {
+// 			todo.complete = true;
+// 		}
+// 	}
+// 	return todo;
+// }
+const deleteAll = () => {
+	DB = [];
+}
+
+const completeAll = () => {
+	for(var todo in DB) {
+		if(todo.complete !== true) {
+			todo.complete = true;
+		}
+	}
+}
 module.exports = {
 	make,
+	// toggleItem,
 	remove,
-	complete
+	toggle,
+	deleteAll,
+	completeAll
+
 }
