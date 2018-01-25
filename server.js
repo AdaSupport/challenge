@@ -22,12 +22,13 @@ app.get('/', function (req, res) {
 
 
 io.on('connection', (client) => {
-    client.emit('news', {hello: 'world'});
+    // client.emit('news', {hello: 'world'});
 
     // // Accepts when a client makes a new todo
     client.on('make', (todo) => {
         const newTodo = methods.make(todo);
-        client.broadcast.emit('addNew', newTodo);
+        // client.broadcast.emit('addNew', newTodo);
+        io.emit('addNew', newTodo);
     });
 
     client.on('delete', (todo) => {
@@ -36,8 +37,14 @@ io.on('connection', (client) => {
         client.broadcast.emit('delete', todo);
     });
 
+    client.on('markComplete', (todo) => {
+        const completeItem = methods.complete(todo);
+        // console.log(todo);
+        io.emit('complete', completeItem);
+    });
+
     // // Send the DB downstream on connect
-    client.emit('load', DB);
+    io.emit('load', DB);
     // reloadTodos();
 });
 

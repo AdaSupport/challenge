@@ -5,8 +5,10 @@ const list = document.getElementById('todo-list');
 
 
 // NOTE: These are all our globally scoped functions for interacting with the server
-function deleteItem(todo) {
+function removeItem(todo) {
     console.log(`removing item with ${todo.id}`);
+    let deleteItem = document.getElementById(`${todo.id}`);
+    deleteItem.parentNode.removeChild(deleteItem);
     socket.emit('delete', todo);
 }
 
@@ -27,23 +29,41 @@ function add() {
     input.focus();
 }
 
+function markComplete(todo) {
+    console.log('Clicking the button');
+    socket.emit('markComplete', todo);
+}
+
+// function markIncomplete(todo) {
+//     socket.emit('markIncomplete', todo);
+// }
+
 // function adds mamkes a new li node and adds the new todo to that node.
 function render(todo) {
     console.log(todo);
     const listItem = document.createElement('li');
     listItem.id = `${todo.id}`
     const listItemText = document.createTextNode(todo.title);
-    const completeCheck = document.createElement('input');
-    completeCheck.type = "checkbox";
-    completeCheck.name = "todo";
-    completeCheck.value = "value";
 
+    // create the checkbox to mark an item complete
+    const completeCheck = document.createElement('button');
+    // completeCheck.type = "checkbox";
+    completeCheck.name = "todo";
+    completeCheck.innerHTML = "mark complete";
+    completeCheck.classList.add('complete--button');
+    completeCheck.id = `buttonId-${todo.id}`;
+    completeCheck.addEventListener('click', function() {
+        markComplete(todo);
+    });
+    // completeCheck.onclick = markComplete(todo);
+
+    // create the delete button
     const deleteButton = document.createElement('button');
     const text = document.createTextNode('delete');
     deleteButton.append(text);
     deleteButton.id = `${todo.id}`;
     deleteButton.addEventListener('click', function() {
-        deleteItem(todo);
+        removeItem(todo);
     });
 
 
@@ -74,8 +94,13 @@ socket.on('news', (data) => {
 });
 
 socket.on('delete', todo => {
-    const elementToDelete = document.getElementById(`${todo.id}`);
-    elementToDelete.remove();
-})
+    let deleteItem = document.getElementById(`${todo.id}`);
+    deleteItem.parentNode.removeChild(deleteItem);
+});
+
+socket.on('complete', todo => {
+    let completeButton = document.getElementById(`buttonId-${todo.id}`);
+    completeButton.parentNode.removeChild(completeButton);
+});
 
 

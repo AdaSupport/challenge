@@ -18,7 +18,18 @@ const remove = (todo) => {
 	}
 }
 
+const complete = (todo) => {
+	for(var item in DB) {
+		if(item.id === todo.id) {
+			todo.complete = !todo.complete;
+		}
+	}
+	// todo.complete = true;
+	return todo;
+}
+
 module.exports = {
 	make,
-	remove
+	remove,
+	complete
 }
