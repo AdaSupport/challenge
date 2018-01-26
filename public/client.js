@@ -1,6 +1,5 @@
 const socket = io();
 const list = document.getElementById('todo-list');
-const date = document.getElementById('current--date');
 const inputField = document.getElementById('todo-input');
 
 
@@ -14,9 +13,6 @@ inputField.addEventListener('keydown', function(e) {
 
 // NOTE: These are all our globally scoped functions for interacting with the server
 function removeItem(todo) {
-    console.log(`removing item with ${todo.id}`);
-    // let deleteItem = document.getElementById(`${todo.id}`);
-    // deleteItem.parentNode.removeChild(deleteItem);
     socket.emit('delete', todo);
 }
 
@@ -27,16 +23,30 @@ function add() {
     });
 
     inputField.value = '';
-
     inputField.focus();
 }
 
-
+// mark item complete
 function markComplete(todo) {
-    console.log('Marking complete');
     socket.emit('markComplete', todo);
 }
 
+// mark item incomplete
+function markIncomplete(todo) {
+    socket.emit('markIncomplete', todo);
+}
+
+// function for adding and getting the array to and from localStorage
+function addToStorage(item) {
+    localStorage.setItem('todos', JSON.stringify(item));
+}
+
+
+function getFromStorage() {
+    return JSON.parse(localStorage.getItem('todos'));
+}
+
+// create a new checkbox element
 function createCheckBox(todo) {
     const checkLabel = document.createElement('label');
     checkLabel.classList.add('container');
@@ -76,29 +86,21 @@ function createCheckBox(todo) {
     return checkLabel;
 }
 
-function markIncomplete(todo) {
-    console.log('Marking Incomplete');
-    socket.emit('markIncomplete', todo);
-}
-
+// delete all items from the list
 function deleteAll() {
-    // console.log('clicking delete');
     socket.emit('deleteAll');
 }
 
+// complete all items on the list
 function completeAll(e) {
     e.preventDefault();
     socket.emit('completeAll');
 
 }
 
-function toggle(todo) {
-    socket.emit('toggle', todo);
-}
 
-// function adds mamkes a new li node and adds the new todo to that node.
+// render the to-do list item to the page
 function render(todo) {
-    // console.log(todo);
     const listItem = document.createElement('li');
     listItem.id = `${todo.id}`;
     listItem.classList.add('single--item');
@@ -109,20 +111,11 @@ function render(todo) {
 
 
 
-// function for adding and getting the array to and from localStorage
-function addToStorage(item) {
-    localStorage.setItem('todos', JSON.stringify(item));
-}
-
-function getFromStorage() {
-    return JSON.parse(localStorage.getItem('todos'));
-}
 // NOTE: These are listeners for events from the server
 socket.on('load', (todos) => {
     if(todos.length === 0) {
         list.innerHTML = '';
         addToStorage(todos);
-        console.log(localStorage['todos']);
     } else {
         list.innerHTML = '';
         addToStorage(todos);
@@ -145,33 +138,27 @@ socket.on('connect_error', () => {
     todos.forEach((todo) => render(todo));
 });
 
-// add a new todo to the bottom of the list
+// add a new todo to the bottom of the list adn to localStorage
 socket.on('addNew', todo => {
     render(todo);
     let DB = getFromStorage();
     DB.push(todo);
     addToStorage(DB);
-    console.log(localStorage['todos']);
 });
 
 // delete a todo item from the list
 socket.on('delete', todo => {
-    // console.log(todo.id)
     let deleteItem = document.getElementById(`${todo.id}`);
     deleteItem.parentNode.removeChild(deleteItem);
 });
 
+// listen for when an item gets marked complete
 socket.on('complete', todo => {
     document.getElementById(`check-${todo.id}`).checked = true;
-    console.log(`${todo.id} ${todo.complete} ${todo.title}`);
 });
 
+// listen for when an item gets marked incomplete
 socket.on('incomplete', todo => {
     document.getElementById(`check-${todo.id}`).checked = false;
-    console.log(`${todo.id} ${todo.complete} ${todo.title}`);
-});
-
-socket.on('deleteAll', () => {
-    list.innerHTML = '';
 });
 

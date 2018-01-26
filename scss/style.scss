@@ -8,13 +8,10 @@ $font-weight-light: 200;
 * {
 	margin: 0;
 	padding: 0;
-	// position: relative;
 }
 
 html {
 	height: 100%;
-	// background: linear-gradient(to top, #3023ae, #53a0fd);
-	// background-repeat: no-repeat;
 }
 
 body {
@@ -34,7 +31,6 @@ body {
 
 // complete and delete all buttons
 #complete-delete--section {
-	// border: 1px solid black;
 	text-align: right;
 	padding-top: 6em;
 }
@@ -65,7 +61,6 @@ input[type=text] {
 	padding: 0.2em 0 0.2em 0;
 	font-size: 3 * $main-font-size;
 	font-family: $font-family;
-	// font-size: 2.2 * $main-font-size;
 	font-weight: $font-weight-light;
 	letter-spacing: normal;
 	color: $white;
@@ -76,7 +71,6 @@ input[type=text] {
 input[type=text]::-webkit-input-placeholder { /* Chrome/Opera/Safari */
   	color: $white;
   	opacity: 0.3;
-  	// font-weight: normal;
 }
 
 input[type=text]::-moz-placeholder { /* Firefox 19+ */
@@ -161,13 +155,6 @@ li {
 }
 
 
-// responsive styling
-@media only screen and (min-width: 320px) and (max-width: 568px) {
-
-}
-
-
-
 //https://www.w3schools.com/howto/howto_css_custom_checkbox.asp - to customize a checkbox
 /* Customize the label (the container) */
 .container {
@@ -176,7 +163,7 @@ li {
   padding-left: 35px;
   margin-bottom: 12px;
   cursor: pointer;
-  font-size: 22px;
+  font-size: 0.9 * $main-font-size;
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -230,7 +217,6 @@ li {
   -ms-transform: rotate(45deg);
   transform: rotate(45deg);
 }
-
 
 
 

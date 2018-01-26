@@ -1,4 +1,3 @@
-// FIXME: Feel free to remove this :-)
 console.log('\n\nGood Luck! 😅\n\n');
 
 const express = require('express');
@@ -8,12 +7,12 @@ const io = require('socket.io')(server);
 const firstTodos = require('./data');
 const Todo = require('./todo');
 let DB = require('./DB');
-const guid = require('./guid');
 const path = require('path');
 const methods = require('./DB-methods');
 server.listen(3003);
 
 
+// get access to the public and css folders
 app.use(express.static(path.join(__dirname, '/public')));
 app.use(express.static(path.join(__dirname, '/css')));
 app.get('/', function (req, res) {
@@ -57,7 +56,6 @@ io.on('connection', (client) => {
     });
 
     io.emit('load', DB);
-    // reloadTodos();
 });
 
 console.log('Waiting for clients to connect');
