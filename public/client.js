@@ -82,7 +82,7 @@ function markIncomplete(todo) {
 }
 
 function deleteAll() {
-    console.log('clicking delete');
+    // console.log('clicking delete');
     socket.emit('deleteAll');
 }
 
@@ -98,7 +98,7 @@ function toggle(todo) {
 
 // function adds mamkes a new li node and adds the new todo to that node.
 function render(todo) {
-    console.log(todo);
+    // console.log(todo);
     const listItem = document.createElement('li');
     listItem.id = `${todo.id}`;
     listItem.classList.add('single--item');
@@ -119,27 +119,39 @@ function getFromStorage() {
 }
 // NOTE: These are listeners for events from the server
 socket.on('load', (todos) => {
-    list.innerHTML = '';
-    addToStorage(todos);
-    // todos.forEach((todo) => render(todo));
-    todos.forEach((todo) => {
-        render(todo);
-        if(todo.complete === true) {
-            document.getElementById(`check-${todo.id}`).checked = true;
-        } else if(todo.complete === false) {
-            document.getElementById(`check-${todo.id}`).checked = false;
-        }
-    });
+    if(todos.length === 0) {
+        list.innerHTML = '';
+        addToStorage(todos);
+        console.log(localStorage['todos']);
+    } else {
+        list.innerHTML = '';
+        addToStorage(todos);
+        todos.forEach((todo) => {
+            render(todo);
+            if(todo.complete === true) {
+                document.getElementById(`check-${todo.id}`).checked = true;
+            } else if(todo.complete === false) {
+                document.getElementById(`check-${todo.id}`).checked = false;
+            }
+        });
+    }
+
 });
 
 // if there is a loading error, load from localStorage
 socket.on('connect_error', () => {
-    getFromStorage().forEach((todo) => render(todo));
+    list.innerHTML = '';
+    let todos = getFromStorage();
+    todos.forEach((todo) => render(todo));
 });
 
 // add a new todo to the bottom of the list
 socket.on('addNew', todo => {
     render(todo);
+    let DB = getFromStorage();
+    DB.push(todo);
+    addToStorage(DB);
+    console.log(localStorage['todos']);
 });
 
 // delete a todo item from the list
@@ -162,19 +174,4 @@ socket.on('incomplete', todo => {
 socket.on('deleteAll', () => {
     list.innerHTML = '';
 });
-
-socket.on('completeAll', (todos) => {
-    console.log('completing tasks');
-    todos.forEach((todo) => {
-        if(todo.complete === true) {
-            document.getElementById(`check-${todo.id}`).checked = true;
-        } else if(todo.complete === false) {
-            document.getElementById(`check-${todo.id}`).checked = false;
-        }
-    });
-    todos.forEach((todo) => console.log(todo.complete));
-    // console.log(`${todos}`)
-
-});
-
 

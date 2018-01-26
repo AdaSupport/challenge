@@ -46,9 +46,9 @@ io.on('connection', (client) => {
     });
 
     client.on('deleteAll', () => {
-        methods.deleteAll();
-        client.broadcast.emit('deleteAll');
-        io.emit('deleteAll');
+        DB = methods.deleteAll();
+        client.broadcast.emit('load', DB);
+        io.emit('load', DB);
     });
 
     client.on('completeAll', () => {

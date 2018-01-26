@@ -38,6 +38,7 @@ const incomplete = (todo) => {
 
 const deleteAll = () => {
 	DB = [];
+	return DB;
 }
 
 const completeAll = () => {
