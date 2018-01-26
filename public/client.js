@@ -36,20 +36,20 @@ function add() {
 }
 
 // create the complete button
-function createButton(todo) {
+function completeButton(todo) {
     const completeCheck = document.createElement('button');
     completeCheck.name = "todo";
-    completeCheck.textContent = "Complete";
+    completeCheck.textContent = "To-do";
     completeCheck.classList.add('complete--button');
     completeCheck.id = `buttonId-${todo.id}`;
     completeCheck.addEventListener('click', function() {
         // toggle(todo);
-        if(todo.complete === false) {
-            completeCheck.textContent = 'Mark Incomplete';
-            markComplete(todo);
-        } else if(todo.complete === true) {
-            completeCheck.textContent = 'Complete';
+        if(todo.complete === true) {
             markIncomplete(todo);
+            completeCheck.textContent = 'To-do';
+        } else {
+            markComplete(todo);
+            completeCheck.textContent = 'Done';
         }
     });
 
@@ -78,13 +78,17 @@ function completeAll() {
 function render(todo) {
     console.log(todo);
     const listItem = document.createElement('li');
-    listItem.id = `${todo.id}`
+    listItem.id = `${todo.id}`;
+    listItem.classList.add('single--item');
     const listItemText = document.createTextNode(todo.title);
 
     // create the delete button
-    const deleteButton = document.createElement('button');
-    const text = document.createTextNode('delete');
-    deleteButton.append(text);
+    const deleteButton = document.createElement('span');
+    deleteButton.classList.add('delete');
+    deleteButton.classList.add('rounded');
+    deleteButton.classList.add('thick');
+    // const text = document.createTextNode('delete');
+    // deleteButton.append(text);
     deleteButton.id = `${todo.id}`;
     deleteButton.addEventListener('click', function() {
         removeItem(todo);
@@ -92,7 +96,7 @@ function render(todo) {
 
 
     listItem.appendChild(listItemText);
-    listItem.prepend(createButton(todo));
+    listItem.prepend(completeButton(todo));
     listItem.appendChild(deleteButton);
     list.append(listItem);
 }
@@ -113,18 +117,19 @@ socket.on('delete', todo => {
     deleteItem.parentNode.removeChild(deleteItem);
 });
 
-socket.on('complete', todo => {
-    let completeButton = document.getElementById(`buttonId-${todo.id}`);
-    completeButton.textContent = 'Mark Incomplete';
-    // completeButton.parentNode.removeChild(completeButton);
-});
+// socket.on('complete', todo => {
+//     console.log(`${todo.id} ${todo.complete} ${todo.title}`);
+//     // let completeButton = document.getElementById(`buttonId-${todo.id}`);
+//     // completeButton.textContent = 'Incomplete';
+//     // completeButton.parentNode.removeChild(completeButton);
+// });
 
-socket.on('markIncomplete', todo => {
-    let incompleteButton = document.getElementById(`buttonId-${todo.id}`);
+// socket.on('markIncomplete', todo => {
+//     let incompleteButton = document.getElementById(`buttonId-${todo.id}`);
 
-    incompleteButton.textContent = 'Complete';
-    // completeButton.parentNode.removeChild(completeButton);
-});
+//     incompleteButton.textContent = 'Complete';
+//     // completeButton.parentNode.removeChild(completeButton);
+// });
 // socket.on('toggledItem', todo => {
 //     let completeCheck  = document.getElementById(`buttonId-${todo.id}`);
 //     completeCheck.textContent = `${todo.complete ? "Mark Incomplete" : "complete"}`;
