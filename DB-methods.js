@@ -18,48 +18,40 @@ const remove = (todo) => {
 	}
 }
 
-// const toggleItem = (todo) => {
-// 	for(var item of DB) {
-// 		if(item.id === todo.id) {
-// 			todo.complete = !todo.complete;
-// 		}
-// 	}
-// 	return todo;
-// }
-
-const toggle = (todo) => {
+const complete = (todo) => {
 	for(var item of DB) {
 		if(item.id === todo.id) {
-			todo.complete = !todo.complete;
+			todo.complete = true;
 		}
 	}
 	return todo;
 }
 
-// const incomplete = (todo) => {
-// 	for(var item of DB) {
-// 		if(item.id === todo.id) {
-// 			todo.complete = true;
-// 		}
-// 	}
-// 	return todo;
-// }
+const incomplete = (todo) => {
+	for(var item of DB) {
+		if(item.id === todo.id) {
+			todo.complete = false;
+		}
+	}
+	return todo;
+}
+
 const deleteAll = () => {
 	DB = [];
 }
 
 const completeAll = () => {
-	for(var todo in DB) {
-		if(todo.complete !== true) {
-			todo.complete = true;
-		}
+	for(var todo of DB) {
+		todo.complete = !todo.complete;
 	}
+	return DB;
 }
+
 module.exports = {
 	make,
-	// toggleItem,
+	complete,
+	incomplete,
 	remove,
-	toggle,
 	deleteAll,
 	completeAll
 

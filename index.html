@@ -3,22 +3,21 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>TODO</title>
+        <title>TODO List</title>
+        <!-- <link href="https://fonts.googleapis.com/css?family=Montserrat:300,400" rel="stylesheet"> -->
+        <link href="https://fonts.googleapis.com/css?family=Nunito+Sans:300,400" rel="stylesheet">
         <link rel="stylesheet" type="text/css" href="/style.css">
         <script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
     </head>
     <body>
-        <div id="section--current-date">
-            <p id="current--date"></p>
+        <div id="complete-delete--section">
+            <button type="button" onclick="completeAll(event);" class="comp-del--buttons">🎉&nbsp; Complete All</button>
+            <button type="button" onclick="deleteAll()" class="comp-del--buttons">🗑&nbsp; Delete All</button>
         </div>
         <div id="section--input">
             <input id="todo-input" type="text" placeholder="Add a To-do" autofocus>
-            <button type="button" onclick="add()">Make</button>
         </div>
-        <div id="complete-delete--section">
-            <button type="button" onclick="completeAll()" class="main-buttons">Complete All</button>
-            <button type="button" onclick="deleteAll()" class="main-buttons">Delete All</button>
-        </div>
+
 
         <div id="section--list">
             <ul id="todo-list"></ul>

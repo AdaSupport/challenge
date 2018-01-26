@@ -22,12 +22,10 @@ app.get('/', function (req, res) {
 
 
 io.on('connection', (client) => {
-    // client.emit('news', {hello: 'world'});
 
     // // Accepts when a client makes a new todo
     client.on('make', (todo) => {
         const newTodo = methods.make(todo);
-        // client.broadcast.emit('addNew', newTodo);
         io.emit('addNew', newTodo);
     });
 
@@ -38,20 +36,15 @@ io.on('connection', (client) => {
     });
 
     client.on('markComplete', (todo) => {
-        const completeItem = methods.toggle(todo);
-        // console.log(todo);
-        io.emit('complete', completeItem);
+        const completeItem = methods.complete(todo);
+        client.broadcast.emit('complete', completeItem);
     });
 
     client.on('markIncomplete', (todo) => {
-        const incompleteItem = methods.toggle(todo);
-        // console.log(todo);
-        io.emit('markIncomplete', incompleteItem);
+        const incompleteItem = methods.incomplete(todo);
+        client.broadcast.emit('incomplete', incompleteItem);
     });
-    // client.on('toggle', (todo) => {
-    //     const item = methods.toggleItem(todo);
-    //     io.emit('toggledItem', item);
-    // })
+
     client.on('deleteAll', () => {
         methods.deleteAll();
         client.broadcast.emit('deleteAll');
@@ -59,11 +52,10 @@ io.on('connection', (client) => {
     });
 
     client.on('completeAll', () => {
-        methods.completeAll();
-        io.emit('completeAll');
+        DB = methods.completeAll();
+        io.emit('load', DB);
     });
 
-    // // Send the DB downstream on connect
     io.emit('load', DB);
     // reloadTodos();
 });

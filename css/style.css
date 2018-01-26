@@ -9,7 +9,7 @@ body {
   margin: 0;
   padding: 0;
   height: 100%;
-  font-family: Avenir;
+  font-family: "Nunito Sans";
   width: 80%;
   margin: 0 auto;
   color: #fff;
@@ -18,24 +18,23 @@ body {
   background-repeat: no-repeat;
   background-attachment: fixed; }
 
-#section--current-date {
-  padding-top: 5em;
-  width: 100%;
-  text-align: right; }
-  #section--current-date p {
-    font-weight: 200;
-    opacity: 0.8;
-    font-size: 24px; }
+#complete-delete--section {
+  text-align: right;
+  padding-top: 6em; }
 
-.main-buttons {
-  border: 2px solid #fff;
-  padding: 1em 2em;
-  border-radius: 0.5em;
-  margin-right: 2em;
+.comp-del--buttons {
+  font-family: "Nunito Sans";
+  background: none;
+  border: none;
   cursor: pointer;
-  font-size: 1.1em;
-  background: transparent;
-  color: #fff; }
+  color: #fff;
+  padding-left: 3em;
+  font-size: 20px;
+  font-weight: 200;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: normal;
+  letter-spacing: normal; }
 
 #section--input {
   padding: 1em 0 2em 0; }
@@ -44,11 +43,13 @@ input[type=text] {
   border: none;
   background: transparent;
   padding: 0.2em 0 0.2em 0;
-  font-size: 48px;
+  font-size: 3em;
+  font-family: "Nunito Sans";
   font-weight: 200;
   letter-spacing: normal;
   color: #fff;
-  caret-color: #fff; }
+  caret-color: #fff;
+  outline: none; }
 
 input[type=text]::-webkit-input-placeholder {
   /* Chrome/Opera/Safari */
@@ -70,9 +71,10 @@ input[type=text]:-moz-placeholder {
 li {
   list-style: none;
   padding: 0.5em 0 0.5em 0;
-  font-size: 1.5em;
-  font-weight: lighter;
-  opacity: 0.8; }
+  font-size: 1.6em;
+  font-weight: 100;
+  opacity: 0.8;
+  letter-spacing: normal; }
 
 .single--item {
   transition: 0.5s; }
@@ -127,5 +129,60 @@ li {
 .delete.rounded::before, .delete.rounded::after {
   border-radius: 5px;
   margin-top: 0px; }
+
+/* Customize the label (the container) */
+.container {
+  display: block;
+  position: relative;
+  padding-left: 35px;
+  margin-bottom: 12px;
+  cursor: pointer;
+  font-size: 22px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none; }
+
+/* Hide the browser's default checkbox */
+.container input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer; }
+
+/* Create a custom checkbox */
+.checkmark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 25px;
+  width: 25px;
+  border-radius: 50px;
+  background-color: #eee; }
+
+/* When the checkbox is checked, add a blue background */
+.container input:checked ~ .checkmark {
+  background-color: #2196F3; }
+
+/* Create the checkmark/indicator (hidden when not checked) */
+.checkmark:after {
+  content: "";
+  position: absolute;
+  display: none; }
+
+/* Show the checkmark when checked */
+.container input:checked ~ .checkmark:after {
+  display: block; }
+
+/* Style the checkmark/indicator */
+.container .checkmark:after {
+  left: 9px;
+  top: 5px;
+  width: 5px;
+  height: 10px;
+  border: solid white;
+  border-width: 0 3px 3px 0;
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg); }
 
 /*# sourceMappingURL=style.css.map */
