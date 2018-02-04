@@ -24,6 +24,7 @@ export default class Landing extends React.Component {
         this.addItem = this.addItem.bind(this);
         this.onChange = this.onChange.bind(this);
         this.removeItem = this.removeItem.bind(this);
+        this.updateCompletionStatus = this.updateCompletionStatus.bind(this)
     }
     componentDidMount() {
         const dbRef = firebase.database().ref();
@@ -67,11 +68,22 @@ export default class Landing extends React.Component {
         const dbRef = firebase.database().ref(`${itemToRemove}`);
         dbRef.remove();
     }
+    
+    // this method updates the list item to be complete or incomplete based on radio button selected
+    updateCompletionStatus(item, completionStatus){
+        const itemKey = item.key
+        const dbRef = firebase.database().ref(itemKey)
+
+        // change completed status to value of radio buttons 
+        item.completed = completionStatus;
+        dbRef.update(item)
+    }
+ 
     render(){
         return (
             <div>
                 <InputForm addItem={this.addItem} change={this.onChange} todo={this.state.todo}/>
-                <ListContainer todo={this.state.todo} removeItem={this.removeItem}/>
+                <ListContainer todo={this.state.todo} removeItem={this.removeItem} update={this.updateCompletionStatus}/>
             </div>
         )
     }
