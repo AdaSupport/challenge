@@ -29,6 +29,7 @@ export default class Landing extends React.Component {
         this.updateCompletionStatus = this.updateCompletionStatus.bind(this)
         this.completeAllItems = this.completeAllItems.bind(this)
         this.setCompletionColours = this.setCompletionColours.bind(this)
+        this.removeAllItems = this.removeAllItems.bind(this)
     }
     componentDidMount() {
         const dbRef = firebase.database().ref();
@@ -72,6 +73,12 @@ export default class Landing extends React.Component {
         const dbRef = firebase.database().ref(`${itemToRemove}`);
         dbRef.remove();
     }
+
+    // method to remove all list items
+    removeAllItems(){
+        const dbRef = firebase.database().ref();
+        dbRef.remove();
+    }
     // this method updates the list item to be complete or incomplete based on radio button selected
     updateCompletionStatus(item, completionStatus){
         const itemKey = item.key
@@ -112,7 +119,7 @@ export default class Landing extends React.Component {
                     update={this.updateCompletionStatus} 
                     completeAll={this.completeAllItems} 
                     setColours={this.setCompletionColours}/>
-                <BulkActions completeAll={this.completeAllItems}/>
+                <BulkActions completeAll={this.completeAllItems} removeAll={this.removeAllItems}/>
             </div>
         )
     }
