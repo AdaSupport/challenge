@@ -75,10 +75,9 @@ export default class Landing extends React.Component {
             item,
             completed: "false"
         }
-
+        
         // push items to firebase db
         dbRef.push(todoListing);
-
         this.setState({
             todoQuery: ""
         })
@@ -133,9 +132,9 @@ export default class Landing extends React.Component {
     }
     render(){
         return (
-            <div>
+            <div className="landing">
                 <a className="skip-link" href="#main-list">Skip to main list</a>
-                <InputForm addItem={this.addItem} change={this.onChange} todo={this.state.todo}/>
+                <InputForm addItem={this.addItem} onChange={this.onChange} todo={this.state.todo} query={this.state.todoQuery}/>
                 <ListContainer 
                     todo={this.state.todo} 
                     removeItem={this.removeItem} 

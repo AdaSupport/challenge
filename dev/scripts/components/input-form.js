@@ -4,6 +4,9 @@ import React from "react";
 
 
 export default class InputForm extends React.Component {
+    constructor(){
+        super();
+    }
     render() {
         return (
             <div className="input-form-container">
@@ -16,7 +19,10 @@ export default class InputForm extends React.Component {
                     placeholder="add your to do items here"
                     aria-label="Add your to do items here"
                     tabIndex="0"
-                    onChange={this.props.onChange}/>
+                    onChange={this.props.onChange}
+                        value={this.props.query}
+                    
+                    />
                     <button>Add Todo</button>
                 </form>
             </div>
