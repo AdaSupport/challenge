@@ -21,8 +21,9 @@ export default class Landing extends React.Component {
             todoQuery: ""
         }
         // binding methods begin here
-        this.addItem = this.addItem.bind(this)
-        this.onChange = this.onChange.bind(this)
+        this.addItem = this.addItem.bind(this);
+        this.onChange = this.onChange.bind(this);
+        this.removeItem = this.removeItem.bind(this);
     }
     componentDidMount() {
         const dbRef = firebase.database().ref();
@@ -61,11 +62,16 @@ export default class Landing extends React.Component {
             todoQuery: ""
         })
     }
+    // method to remove item from db
+    removeItem(itemToRemove) {
+        const dbRef = firebase.database().ref(`${itemToRemove}`);
+        dbRef.remove();
+    }
     render(){
         return (
             <div>
                 <InputForm addItem={this.addItem} change={this.onChange} todo={this.state.todo}/>
-                <ListContainer todo={this.state.todo}/>
+                <ListContainer todo={this.state.todo} removeItem={this.removeItem}/>
             </div>
         )
     }
