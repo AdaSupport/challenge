@@ -1,4 +1,5 @@
 import React from "react";
+import firebase from "./firebase";
 
 export default class InputForm extends React.Component {
     render() {
