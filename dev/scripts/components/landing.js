@@ -31,7 +31,18 @@ export default class Landing extends React.Component {
         this.setCompletionColours = this.setCompletionColours.bind(this)
         this.removeAllItems = this.removeAllItems.bind(this)
     }
+    componentWillMount(){
+        localStorage.getItem("to do items") && this.setState({
+            todo: JSON.parse(localStorage.getItem("to do items"))
+        });
+    }
     componentDidMount() {
+        // this is where caching should occur
+            // if cached data does not exist, fetch data
+            // else, do nothing
+        !localStorage.getItem("to do items") ? this.fetchData() : null;
+
+
         const dbRef = firebase.database().ref();
         dbRef.on("value", (firebaseData) => {
             const todo = [];
@@ -40,11 +51,16 @@ export default class Landing extends React.Component {
                 itemsData[itemKey].key = itemKey;
                 todo.push(itemsData[itemKey])
             }
-
+            
             this.setState({
                 todo
             })
         });
+
+    }
+    componentWillUpdate(nextProps, nextState) {
+        // update local storage when component rerenders
+        localStorage.setItem("to do items", JSON.stringify(nextState.todo));
     }
     onChange(e) {
         this.setState({
