@@ -5,10 +5,10 @@ export default class BulkActions extends React.Component {
         return (
             <div className="builk-action-container">
                 <div className="complete all-button">
-                    <button onClick={this.props.completeAll}>Completed All Tasks</button>
+                    <button id="complete-all-button" onClick={this.props.completeAll}>Completed All Tasks</button>
                 </div>
                 <div className="delete all-button">
-                    <button onClick={this.props.removeAll}>Remove All Tasks</button>
+                    <button id="delete-all-button" onClick={this.props.removeAll}>Remove All Tasks</button>
                 </div>
             </div>
         )

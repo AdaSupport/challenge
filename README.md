@@ -18,7 +18,7 @@ When you're finished, you should have a real-time TODO app that two or more peop
 - [x] Add a feature that allows users to delete tasks
 - [x] Add a feature that allows the completion of all tasks
 - [x] Add a feature that allows the deletion of all tasks
-- [ ] Add caching to the client app so that when we lose our connection we can still see our TODO's
+- [x] Add caching to the client app so that when we lose our connection we can still see our TODO's
 - [ ] Make it look right on mobile devices
 - [ ] Make a design change to improve the user experience
 - [ ] Write some unit tests for your server side code

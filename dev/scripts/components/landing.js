@@ -92,8 +92,12 @@ export default class Landing extends React.Component {
 
     // method to remove all list items
     removeAllItems(){
-        const dbRef = firebase.database().ref();
-        dbRef.remove();
+       if ( confirm("are you sure you want to delete all tasks?")) {
+           const dbRef = firebase.database().ref();
+           dbRef.remove();
+           document.getElementById("delete-all-button")
+               .addEventListener("click", () => alert("all items have been deleted"));
+       }
     }
     // this method updates the list item to be complete or incomplete based on radio button selected
     updateCompletionStatus(item, completionStatus){
@@ -114,6 +118,10 @@ export default class Landing extends React.Component {
 
         const completedButtons = document.querySelectorAll(".complete-radio");
         completedButtons.checked = true;
+
+        // alerts users with screen readers that list item has been added to list
+        document.getElementById("complete-all-button")
+            .addEventListener("click", () => alert("all items have been marked off as completed"));
     }
 
     // method to visually apply completion or incompletion of tasks
@@ -128,6 +136,7 @@ export default class Landing extends React.Component {
     render(){
         return (
             <div>
+                <a className="skip-link" href="#main-list">Skip to main list</a>
                 <InputForm addItem={this.addItem} change={this.onChange} todo={this.state.todo}/>
                 <ListContainer 
                     todo={this.state.todo} 

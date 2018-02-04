@@ -13,6 +13,8 @@ export default class InputForm extends React.Component {
                     type="text" 
                     name="todoQuery" 
                     id="todo-input"
+                    aria-label="Add your to do items here"
+                    tabIndex="1"
                     onChange={this.props.onChange}/>
                     <button>Add Todo</button>
                 </form>
