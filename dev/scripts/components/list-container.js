@@ -6,7 +6,10 @@ export default class ListContainer extends React.Component {
         return (
             <div className="list-container">
                 <ul className="list-ul">
-                    <ListItems />
+                    {this.props.todo.map(res => {
+                        return <ListItems todo={res} key={res.key}/>
+                    }
+                    )}
                 </ul>
             </div>
         )

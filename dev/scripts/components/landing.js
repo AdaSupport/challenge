@@ -24,6 +24,21 @@ export default class Landing extends React.Component {
         this.addItem = this.addItem.bind(this)
         this.onChange = this.onChange.bind(this)
     }
+    componentDidMount() {
+        const dbRef = firebase.database().ref();
+        dbRef.on("value", (firebaseData) => {
+            const todo = [];
+            const itemsData = firebaseData.val();
+            for (let itemKey in itemsData) {
+                itemsData[itemKey].key = itemKey;
+                todo.push(itemsData[itemKey])
+            }
+
+            this.setState({
+                todo
+            })
+        });
+    }
     onChange(e) {
         this.setState({
             [e.target.name]: e.target.value
@@ -49,8 +64,8 @@ export default class Landing extends React.Component {
     render(){
         return (
             <div>
-                <InputForm addItem={this.addItem} change={this.onChange}/>
-                <ListContainer />
+                <InputForm addItem={this.addItem} change={this.onChange} todo={this.state.todo}/>
+                <ListContainer todo={this.state.todo}/>
             </div>
         )
     }
