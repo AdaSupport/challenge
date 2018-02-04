@@ -1,4 +1,7 @@
 .input-form-container {
     width: 100%;
     text-align: center;
+    input[type=text] {
+        width: 40%;
+    }
 }

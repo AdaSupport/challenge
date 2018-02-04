@@ -1,0 +1,30 @@
+.legend-container {
+    border: 2px solid black;
+    border-radius: 5px;
+    padding: 0;
+    list-style-type: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 40%;
+    margin: 10px auto;
+    .legend-item {
+        margin: 10px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+    p {
+        margin: 0;
+    }
+    .fa-check {
+        color: green;
+    }
+    .fa-hourglass-start {
+        color: blue;
+    }
+    .fa-trash-alt {
+        color: red;
+    }
+}

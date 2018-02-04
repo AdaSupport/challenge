@@ -2,6 +2,8 @@ import React from "react";
 import InputForm from "./input-form";
 import ListContainer from "./list-container";
 import BulkActions from "./bulk-actions";
+import Header from "./header";
+import Lengend from "./legend";
 
 // Initialize Firebase
 var config = {
@@ -134,7 +136,10 @@ export default class Landing extends React.Component {
         return (
             <div className="landing">
                 <a className="skip-link" href="#main-list">Skip to main list</a>
+
+                <Header />
                 <InputForm addItem={this.addItem} onChange={this.onChange} todo={this.state.todo} query={this.state.todoQuery}/>
+                <Lengend />
                 <ListContainer 
                     todo={this.state.todo} 
                     removeItem={this.removeItem} 

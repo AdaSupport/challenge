@@ -3,6 +3,7 @@
 @import "visuallyhidden";
 @import "list-contents";
 @import "form";
+@import "legend";
 
 // GLOBAL  STYLES
 
@@ -24,3 +25,7 @@ h1 {
     margin: 0 auto;
 }
 
+.landing {
+    width: 80%;
+    margin: 0 auto;
+}

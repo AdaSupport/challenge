@@ -1,6 +1,33 @@
 .input-form-container {
   width: 100%;
   text-align: center; }
+  .input-form-container input[type=text] {
+    width: 40%; }
+
+.legend-container {
+  border: 2px solid black;
+  border-radius: 5px;
+  padding: 0;
+  list-style-type: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 40%;
+  margin: 10px auto; }
+  .legend-container .legend-item {
+    margin: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center; }
+  .legend-container p {
+    margin: 0; }
+  .legend-container .fa-check {
+    color: green; }
+  .legend-container .fa-hourglass-start {
+    color: blue; }
+  .legend-container .fa-trash-alt {
+    color: red; }
 
 a, a:visited, a:focus {
   text-decoration: none; }
@@ -17,11 +44,11 @@ a, a:visited, a:focus {
   justify-content: center;
   align-items: center; }
 
-ul {
-  width: 30%;
+.list-ul {
+  width: 100%;
   margin: 0 auto;
   padding: 0; }
-  ul li {
+  .list-ul li {
     padding: 0;
     list-style-type: none;
     display: flex;
@@ -341,11 +368,11 @@ a, a:visited, a:focus {
   padding: 0;
   border: 0; }
 
-ul {
-  width: 30%;
+.list-ul {
+  width: 100%;
   margin: 0 auto;
   padding: 0; }
-  ul li {
+  .list-ul li {
     padding: 0;
     list-style-type: none;
     display: flex;
@@ -377,6 +404,33 @@ label {
 .input-form-container {
   width: 100%;
   text-align: center; }
+  .input-form-container input[type=text] {
+    width: 40%; }
+
+.legend-container {
+  border: 2px solid black;
+  border-radius: 5px;
+  padding: 0;
+  list-style-type: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 40%;
+  margin: 10px auto; }
+  .legend-container .legend-item {
+    margin: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center; }
+  .legend-container p {
+    margin: 0; }
+  .legend-container .fa-check {
+    color: green; }
+  .legend-container .fa-hourglass-start {
+    color: blue; }
+  .legend-container .fa-trash-alt {
+    color: red; }
 
 html {
   font-size: 62.5%;
@@ -388,6 +442,10 @@ h1 {
 
 #app {
   width: 100%;
+  margin: 0 auto; }
+
+.landing {
+  width: 80%;
   margin: 0 auto; }
 
 .visuallyhidden {
