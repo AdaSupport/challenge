@@ -5,6 +5,26 @@ a, a:visited, a:focus {
   position: relative;
   bottom: 300px; }
 
+label {
+  cursor: pointer; }
+  label i {
+    margin: 10px; }
+  label .fa-check:hover {
+    color: green; }
+  label .fa-hourglass-start:hover {
+    color: blue; }
+  label .fa-trash-alt:hover {
+    color: red; }
+
+.complete {
+  background: rgba(148, 212, 148, 0.7); }
+
+.incomplete {
+  background: rgba(162, 204, 255, 0.853); }
+
+.radio {
+  display: none; }
+
 article, aside, details, figcaption, figure, footer, header, hgroup, nav, section, summary {
   display: block; }
 
@@ -278,11 +298,42 @@ a, a:visited, a:focus {
   position: relative;
   bottom: 300px; }
 
+.visuallyhidden {
+  position: absolute;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  height: 1px;
+  width: 1px;
+  margin: -1px;
+  padding: 0;
+  border: 0; }
+
+label {
+  cursor: pointer; }
+  label i {
+    margin: 10px; }
+  label .fa-check:hover {
+    color: green; }
+  label .fa-hourglass-start:hover {
+    color: blue; }
+  label .fa-trash-alt:hover {
+    color: red; }
+
 .complete {
-  background: green; }
+  background: rgba(148, 212, 148, 0.7); }
 
 .incomplete {
-  background: pink; }
+  background: rgba(162, 204, 255, 0.853); }
 
-li {
-  display: inline-block; }
+.radio {
+  display: none; }
+
+.visuallyhidden {
+  position: absolute;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  height: 1px;
+  width: 1px;
+  margin: -1px;
+  padding: 0;
+  border: 0; }

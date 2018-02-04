@@ -1,15 +1,5 @@
 @import "setup";
 @import "links";
-
-.complete {
-    background: green;
-}
-
-.incomplete {
-    background: pink;
-}
-
-li {
-    display: inline-block;
-}
+@import "visuallyhidden";
+@import "list-contents";
 

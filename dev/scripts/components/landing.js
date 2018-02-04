@@ -14,6 +14,8 @@ var config = {
 };
 firebase.initializeApp(config);
 
+const dbRef = firebase.database().ref();
+
 export default class Landing extends React.Component {
     constructor() {
         super();
@@ -42,8 +44,6 @@ export default class Landing extends React.Component {
             // else, do nothing
         !localStorage.getItem("to do items") ? this.fetchData() : null;
 
-
-        const dbRef = firebase.database().ref();
         dbRef.on("value", (firebaseData) => {
             const todo = [];
             const itemsData = firebaseData.val();
@@ -77,7 +77,6 @@ export default class Landing extends React.Component {
         }
 
         // push items to firebase db
-        const dbRef = firebase.database().ref();
         dbRef.push(todoListing);
 
         this.setState({
@@ -86,14 +85,13 @@ export default class Landing extends React.Component {
     }
     // method to remove item from db
     removeItem(itemToRemove) {
-        const dbRef = firebase.database().ref(`${itemToRemove}`);
-        dbRef.remove();
+        const dbRefRemove = firebase.database().ref(`${itemToRemove}`);
+        dbRefRemove.remove();
     }
 
     // method to remove all list items
     removeAllItems(){
        if ( confirm("are you sure you want to delete all tasks?")) {
-           const dbRef = firebase.database().ref();
            dbRef.remove();
            document.getElementById("delete-all-button")
                .addEventListener("click", () => alert("all items have been deleted"));
@@ -102,11 +100,11 @@ export default class Landing extends React.Component {
     // this method updates the list item to be complete or incomplete based on radio button selected
     updateCompletionStatus(item, completionStatus){
         const itemKey = item.key
-        const dbRef = firebase.database().ref(itemKey)
+        const dbRefUpdate = firebase.database().ref(itemKey)
 
         // change completed status to value of radio buttons 
         item.completed = completionStatus;
-        dbRef.update(item)
+        dbRefUpdate.update(item)
     }
     // method to mark items as completed
     completeAllItems(e){

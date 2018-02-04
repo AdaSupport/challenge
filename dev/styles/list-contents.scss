@@ -1,0 +1,29 @@
+label {
+    cursor: pointer;
+    i {
+        margin: 10px;
+    }
+    .fa-check:hover {
+        color: green;
+    }
+    
+    .fa-hourglass-start:hover {
+        color: blue;
+    }
+    
+    .fa-trash-alt:hover {
+        color: red;
+    }
+}
+
+.complete {
+    background: rgba(148, 212, 148, 0.7);
+}
+
+.incomplete {
+    background: rgba(162, 204, 255, 0.853);
+}
+
+.radio {
+    display: none;
+}
