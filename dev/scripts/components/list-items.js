@@ -8,7 +8,7 @@ export default class ListItems extends React.Component {
         const complete = "true";
         return (
             <li className={this.props.setColours(this.props.todo.completed)} tabIndex="0">
-                {item}
+                <p>{item}</p>
                 <div className="icon-container">
                 {/* click to complete */}
                     <label htmlFor={`${key}: complete`} tabIndex="0"><i className="fas fa-check"><span className="sr-only">completed</span></i></label>

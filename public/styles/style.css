@@ -12,7 +12,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 40%;
+  width: 100%;
   margin: 10px auto; }
   .legend-container .legend-item {
     margin: 10px;
@@ -28,9 +28,10 @@
     color: blue; }
   .legend-container .fa-trash-alt {
     color: red; }
-
-a, a:visited, a:focus {
-  text-decoration: none; }
+  .legend-container .fa-square.complete {
+    color: rgba(148, 212, 148, 0.7); }
+  .legend-container .fa-square.incomplete {
+    color: rgba(162, 204, 255, 0.853); }
 
 .skip-link {
   position: relative;
@@ -43,6 +44,15 @@ a, a:visited, a:focus {
   display: flex;
   justify-content: center;
   align-items: center; }
+  .bulk-action-container button {
+    height: 30px;
+    margin: 10px; }
+  .bulk-action-container #complete-all-button {
+    background: rgba(148, 212, 148, 0.7);
+    border: 1px solid rgba(148, 212, 148, 0.7); }
+  .bulk-action-container #delete-all-button {
+    background: rgba(255, 184, 162, 0.853);
+    border: 1px solid rgba(255, 184, 162, 0.853); }
 
 .list-ul {
   width: 100%;
@@ -60,7 +70,8 @@ a, a:visited, a:focus {
 label {
   cursor: pointer; }
   label i {
-    margin: 10px; }
+    margin: 20px;
+    font-size: 2rem; }
   label .fa-check:hover {
     color: green; }
   label .fa-hourglass-start:hover {
@@ -343,9 +354,6 @@ legend, button::-moz-focus-inner, input::-moz-focus-inner {
   -webkit-box-sizing: border-box;
   box-sizing: border-box; }
 
-a, a:visited, a:focus {
-  text-decoration: none; }
-
 .skip-link {
   position: relative;
   bottom: 300px; }
@@ -357,6 +365,15 @@ a, a:visited, a:focus {
   display: flex;
   justify-content: center;
   align-items: center; }
+  .bulk-action-container button {
+    height: 30px;
+    margin: 10px; }
+  .bulk-action-container #complete-all-button {
+    background: rgba(148, 212, 148, 0.7);
+    border: 1px solid rgba(148, 212, 148, 0.7); }
+  .bulk-action-container #delete-all-button {
+    background: rgba(255, 184, 162, 0.853);
+    border: 1px solid rgba(255, 184, 162, 0.853); }
 
 .visuallyhidden {
   position: absolute;
@@ -384,7 +401,8 @@ a, a:visited, a:focus {
 label {
   cursor: pointer; }
   label i {
-    margin: 10px; }
+    margin: 20px;
+    font-size: 2rem; }
   label .fa-check:hover {
     color: green; }
   label .fa-hourglass-start:hover {
@@ -415,7 +433,7 @@ label {
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 40%;
+  width: 100%;
   margin: 10px auto; }
   .legend-container .legend-item {
     margin: 10px;
@@ -431,6 +449,10 @@ label {
     color: blue; }
   .legend-container .fa-trash-alt {
     color: red; }
+  .legend-container .fa-square.complete {
+    color: rgba(148, 212, 148, 0.7); }
+  .legend-container .fa-square.incomplete {
+    color: rgba(162, 204, 255, 0.853); }
 
 html {
   font-size: 62.5%;
@@ -439,6 +461,9 @@ html {
 h1 {
   font-size: 3rem;
   text-align: center; }
+
+p {
+  font-size: 1.4rem; }
 
 #app {
   width: 100%;
