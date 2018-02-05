@@ -4,18 +4,9 @@ import ListContainer from "./list-container";
 import BulkActions from "./bulk-actions";
 import Header from "./header";
 import Lengend from "./legend";
+import firebase from "./firebase"
 
-// Initialize Firebase
-var config = {
-    apiKey: "AIzaSyA1ggCs58AvlUPRXh21K8fnOX0Yl8-CElU",
-    authDomain: "experiment-1dc52.firebaseapp.com",
-    databaseURL: "https://experiment-1dc52.firebaseio.com",
-    projectId: "experiment-1dc52",
-    storageBucket: "experiment-1dc52.appspot.com",
-    messagingSenderId: "1078206351112"
-};
-firebase.initializeApp(config);
-
+// Global variable to reference firebase database
 const dbRef = firebase.database().ref();
 
 export default class Landing extends React.Component {
@@ -26,20 +17,23 @@ export default class Landing extends React.Component {
             todoQuery: "",
             completed: "false"
         }
+
         // binding methods begin here
         this.addItem = this.addItem.bind(this);
         this.onChange = this.onChange.bind(this);
         this.removeItem = this.removeItem.bind(this);
-        this.updateCompletionStatus = this.updateCompletionStatus.bind(this)
-        this.completeAllItems = this.completeAllItems.bind(this)
-        this.setCompletionColours = this.setCompletionColours.bind(this)
-        this.removeAllItems = this.removeAllItems.bind(this)
+        this.updateCompletionStatus = this.updateCompletionStatus.bind(this);
+        this.completeAllItems = this.completeAllItems.bind(this);
+        this.setCompletionColours = this.setCompletionColours.bind(this);
+        this.removeAllItems = this.removeAllItems.bind(this);
     }
+
     componentWillMount(){
         localStorage.getItem("to do items") && this.setState({
             todo: JSON.parse(localStorage.getItem("to do items"))
         });
     }
+
     componentDidMount() {
         // this is where caching should occur
             // if cached data does not exist, fetch data
@@ -58,24 +52,29 @@ export default class Landing extends React.Component {
                 todo
             })
         });
-
     }
+
+    // set information to localStorage for caching
     componentWillUpdate(nextProps, nextState) {
         // update local storage when component rerenders
         localStorage.setItem("to do items", JSON.stringify(nextState.todo));
     }
+
+    // method to keep track of state change on input
     onChange(e) {
         this.setState({
             [e.target.name]: e.target.value
         });
     }
-    // on submit of input form, add to do items to list container
+
+    // method to add to do items to list container
     addItem(e) {
         e.preventDefault();
         const item = document.getElementById("todo-input").value;
+        const completed = this.state.completed;
         const todoListing = {
             item,
-            completed: "false"
+            completed
         }
         
         // push items to firebase db
@@ -84,6 +83,7 @@ export default class Landing extends React.Component {
             todoQuery: ""
         })
     }
+
     // method to remove item from db
     removeItem(itemToRemove) {
         const dbRefRemove = firebase.database().ref(`${itemToRemove}`);
@@ -92,12 +92,12 @@ export default class Landing extends React.Component {
 
     // method to remove all list items
     removeAllItems(){
-       if ( confirm("are you sure you want to delete all tasks?")) {
+       if (confirm("are you sure you want to delete all tasks?")) {
            dbRef.remove();
-           document.getElementById("delete-all-button")
-               .addEventListener("click", () => alert("all items have been deleted"));
+           alert("all items have been deleted");
        }
     }
+
     // this method updates the list item to be complete or incomplete based on radio button selected
     updateCompletionStatus(item, completionStatus){
         const itemKey = item.key
@@ -107,6 +107,7 @@ export default class Landing extends React.Component {
         item.completed = completionStatus;
         dbRefUpdate.update(item)
     }
+
     // method to mark items as completed
     completeAllItems(e){
         e.preventDefault();
@@ -115,38 +116,44 @@ export default class Landing extends React.Component {
             this.updateCompletionStatus(tasks, "true");
         }
 
-        const completedButtons = document.querySelectorAll(".complete-radio");
-        completedButtons.checked = true;
-
         // alerts users with screen readers that list item has been added to list
-        document.getElementById("complete-all-button")
-            .addEventListener("click", () => alert("all items have been marked off as completed"));
+        alert("all items have been marked off as completed");
     }
 
     // method to visually apply completion or incompletion of tasks
-    setCompletionColours(todo) {
-        switch (todo) {
+        // based on completion status
+    setCompletionColours(completionStatus) {
+        switch (completionStatus) {
             case "true":
                 return "complete";
             case "false":
                 return "incomplete";
         }
     }
+
     render(){
         return (
             <div className="landing">
                 <a className="skip-link" href="#main-list">Skip to main list</a>
 
                 <Header />
-                <InputForm addItem={this.addItem} onChange={this.onChange} todo={this.state.todo} query={this.state.todoQuery}/>
+                <InputForm 
+                    addItem={this.addItem} 
+                    onChange={this.onChange} 
+                    todo={this.state.todo} 
+                    query={this.state.todoQuery}/>
                 <Lengend />
+                
                 <ListContainer 
                     todo={this.state.todo} 
                     removeItem={this.removeItem} 
                     update={this.updateCompletionStatus} 
                     completeAll={this.completeAllItems} 
                     setColours={this.setCompletionColours}/>
-                <BulkActions completeAll={this.completeAllItems} removeAll={this.removeAllItems}/>
+
+                <BulkActions 
+                    completeAll={this.completeAllItems} 
+                    removeAll={this.removeAllItems}/>
             </div>
         )
     }
