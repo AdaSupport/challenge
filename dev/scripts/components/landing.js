@@ -75,13 +75,13 @@ export default class Landing extends React.Component {
         const todoListing = {
             item,
             completed
-        }
+        };
         
         // push items to firebase db
         dbRef.push(todoListing);
         this.setState({
             todoQuery: ""
-        })
+        });
     }
 
     // method to remove item from db
@@ -95,17 +95,17 @@ export default class Landing extends React.Component {
        if (confirm("are you sure you want to delete all tasks?")) {
            dbRef.remove();
            alert("all items have been deleted");
-       }
+       };
     }
 
     // this method updates the list item to be complete or incomplete based on radio button selected
     updateCompletionStatus(item, completionStatus){
-        const itemKey = item.key
-        const dbRefUpdate = firebase.database().ref(itemKey)
+        const itemKey = item.key;
+        const dbRefUpdate = firebase.database().ref(itemKey);
 
         // change completed status to value of radio buttons 
         item.completed = completionStatus;
-        dbRefUpdate.update(item)
+        dbRefUpdate.update(item);
     }
 
     // method to mark items as completed
@@ -114,7 +114,7 @@ export default class Landing extends React.Component {
         const taskArray = this.state.todo;
         for (let tasks of taskArray) {
             this.updateCompletionStatus(tasks, "true");
-        }
+        };
 
         // alerts users with screen readers that list item has been added to list
         alert("all items have been marked off as completed");
@@ -128,7 +128,7 @@ export default class Landing extends React.Component {
                 return "complete";
             case "false":
                 return "incomplete";
-        }
+        };
     }
 
     render(){
