@@ -15,6 +15,7 @@
 
 label {
     cursor: pointer;
+    display: inline-block;
     i {
         margin: 20px;
         font-size: 2rem;
@@ -42,4 +43,10 @@ label {
 
 .radio {
     display: none;
+}
+
+.icon-container {
+    max-width: 50%;
+    display: flex;
+    justify-content: space-around;
 }

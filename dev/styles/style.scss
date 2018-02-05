@@ -1,4 +1,3 @@
-
 @import "setup";
 @import "links";
 @import "visuallyhidden";
@@ -22,6 +21,9 @@ h1 {
 
 p {
     font-size: 1.4rem;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    hyphens: auto;
 }
 
 // WRAPPERS
@@ -34,3 +36,5 @@ p {
     width: 80%;
     margin: 0 auto;
 }
+
+@import "mediaquery";
