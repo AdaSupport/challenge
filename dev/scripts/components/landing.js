@@ -4,7 +4,7 @@ import ListContainer from "./list-container";
 import BulkActions from "./bulk-actions";
 import Header from "./header";
 import Lengend from "./legend";
-import firebase from "./firebase"
+import firebase from "./firebase";
 
 // Global variable to reference firebase database
 const dbRef = firebase.database().ref();
