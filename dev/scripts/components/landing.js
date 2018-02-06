@@ -35,7 +35,6 @@ export default class Landing extends React.Component {
     }
 
     componentDidMount() {
-
         dbRef.on("value", (firebaseData) => {
             const todo = [];
             const itemsData = firebaseData.val();

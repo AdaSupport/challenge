@@ -7,7 +7,7 @@ export default class ListItems extends React.Component{
         const incomplete = "false";
         const complete = "true";
         return (
-            <li className={this.props.setColours(this.props.todo.completed)} tabIndex="0">
+            <li className={this.props.setColours(this.props.todo.completed)} tabIndex="0" key={key}>
                 <p>{item}</p>
                 <div className="icon-container">
 

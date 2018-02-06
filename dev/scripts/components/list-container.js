@@ -9,7 +9,7 @@ export default class ListContainer extends React.Component {
                     {this.props.todo.map(res => {
                         return <ListItems 
                             todo={res} 
-                            key={res.key} 
+                            key={res.key}
                             removeItem={this.props.removeItem} 
                             update={this.props.update} 
                             completeAll={this.props.completeAll} 
