@@ -35,11 +35,6 @@ export default class Landing extends React.Component {
     }
 
     componentDidMount() {
-        // this is where caching should occur
-            // if cached data does not exist, fetch data
-            // else, do nothing
-        !localStorage.getItem("to do items") ? this.fetchData() : null;
-
         dbRef.on("value", (firebaseData) => {
             const todo = [];
             const itemsData = firebaseData.val();
