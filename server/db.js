@@ -1,13 +1,12 @@
-const DATA_PATH = '../DB/data.json'
+const DEFAULT_DATA_PATH = '../DB/data.json'
 
 const fs      = require('fs')
 const path    = require('path')
-const rawData = require(DATA_PATH);
 const Todo    = require('./todo');
 
-function writeToFile(jsonObj){
+function writeToFile(jsonObj, file_path){
   fs.writeFileSync(
-    path.join(__dirname, DATA_PATH), 
+    path.join(__dirname, file_path), 
     JSON.stringify(jsonObj, undefined, 4), 
     'utf-8', 
     (err) => {
@@ -21,23 +20,36 @@ function writeToFile(jsonObj){
 
 class DB {
   constructor() {
+    this.todos = [];
+    this.path  = '';
+  }
+
+  connect(dataPath=DEFAULT_DATA_PATH){
+    //check file exisitence
+    const exists = fs.existsSync(path.join(__dirname, dataPath));
+    if(!exists){return exists};
+
+    this.path = dataPath;
+    const file_path = path.join(__dirname, this.path);
+    const rawData = JSON.parse(fs.readFileSync(file_path));
+
     //if any of the todos does not contain id, 
     //then update the json file to give every todo a id
     let needUpdateFile = false;
-
     this.todos = rawData.map((todo) => { 
-      if(!todo._id && needUpdateFile === false){ needUpdateFile = true};
-      return new Todo(todo.title, todo._id);
+      if(!todo.id && !needUpdateFile){ needUpdateFile = true};
+      return new Todo(todo.title, todo.id);
     }) || [];
 
     if(needUpdateFile){
-      writeTodosToFile(this.todos);
+      this.writeTodosToFile(this.todos);
     }
+    return exists;
   }
 
   writeTodosToFile() {
-    const todoList = todos.map((todo) => {return {title: todo.title, _id: todo.id}});
-    writeToFile(todoList);
+    const todoList = this.todos.map((todo) => {return {title: todo.title, _id: todo.id}});
+    writeToFile(todoList, this.path);
   }
 
   /**
@@ -126,5 +138,5 @@ class DB {
 };
 
 module.exports = {
-  DB: new DB()
+  Database: DB
 }
