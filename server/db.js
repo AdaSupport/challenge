@@ -149,15 +149,21 @@ class DB {
   * @return {Object} - the todo toggled
   */
   toggleCompletedOneById(id, completed){
-    let todoToggled = null
+    let todoToggled = null;
     this.todos.forEach((todo) => {
       if (todo.id === id) {
         todo.completed = completed;
-        todoToggled = todo
-        return
+        todoToggled = todo;
+        return;
       }
     })
-    return todoToggled
+    return todoToggled;
+  }
+
+  toggleCompletedAll(completed){
+    this.todos.forEach((todo) => {
+      todo.completed = completed;
+    })
   }
 };
 

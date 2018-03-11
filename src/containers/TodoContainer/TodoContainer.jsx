@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import TodoList from '../../components/TodoList'
-import TextArea from '../../components/TextArea/TextArea'
+import TextInput from '../../components/TextInput/TextInput'
 import socketIOClient from 'socket.io-client'
 
 import * as todoActions from  '../../actions/todos'
@@ -17,37 +17,59 @@ class TodoContainer extends Component {
       this.props.loadTodosList(list);
     })
 
-    socket.on('append', (todo) => {
-      this.props.appendOneTodo(todo);
-    })
-
-    socket.on('deleteOne', (todo) => {
-      this.props.deleteOneTodo(todo.id);
-    })
-
-    socket.on('toggleCompleteOne', ({id, completed}) => {
-      this.props.toggleCompletedOneTodo(id, completed);
+    socket.on('action', (payload) => {
+      console.log('action')
+      this.actionDispatch(payload)
     })
   }
 
+  actionDispatch = ({name, payload}) => {
+    console.log(name, payload)
+    switch(name){
+      case 'append':
+        this.props.appendOneTodo(payload);
+        break;
+      case 'deleteOne':
+        this.props.deleteOneTodo(payload);
+        break;
+      case 'toggleCompleteOne':
+        this.props.toggleCompletedOneTodo(payload.id, payload.completed);
+        break;
+      case 'toggleCompleteAll':
+        this.props.toggleCompletedAllTodo(payload);
+        break;
+      default:
+        return null
+    }
+  }
+
   onPressEnter = (text) => {
-    socket.emit('make', text);
+    socket.emit('action', {name:'make', payload:text});
   }
 
   onDelete = (id) => {
     this.props.deleteOneTodo(id);
-    socket.emit('deleteOne', id);
+    socket.emit('action', {name:'deleteOne', payload:id});
   }
   onToggleComplete = ({id, completed}) => {
     this.props.toggleCompletedOneTodo(id, completed);    
-    socket.emit('completeOne', {id, completed})
+    socket.emit('action', {name:'toggleCompleteOne', payload:{id, completed}});
+  }
+
+  onToggleCompleteAll = () => {
+    const completed = this.props.todos.some((todo) =>{return !todo.completed}) 
+    this.props.toggleCompletedAllTodo(completed);
+    socket.emit('action', {name:'toggleCompleteAll', payload:completed});
   }
 
   render() {
     const {todos} = this.props
     return (
       <div>
-          <TextArea onPressEnter={this.onPressEnter}/>
+          <TextInput todoList={todos} 
+                    onPressEnter={this.onPressEnter} 
+                    onToggleCompleteAll={this.onToggleCompleteAll}/>
+
           <TodoList todoList={todos} 
                     onDelete={this.onDelete}
                     onToggleComplete={this.onToggleComplete}/>

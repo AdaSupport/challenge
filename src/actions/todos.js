@@ -2,6 +2,7 @@ export const LOAD_TODOS_LIST = 'LOAD_TODOS_LIST';
 export const APPEND_ONE_TODO = 'APPEND_ONE_TODO';
 export const DELETE_ONE_TODO = 'DELETE_ONE_TODO';
 export const TOGLLE_COMPLETE_TODO = 'TOGLLE_COMPLETE_TODO';
+export const TOGLLE_COMPLETE_ALL_TODO = 'TOGLLE_COMPLETE_ALL_TODO';
 
 export function loadTodosList(todosList) {
   return {
@@ -35,6 +36,13 @@ export function toggleCompletedOneTodo(id, completed) {
       id,
       completed
     };
+  }
+}
+
+export function toggleCompletedAllTodo(completed) {
+  return {
+    type: TOGLLE_COMPLETE_ALL_TODO,
+    completed
   }
 }
 

@@ -1,7 +1,8 @@
 import {LOAD_TODOS_LIST, 
         APPEND_ONE_TODO, 
         DELETE_ONE_TODO, 
-        TOGLLE_COMPLETE_TODO} from '../../actions/todos'
+        TOGLLE_COMPLETE_TODO,
+        TOGLLE_COMPLETE_ALL_TODO} from '../../actions/todos'
 
 const initial_state = {
   list:[]
@@ -20,17 +21,30 @@ const toggleCompleteById = (list, id, completed) => {
   })
 }
 
+const toggleAllComplete = (list, completed) => {
+  return list.map((todo)=>{
+    todo.completed = completed
+    return todo
+  });
+}
+
 export default function todos(state=initial_state, action) {
   switch (action.type) {
     case LOAD_TODOS_LIST:
       return {...state, list:action.list};
+
     case APPEND_ONE_TODO:
       return {...state, list:[...state.list, action.todo]};
+
     case DELETE_ONE_TODO:
       return {...state, list:removeById(state.list, action.id)};
+      
     case TOGLLE_COMPLETE_TODO:
-      let list = toggleCompleteById(state.list, action.id, action.completed)
-      return {...state, list};
+      return {...state, list: toggleCompleteById(state.list, action.id, action.completed)};
+
+    case TOGLLE_COMPLETE_ALL_TODO:
+      return {...state, list: toggleAllComplete(state.list, action.completed)};
+
     default:
       return state;
   }

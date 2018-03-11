@@ -22,15 +22,13 @@ const DeleteBtn = (props) => {
 
 const CompletedBtn = (props) => {
   let color = 'grey',
-      name  = 'square outline',
-      size  = 'large'
+      name  = 'square outline'
   if(props.completed){
     color = 'green'
     name  = 'check'
-    size  = 'large'
   }
   return (
-    <Icon name={name} color={color} onClick={props.onClick} size={size}/>
+    <Icon name={name} color={color} onClick={props.onClick} />
   )
 }
 
