@@ -6,8 +6,11 @@
   "scripts": {
     "test": "jest --coverage",
     "test-watch": "jest **/*.test.js --watch --coverage",
-    "server-dev":"nodemon server/server.js",
-    "start": "node server/server.js"
+    "server-dev": "nodemon server/server.js",
+    "start": "node server/server.js",
+    "build": "react-scripts build",
+    "eject": "react-scripts eject",
+    "client-dev": "react-scripts start"
   },
   "repository": {
     "type": "git",
@@ -21,13 +24,20 @@
   "homepage": "https://github.com/adasupport/challenge#readme",
   "dependencies": {
     "express": "^4.16.2",
-    "socket.io": "^1.5.0"
+    "react": "^16.2.0",
+    "react-dom": "^16.2.0",
+    "socket.io": "^1.5.0",
+    "socket.io-client": "^2.0.4"
   },
   "jest": {
-    "testPathIgnorePatterns": ["/node_modules/", "./DB/" ]
+    "testPathIgnorePatterns": [
+      "/node_modules/",
+      "./DB/"
+    ]
   },
   "devDependencies": {
     "jest": "^22.4.2",
-    "nodemon": "^1.17.1"
+    "nodemon": "^1.17.1",
+    "react-scripts": "^1.1.1"
   }
 }

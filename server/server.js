@@ -51,7 +51,7 @@ io.on('connection', (client) => {
     console.log('connected');
 });
 
-server.listen(3000, ()=> {
+server.listen(3001, ()=> {
   console.log('Waiting for clients to connect');
   io.listen(3003);
 })
