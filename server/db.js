@@ -48,7 +48,9 @@ class DB {
   }
 
   writeTodosToFile() {
-    const todoList = this.todos.map((todo) => {return {title: todo.title, _id: todo.id}});
+    const todoList = this.todos.map(({title, id, completed}) => {
+      return {title, id, completed};
+    });
     writeToFile(todoList, this.path);
   }
 
@@ -83,7 +85,7 @@ class DB {
   * @return {Object}  - the first todo with the request id
   */
   getById(id){
-    return this.todos.filter((todo) => todo._id === id)[0];
+    return this.todos.filter((todo) => todo.id === id)[0];
   }
 
   /**
