@@ -11,7 +11,7 @@ const TodoText = ({text,completed}) => {
 
 const RightHandBtn = (props) => {
   return (
-    <Icon name={props.type} color={props.color} style={{float:'right'}} onClick={props.clickAction}/>
+    <Icon link name={props.type} color={props.color} style={{float:'right'}} onClick={props.clickAction}/>
   )
 }
 const DeleteBtn = (props) => {
@@ -28,7 +28,7 @@ const CompletedBtn = (props) => {
     name  = 'check'
   }
   return (
-    <Icon name={name} color={color} onClick={props.onClick} />
+    <Icon link name={name} color={color} onClick={props.onClick} />
   )
 }
 
