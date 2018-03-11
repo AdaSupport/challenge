@@ -3,21 +3,19 @@ const http = require('http');
 const path = require('path');
 const express = require('express');
 const clientPath = path.join(__dirname, '../build');
-const { Database } = require('../server/db');
-var cors = require('cors')
+const {Database} = require('../server/db');
 
 const DB = new Database();
-DB.connect()
+DB.connect();
 
-var app = express();
-app.use(cors({ origin: '*' }))
+const app = express();
 app.use(express.static(clientPath));
 
 
-var server = http.createServer(app);
+const server = http.createServer(app);
 
 
-var io = socketIO(server)
+const io = socketIO(server);
 
 io.on('connection', (client) => {
     // // This is going to be our fake 'database' for this application

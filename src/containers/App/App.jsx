@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Home from '../Home';
+import Todo from '../Todo';
 import Layout from '../../components/Layout'
 
 export default class App extends Component {
@@ -8,7 +8,7 @@ export default class App extends Component {
     return (
       <div>
         <Layout>
-          <Home />
+          <Todo />
         </Layout>
       </div>
     )
