@@ -5,8 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "jest --coverage",
-    "test-watch": "jest --watch --coverage",
-    "start": "node server.js"
+    "test-watch": "jest **/*.test.js --watch --coverage",
+    "server-dev":"nodemon server/server.js",
+    "start": "node server/server.js"
   },
   "repository": {
     "type": "git",
@@ -19,8 +20,11 @@
   },
   "homepage": "https://github.com/adasupport/challenge#readme",
   "dependencies": {
-    "express": "^4.14.0",
+    "express": "^4.16.2",
     "socket.io": "^1.5.0"
+  },
+  "jest": {
+    "testPathIgnorePatterns": ["/node_modules/", "./DB/" ]
   },
   "devDependencies": {
     "jest": "^22.4.2",
