@@ -16,28 +16,24 @@ class IO {
     return this.DB.getAllTodos();
   }
 
-  newTodo(text){
-    const todo = this.DB.insertOne(text);
-    this.io.emit('append', todo);
-  }
-
-  deleteTodo(id){
-    const todo = this.DB.deleteOneById(id);
-    this.io.emit('deleteOne', todo);
-    
-  }
-
   listen(){
     this.io.on('connection', (client) => {
       console.log(`connected ${client.id}`);
       client.emit('load', this.reloadTodos());
 
       client.on('make', (title) => {
-        this.newTodo(title)
+        const todo = this.DB.insertOne(title);
+        this.io.emit('append', todo);
       })
 
-      client.on('delete', (id) => {
-        this.deleteTodo(id)
+      client.on('deleteOne', (id) => {
+        const todo = this.DB.deleteOneById(id);
+        client.broadcast.emit('deleteOne', todo);
+      })
+
+      client.on('completeOne', ({id, completed}) => {
+        const todo = this.DB.toggleCompletedOneById(id, completed);
+        client.broadcast.emit('toggleCompleteOne', todo);
       })
     })
   }

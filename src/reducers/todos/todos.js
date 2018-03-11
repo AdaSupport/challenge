@@ -1,4 +1,7 @@
-import {LOAD_TODOS_LIST, APPEND_ONE_TODO, DELETE_ONE_TODO} from '../../actions/todos'
+import {LOAD_TODOS_LIST, 
+        APPEND_ONE_TODO, 
+        DELETE_ONE_TODO, 
+        TOGLLE_COMPLETE_TODO} from '../../actions/todos'
 
 const initial_state = {
   list:[]
@@ -6,6 +9,15 @@ const initial_state = {
 
 const removeById = (list, id) => {
   return list.filter((e) => { return e.id !== id});
+}
+
+const toggleCompleteById = (list, id, completed) => {
+  return list.map((e) => {
+    if(e.id === id){
+      e.completed = completed;
+    }
+    return e
+  })
 }
 
 export default function todos(state=initial_state, action) {
@@ -16,6 +28,9 @@ export default function todos(state=initial_state, action) {
       return {...state, list:[...state.list, action.todo]};
     case DELETE_ONE_TODO:
       return {...state, list:removeById(state.list, action.id)};
+    case TOGLLE_COMPLETE_TODO:
+      let list = toggleCompleteById(state.list, action.id, action.completed)
+      return {...state, list};
     default:
       return state;
   }

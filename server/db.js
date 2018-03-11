@@ -117,7 +117,11 @@ class DB {
     return this._deleteOne('id', id);
   }
   
-
+  /**
+  * delete a todo by title
+  * @param {string}  title - the title of todo needed to be deleted
+  * @return {Object} - the todo deleted
+  */
   deleteOneByTitle(title){
     return this._deleteOne('title', title);
   }
@@ -136,6 +140,24 @@ class DB {
       this.todos = todos;
     }
     return deletedTodo
+  }
+
+  /**
+  * delete a todo by title
+  * @param {string}  id - the id of todo needed to be toggled
+  * @param {boolean}  completed - the todo completed or not
+  * @return {Object} - the todo toggled
+  */
+  toggleCompletedOneById(id, completed){
+    let todoToggled = null
+    this.todos.forEach((todo) => {
+      if (todo.id === id) {
+        todo.completed = completed;
+        todoToggled = todo
+        return
+      }
+    })
+    return todoToggled
   }
 };
 

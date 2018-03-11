@@ -22,16 +22,25 @@ class TodoContainer extends Component {
     })
 
     socket.on('deleteOne', (todo) => {
-      this.props.deleteOneTodo(todo.id)
+      this.props.deleteOneTodo(todo.id);
+    })
+
+    socket.on('toggleCompleteOne', ({id, completed}) => {
+      this.props.toggleCompletedOneTodo(id, completed);
     })
   }
 
-  onPressEnter(text){
+  onPressEnter = (text) => {
     socket.emit('make', text);
   }
 
-  onDelete(id){
-    socket.emit('delete', id);
+  onDelete = (id) => {
+    this.props.deleteOneTodo(id);
+    socket.emit('deleteOne', id);
+  }
+  onToggleComplete = ({id, completed}) => {
+    this.props.toggleCompletedOneTodo(id, completed);    
+    socket.emit('completeOne', {id, completed})
   }
 
   render() {
@@ -39,7 +48,9 @@ class TodoContainer extends Component {
     return (
       <div>
           <TextArea onPressEnter={this.onPressEnter}/>
-          <TodoList todoList={todos} onDelete={this.onDelete}/>
+          <TodoList todoList={todos} 
+                    onDelete={this.onDelete}
+                    onToggleComplete={this.onToggleComplete}/>
       </div>
     )
   }
