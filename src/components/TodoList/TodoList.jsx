@@ -18,7 +18,7 @@ export default class TodoList extends Component {
     return (
       <div>
         <Container>
-          <Segment.Group raised>
+          <Segment.Group >
             {this.renderTodoList(todoList)}
           </Segment.Group>
         </Container>

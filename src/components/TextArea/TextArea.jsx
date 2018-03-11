@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Input } from 'semantic-ui-react'
+import { Input, Container } from 'semantic-ui-react'
 
 export default class TextArea extends Component {
   constructor(props){
@@ -21,11 +21,12 @@ export default class TextArea extends Component {
   render() {
     const {value} = this.state
     return (
-      <div>
+      <Container>
+
         <Input value={value} fluid placeholder='What to do next...' 
         onKeyUp={this.onKeyUp}
         onChange={this.onChange}/>
-      </div>
+      </Container>
     )
   }
 }
