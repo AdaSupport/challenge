@@ -143,7 +143,15 @@ class DB {
   }
 
   /**
-  * delete a todo by title
+  * toggle all completed
+  * @param {boolean}  completed - completed or not
+  */
+  deleteAll(){
+    this.todos = []
+  }
+
+  /**
+  * toggle a todo  completed by id
   * @param {string}  id - the id of todo needed to be toggled
   * @param {boolean}  completed - the todo completed or not
   * @return {Object} - the todo toggled
@@ -160,6 +168,10 @@ class DB {
     return todoToggled;
   }
 
+  /**
+  * toggle all completed
+  * @param {boolean}  completed - completed or not
+  */
   toggleCompletedAll(completed){
     this.todos.forEach((todo) => {
       todo.completed = completed;

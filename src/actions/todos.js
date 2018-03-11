@@ -1,6 +1,7 @@
 export const LOAD_TODOS_LIST = 'LOAD_TODOS_LIST';
 export const APPEND_ONE_TODO = 'APPEND_ONE_TODO';
 export const DELETE_ONE_TODO = 'DELETE_ONE_TODO';
+export const DELETE_ALL      = 'DELETE_ALL';
 export const TOGLLE_COMPLETE_TODO = 'TOGLLE_COMPLETE_TODO';
 export const TOGLLE_COMPLETE_ALL_TODO = 'TOGLLE_COMPLETE_ALL_TODO';
 
@@ -27,6 +28,12 @@ export function deleteOneTodo(id) {
       id
     };
   }
+}
+
+export function deleteAll() {
+  return {
+    type: DELETE_ALL
+  };
 }
 
 export function toggleCompletedOneTodo(id, completed) {

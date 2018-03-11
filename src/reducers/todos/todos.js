@@ -2,7 +2,8 @@ import {LOAD_TODOS_LIST,
         APPEND_ONE_TODO, 
         DELETE_ONE_TODO, 
         TOGLLE_COMPLETE_TODO,
-        TOGLLE_COMPLETE_ALL_TODO} from '../../actions/todos'
+        TOGLLE_COMPLETE_ALL_TODO,
+        DELETE_ALL} from '../../actions/todos'
 
 const initial_state = {
   list:[]
@@ -38,6 +39,9 @@ export default function todos(state=initial_state, action) {
 
     case DELETE_ONE_TODO:
       return {...state, list:removeById(state.list, action.id)};
+
+    case DELETE_ALL:
+      return {...state, list:[]}
       
     case TOGLLE_COMPLETE_TODO:
       return {...state, list: toggleCompleteById(state.list, action.id, action.completed)};

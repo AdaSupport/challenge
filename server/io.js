@@ -16,12 +16,17 @@ class IO {
     return this.DB.getAllTodos();
   }
 
-  actionDispatch(client, {name, payload}){
+  actionDispatch(client, {name, payload=''}){
     let ret
     switch(name){
       case 'deleteOne':
         ret = this.DB.deleteOneById(payload);
         client.broadcast.emit('action', {name, payload:ret.id});
+        break;
+      
+      case 'deleteAll':
+        ret = this.DB.deleteAll();
+        client.broadcast.emit('action', {name});
         break;
 
       case 'toggleCompleteOne':
@@ -38,6 +43,7 @@ class IO {
         ret = this.DB.insertOne(payload);
         this.io.emit('action', {name:'append', payload:ret});
         break;
+
       default:
         return null
     }

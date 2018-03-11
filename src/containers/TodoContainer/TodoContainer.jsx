@@ -1,8 +1,9 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import TodoList from '../../components/TodoList'
+import TodoList  from '../../components/TodoList'
 import TextInput from '../../components/TextInput/TextInput'
+import Footer from '../../components/Footer/Footer'
 import socketIOClient from 'socket.io-client'
 
 import * as todoActions from  '../../actions/todos'
@@ -31,6 +32,9 @@ class TodoContainer extends Component {
         break;
       case 'deleteOne':
         this.props.deleteOneTodo(payload);
+        break;
+      case 'deleteAll':
+        this.props.deleteAll();
         break;
       case 'toggleCompleteOne':
         this.props.toggleCompletedOneTodo(payload.id, payload.completed);
@@ -62,6 +66,12 @@ class TodoContainer extends Component {
     socket.emit('action', {name:'toggleCompleteAll', payload:completed});
   }
 
+  onRemoveAll = () => {
+    console.log('remove all')
+    this.props.deleteAll()
+    socket.emit('action', {name:'deleteAll', payload:{}});
+  }
+
   render() {
     const {todos} = this.props
     return (
@@ -73,6 +83,7 @@ class TodoContainer extends Component {
           <TodoList todoList={todos} 
                     onDelete={this.onDelete}
                     onToggleComplete={this.onToggleComplete}/>
+          <Footer onRemoveAll={this.onRemoveAll}/>
       </div>
     )
   }
