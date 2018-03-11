@@ -5,14 +5,25 @@ const style = {
   padding: '16px'
 }
 
+
+const TodoText = ({text}) => {
+  return (<span>{text}</span>)
+}
+
 export default class Todo extends Component {
   render() {
-    return (
-      <div>
-        <Segment>
-          Pellentesque habitant morbi tristique senectus.
-        </Segment>
-      </div>
-    )
+    const {title, id, completed} = this.props
+    console.log(title, id, completed)
+    if (title){
+      return (
+        <div>
+          <Segment>
+            <TodoText text={title}/>
+          </Segment>
+        </div>
+      )
+    }
+    return null
+
   }
 }

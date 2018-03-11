@@ -1,7 +1,7 @@
 import {LOAD_TODOS_LIST} from '../../actions/todos'
 
 const initial_state = {
-  list:[{title:'123'}]
+  list:[]
 }
 
 export default function todos(state=initial_state, action) {
