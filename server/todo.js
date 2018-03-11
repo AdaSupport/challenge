@@ -4,11 +4,12 @@ function ID () {
 }
 
 class Todo {
-    constructor(title='', id) {
+    constructor(title='', id = ID(), completed=false) {
         this.title = title;
         //add time as the id of each todo
-        this.id   = id || ID();
+        this.id = id;
+        this.completed = completed;
     }
 }
 
-module.exports = Todo
+module.exports = Todo;

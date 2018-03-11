@@ -1,26 +1,32 @@
 [
     {
         "title": "Order more coffee from Pilot",
-        "_id": "_4p3kx3avv"
+        "id": "_kbpki8dpw",
+        "completed": false
     },
     {
         "title": "Clean the coffee machine",
-        "_id": "_a8o6anvek"
+        "id": "_yvgdoyi51",
+        "completed": false
     },
     {
         "title": "Sweep the floor",
-        "_id": "_dki5wlkn3"
+        "id": "_nitrs8csy",
+        "completed": false
     },
     {
         "title": "Order a new display for Gordon",
-        "_id": "_vymb52t6o"
+        "id": "_68eu4l09i",
+        "completed": false
     },
     {
         "title": "Fix the charger for the speaker",
-        "_id": "_99o26l6wk"
+        "id": "_efb3b5oic",
+        "completed": false
     },
     {
         "title": "Finish making the hiring challenge",
-        "_id": "_05cpsoj6s"
+        "id": "_6qww2j928",
+        "completed": false
     }
 ]

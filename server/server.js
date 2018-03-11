@@ -2,13 +2,17 @@ const socketIO = require('socket.io');
 const http = require('http');
 const path = require('path');
 const express = require('express');
-const clientPath = path.join(__dirname, '../client');
+const clientPath = path.join(__dirname, '../build');
 const { Database } = require('../server/db');
+var cors = require('cors')
+
 const DB = new Database();
 DB.connect()
 
 var app = express();
+app.use(cors({ origin: '*' }))
 app.use(express.static(clientPath));
+
 
 var server = http.createServer(app);
 
@@ -53,5 +57,5 @@ io.on('connection', (client) => {
 
 server.listen(3001, ()=> {
   console.log('Waiting for clients to connect');
-  io.listen(3003);
+  // io.listen(3003);
 })

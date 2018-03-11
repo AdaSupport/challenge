@@ -9,7 +9,7 @@ export default class Todo extends Component {
   render() {
     return (
       <div>
-        <Segment raised style={style}>
+        <Segment>
           Pellentesque habitant morbi tristique senectus.
         </Segment>
       </div>
