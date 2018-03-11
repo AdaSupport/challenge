@@ -9,6 +9,7 @@ class Todo {
         //add time as the id of each todo
         this.id = id;
         this.completed = completed;
+        this.isEditing = false;
     }
 }
 

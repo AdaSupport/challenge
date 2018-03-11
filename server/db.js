@@ -36,9 +36,9 @@ class DB {
     //if any of the todos does not contain id, 
     //then update the json file to give every todo a id
     let needUpdateFile = false;
-    this.todos = rawData.map((todo) => { 
-      if(!todo.id && !needUpdateFile){ needUpdateFile = true};
-      return new Todo(todo.title, todo.id);
+    this.todos = rawData.map(({title, id, completed}) => { 
+      if(!id && !needUpdateFile){ needUpdateFile = true};
+      return new Todo(title, id, completed);
     }) || [];
 
     if(needUpdateFile){
