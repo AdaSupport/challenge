@@ -9,7 +9,7 @@ import * as todoActions from  '../../actions/todos'
 
 const socket = socketIOClient('http://localhost:3001/')
 
-class Todo extends Component {
+class TodoContainer extends Component {
   componentDidMount(){
     console.log('mounted');
 
@@ -19,19 +19,27 @@ class Todo extends Component {
 
     socket.on('append', (todo) => {
       this.props.appendOneTodo(todo);
+    })
 
+    socket.on('deleteOne', (todo) => {
+      this.props.deleteOneTodo(todo.id)
     })
   }
 
   onPressEnter(text){
     socket.emit('make', text);
   }
+
+  onDelete(id){
+    socket.emit('delete', id);
+  }
+
   render() {
     const {todos} = this.props
     return (
       <div>
           <TextArea onPressEnter={this.onPressEnter}/>
-          <TodoList todoList={todos}/>
+          <TodoList todoList={todos} onDelete={this.onDelete}/>
       </div>
     )
   }
@@ -46,4 +54,4 @@ function mapDispatchToProps(dispatch) {
   const actions = todoActions
   return bindActionCreators(actions, dispatch);
 }
-export default connect(mapStateToProps, mapDispatchToProps)(Todo);
+export default connect(mapStateToProps, mapDispatchToProps)(TodoContainer);

@@ -7,7 +7,7 @@ export default class TodoList extends Component {
     if(!list || list.length < 1){return [];}
 
     return list.map((todo, idx) =>{
-      return (<Todo key={todo.id} {...todo} />);
+      return (<Todo key={todo.id} {...todo} onDelete={this.props.onDelete}/>);
     })
   }
 

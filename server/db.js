@@ -114,7 +114,7 @@ class DB {
   * @return {Object} - the todo deleted
   */
   deleteOneById(id){
-    return this._deleteOne('id', title);
+    return this._deleteOne('id', id);
   }
   
 

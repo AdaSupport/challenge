@@ -18,19 +18,26 @@ class IO {
 
   newTodo(text){
     const todo = this.DB.insertOne(text);
-    console.log(this.DB.getAllTodos())
-    console.log(todo)
-    this.io.emit('append', todo)
+    this.io.emit('append', todo);
+  }
+
+  deleteTodo(id){
+    const todo = this.DB.deleteOneById(id);
+    this.io.emit('deleteOne', todo);
+    
   }
 
   listen(){
     this.io.on('connection', (client) => {
-      console.log('connected');
+      console.log(`connected ${client.id}`);
       client.emit('load', this.reloadTodos());
 
       client.on('make', (title) => {
-        console.log('make', title)
         this.newTodo(title)
+      })
+
+      client.on('delete', (id) => {
+        this.deleteTodo(id)
       })
     })
   }
