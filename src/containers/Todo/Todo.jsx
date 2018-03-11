@@ -11,18 +11,26 @@ const socket = socketIOClient('http://localhost:3001/')
 
 class Todo extends Component {
   componentDidMount(){
-    console.log(this.props)
     console.log('mounted');
-    socket.on('load', (data) => {
-      this.props.loadTodosList(data)
-      console.log(this.props.todos)
+
+    socket.on('load', (list) => {
+      this.props.loadTodosList(list);
     })
+
+    socket.on('append', (todo) => {
+      this.props.appendOneTodo(todo);
+
+    })
+  }
+
+  onPressEnter(text){
+    socket.emit('make', text);
   }
   render() {
     const {todos} = this.props
     return (
       <div>
-          <TextArea />
+          <TextArea onPressEnter={this.onPressEnter}/>
           <TodoList todoList={todos}/>
       </div>
     )

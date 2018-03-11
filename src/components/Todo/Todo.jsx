@@ -1,9 +1,5 @@
 import React, { Component } from 'react'
 import { Segment } from 'semantic-ui-react'
-const style = {
-  margin: '8px 0',
-  padding: '16px'
-}
 
 
 const TodoText = ({text}) => {
