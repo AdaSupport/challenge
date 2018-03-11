@@ -1,6 +1,8 @@
 const server = require('socket.io')();
-const firstTodos = require('./data');
+const firstTodos = require('../DB/data.json');
 const Todo = require('./todo');
+
+console.log(Todo)
 
 server.on('connection', (client) => {
     // This is going to be our fake 'database' for this application
