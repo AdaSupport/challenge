@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Todo from '../Todo';
+import TodoContainer from '../TodoContainer';
 import Layout from '../../components/Layout'
 
 export default class App extends Component {
@@ -8,7 +8,7 @@ export default class App extends Component {
     return (
       <div>
         <Layout>
-          <Todo />
+          <TodoContainer />
         </Layout>
       </div>
     )

@@ -1,5 +1,9 @@
 export const LOAD_TODOS_LIST = 'LOAD_TODOS_LIST';
-export const APPEND_ONT_TODO = 'APPEND_ONT_TODO';
+export const APPEND_ONE_TODO = 'APPEND_ONE_TODO';
+export const DELETE_ONE_TODO = 'DELETE_ONE_TODO';
+export const DELETE_ALL      = 'DELETE_ALL';
+export const TOGLLE_COMPLETE_TODO = 'TOGLLE_COMPLETE_TODO';
+export const TOGLLE_COMPLETE_ALL_TODO = 'TOGLLE_COMPLETE_ALL_TODO';
 
 export function loadTodosList(todosList) {
   return {
@@ -9,12 +13,43 @@ export function loadTodosList(todosList) {
 }
 
 export function appendOneTodo(todo) {
-  console.log('action', todo)
   if(todo && todo.title && todo.id){
     return {
-      type: APPEND_ONT_TODO,
+      type: APPEND_ONE_TODO,
       todo
     };
+  }
+}
+
+export function deleteOneTodo(id) {
+  if(id){
+    return {
+      type: DELETE_ONE_TODO,
+      id
+    };
+  }
+}
+
+export function deleteAll() {
+  return {
+    type: DELETE_ALL
+  };
+}
+
+export function toggleCompletedOneTodo(id, completed) {
+  if(id){
+    return {
+      type: TOGLLE_COMPLETE_TODO,
+      id,
+      completed
+    };
+  }
+}
+
+export function toggleCompletedAllTodo(completed) {
+  return {
+    type: TOGLLE_COMPLETE_ALL_TODO,
+    completed
   }
 }
 

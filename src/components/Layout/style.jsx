@@ -1,6 +1,9 @@
 const style = {
     container: {
-        padding: "0 10%"  
+      marginBottom:'5%'
+    },
+    header: {
+      marginTop:'16px'
     }
 }
 export default style

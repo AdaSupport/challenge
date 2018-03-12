@@ -16,23 +16,64 @@ class IO {
     return this.DB.getAllTodos();
   }
 
-  newTodo(text){
-    const todo = this.DB.insertOne(text);
-    console.log(this.DB.getAllTodos())
-    console.log(todo)
-    this.io.emit('append', todo)
+  actionDispatch(client, {name, payload=''}){
+    let ret
+    switch(name){
+      case 'deleteOne':
+        ret = this.DB.deleteOneById(payload);
+        client.broadcast.emit('action', {name, payload:ret.id});
+        break;
+      
+      case 'deleteAll':
+        ret = this.DB.deleteAll();
+        client.broadcast.emit('action', {name});
+        break;
+
+      case 'toggleCompleteOne':
+        ret = this.DB.toggleCompletedOneById(payload.id, payload.completed);
+        client.broadcast.emit('action', {name, payload:ret});
+        break;
+      
+      case 'toggleCompleteAll':
+        this.DB.toggleCompletedAll(payload);
+        client.broadcast.emit('action', {name, payload});
+        break;
+
+      case 'make':
+        ret = this.DB.insertOne(payload);
+        this.io.emit('action', {name:'append', payload:ret});
+        break;
+
+      default:
+        return null
+    }
+  }
+
+  broadcastUserNums(){
+    this.io.clients((err, clients) => {
+      if(err) throw err;
+      this.io.emit('userNum', clients.length);
+    })
   }
 
   listen(){
     this.io.on('connection', (client) => {
-      console.log('connected');
+      console.log(`connected ${client.id}`);
       client.emit('load', this.reloadTodos());
+      this.broadcastUserNums()
 
-      client.on('make', (title) => {
-        console.log('make', title)
-        this.newTodo(title)
+
+      client.on('action', (payload) => {
+        console.log(payload)
+        this.actionDispatch(client, payload);
+      })
+      client.on('disconnect', () => {
+        console.log('disconnect')
+        this.broadcastUserNums()
       })
     })
+
+    
   }
 };
 
