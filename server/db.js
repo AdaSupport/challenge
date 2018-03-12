@@ -103,8 +103,8 @@ class DB {
   * @param {string}  title - the new todo title
   * @return {Object} - the todo inserted
   */
-  insertOne(title){
-    const todo = new Todo(title);
+  insertOne(title, id){
+    const todo = new Todo(title, id);
     this.todos.push(todo);
     return todo;
     this.writeTodosToFile()
