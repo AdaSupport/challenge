@@ -1,5 +1,5 @@
-// const DEFAULT_DATA_PATH = '../DB/data.json'
-const DEFAULT_DATA_PATH = '../DB/data.test.json'
+const DEFAULT_DATA_PATH = '../DB/data.json'
+// const DEFAULT_DATA_PATH = '../DB/data.test.json'
 
 const fs      = require('fs')
 const path    = require('path')
@@ -30,9 +30,10 @@ class DB {
     const exists = fs.existsSync(path.join(__dirname, dataPath));
     if(!exists){return exists};
 
+    //read data
     this.path = dataPath;
     const file_path = path.join(__dirname, this.path);
-    const rawData = JSON.parse(fs.readFileSync(file_path));
+    const rawData = JSON.parse(fs.readFileSync(file_path)) || [];
 
     //if any of the todos does not contain id, 
     //then update the json file to give every todo a id
@@ -197,6 +198,8 @@ class DB {
     this.writeTodosToFile()    
   }
 
+
+  //for show editing
   updateTitleById(id, title){
     this.todos.forEach((todo) => {
       if(todo.id === id){

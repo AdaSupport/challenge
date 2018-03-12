@@ -20,10 +20,8 @@ const UserNum = ({userNum}) => {
   )
 }
 
+//show user number and button to remove all
 export default class Footer extends Component {
-
-
-
   render() {
     const { todoList } = this.props
     return (
@@ -39,7 +37,6 @@ export default class Footer extends Component {
               </List.Item>
             </List>
           </Segment>
-          
       </div>
     )
   }

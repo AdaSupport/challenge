@@ -8,28 +8,26 @@ const TodoText = ({text,completed, isEditing}) => {
     style={color:'grey',fontStyle: 'italic'}
   }
   if(completed){
-    return (<del style={style} >{text}</del>)
+    return (<del style={style}>{text}</del>)
   }
-  return (<span style={style}>{text}</span>)
+    return (<span style={style}>{text}</span>)
 }
 
-const RightHandBtn = (props) => {
-  return (
-    <Icon link name={props.type} color={props.color} style={{float:'right'}} onClick={props.clickAction}/>
-  )
-}
+//gen delete btn for todo
 const DeleteBtn = (props) => {
   return (
-    <RightHandBtn type='remove' color='red' clickAction={props.onDelete}/>
+    <Icon link name='remove' color='red' style={{float:'right'}} onClick={props.onDelete}/>
   )
 }
 
+//gen edit btn for todo
 const EditBtn = (props) => {
   return (
     <Icon link name='write' color='grey' onClick={props.onClick}/>
   )
 }
 
+//show complete btn based on status and being edited
 const CompletedBtn = (props) => {
   let color = 'grey',
       name  = 'square outline'
@@ -62,11 +60,14 @@ export default class Todo extends Component {
     }
   }
 
+  //simulate hover
   onMouseEnter = () => {
     if(!this.state.showButton){
       this.setState({showButton:true});
     }
   }
+
+  //simulate hover  
   onMouseLeave = () => {
     if(this.state.showButton){
       this.setState({showButton:false});
@@ -79,6 +80,10 @@ export default class Todo extends Component {
     this.props.onToggleComplete({id, completed});
   }
 
+  //based on current status
+  //to show edit or not
+  //once click edit button
+  //will conside as editing  
   onClickEdit = () => {
     const {value, editing} = this.state;
     if(editing){
@@ -91,12 +96,15 @@ export default class Todo extends Component {
     }
   }
 
+  //show editing
   onEditing = (e) => {
     const value = e.target.value;
-    this.setState({value: value})
+    this.setState({value})
     this.props.onEditing(value, this.props.id)
   }
 
+
+  //when press enter means edit is done
   onKeyUp = (e) => {
     if(e.keyCode === 13 && this.state.value && this.state.editing){
       this.setState({editing: false});

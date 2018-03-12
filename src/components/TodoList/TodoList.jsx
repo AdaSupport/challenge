@@ -15,13 +15,14 @@ export default class TodoList extends Component {
     })
   }
 
+  //not much logic this component
+  //mainly to pass callback and status from todo container to todo item
   render() {
-    const { todoList } = this.props
     return (
       <div>
         <Container>
           <Segment.Group raised>
-            {this.renderTodoList(todoList)}
+            {this.renderTodoList(this.props.todoList)}
           </Segment.Group>
         </Container>
       </div>

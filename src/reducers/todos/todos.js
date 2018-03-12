@@ -40,6 +40,7 @@ const updateTitleById = (list, id, title, isEditing) => {
   })
 }
 
+//reducer for todos
 export default function todos(state=initial_state, action) {
   switch (action.type) {
     case LOAD_TODOS_LIST:
