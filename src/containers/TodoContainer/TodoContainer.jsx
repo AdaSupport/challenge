@@ -57,8 +57,7 @@ class TodoContainer extends Component {
     super(props);
     this.state = {
       online: false,
-      userNum: 0,
-      localList: []
+      userNum: 0
     }
   }
 
@@ -74,16 +73,13 @@ class TodoContainer extends Component {
     if(socket.disconnected){
       const cachedData = getCachedData() || [];
       this.props.loadTodosList(cachedData);
-      this.setState({userNum:0, localList:cachedData});
     }
 
 
     socket.on('load', (list) => {
       //once connected, clear cache
       clearCachedData()
-      // this.setState({online: true});
       if(!this.state.online){
-        this.setState({online: true});
         //if prev is not online,
         //need to merge local changes and server data
         // only merge added / toggle completed local changes to server data and update other users
@@ -151,6 +147,7 @@ class TodoContainer extends Component {
         break;
       case 'editDone':
         this.props.updateTitleById({id:payload.id, title:payload.title, isEditing:false});
+        break;
       default:
         return null
     }
@@ -163,28 +160,23 @@ class TodoContainer extends Component {
     const newTodo = {title:text, id:ID(), completed:false, isEditing:false}
     this.props.appendOneTodo(newTodo);
     socket.emit('action', {name:'make', payload:newTodo});
-    this.checkStoreCacheData()
   }
 
   //ask server to ask other clients update the merged list
   updateWholeList = (list) => {
     socket.emit('action', {name:'updateWholeList', payload:list});
-    this.checkStoreCacheData()
   }
 
   //handle user click delete button
   onDelete = (id) => {
     this.props.deleteOneTodo(id);
     socket.emit('action', {name:'deleteOne', payload:id});
-    this.checkStoreCacheData()
   }
 
   //handle user toggle the status of completed  
-  onToggleComplete = ({id, completed}) => {
+  onToggleComplete = (id, completed) => {
     this.props.toggleCompletedOneTodo(id, completed);    
     socket.emit('action', {name:'toggleCompleteOne', payload:{id, completed}});
-    this.checkStoreCacheData()
-    
   }
 
   //handle user toggle the status of all todos
@@ -192,15 +184,12 @@ class TodoContainer extends Component {
     const completed = this.props.todos.some((todo) =>{return !todo.completed}) 
     this.props.toggleCompletedAllTodo(completed);
     socket.emit('action', {name:'toggleCompleteAll', payload:completed});
-    this.checkStoreCacheData()
-    
   }
 
   //handle user click remove all
   onRemoveAll = () => {
     this.props.deleteAll()
     socket.emit('action', {name:'deleteAll', payload:{}});
-    this.checkStoreCacheData()
   }
 
   //handle user is editing a todo
@@ -216,11 +205,43 @@ class TodoContainer extends Component {
   }
 
   //check is online or not when any action is taken
-  checkStoreCacheData = () =>{
+  checkStoreCacheData = () => {
     //everytime if is not online, will cache todos
     if(!this.state.online) {
       cachedData(this.props.todos)
     }
+  }
+
+  inStack = (data) => {
+    const newStack = [...this.state.stack];
+    newStack.push(data);
+    this.setState({stack: newStack});
+  }
+
+  outStack = () => {
+    const newStack = [...this.state.stack];
+    const prev = newStack.pop();
+    this.setState({stack: newStack});
+    return prev;
+  }
+
+  isListDataChanged = (prevList, list) => {
+    if(prevList.length !== list.length){
+      return true
+    }
+    for(let i = 0; i < list.length; i++){
+      if(prevList[i].id        !== list[i].id ||
+        prevList[i].title     !== list[i].title ||
+        prevList[i].completed !== list[i].completed){
+          
+        return true
+      }
+    }
+    return false;
+  }
+
+  componentDidUpdate(){
+    this.checkStoreCacheData();
   }
 
   //render three parts
@@ -249,8 +270,7 @@ class TodoContainer extends Component {
 }
 function mapStateToProps({todos}) {
   return {
-    todos: todos.list,
-    stack: todos.stack
+    todos: todos.list
   };
 }
 
