@@ -38,6 +38,7 @@ export function deleteAll() {
 }
 
 export function toggleCompletedOneTodo(id, completed) {
+  console.log('in action',id, completed)
   if(id){
     return {
       type: TOGLLE_COMPLETE_TODO,

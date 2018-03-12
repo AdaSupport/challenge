@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
-import { Container, Segment, List } from 'semantic-ui-react'
-import Todo from '../Todo'
+import { Segment, List } from 'semantic-ui-react'
 
 const UserNum = ({userNum}) => {
   let text = ''
@@ -23,7 +22,6 @@ const UserNum = ({userNum}) => {
 //show user number and button to remove all
 export default class Footer extends Component {
   render() {
-    const { todoList } = this.props
     return (
       <div>
           <Segment basic size='tiny'>

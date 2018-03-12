@@ -38,7 +38,6 @@ const CompletedBtn = (props) => {
   return (
     <Icon link={!props.isEditing} name={name} color={color} onClick={!props.isEditing ?  props.onClick : undefined}/>
   )
-
 }
 
 
@@ -48,17 +47,16 @@ export default class Todo extends Component {
     super(props);
     this.state = {
       showButton: false,
-      completed: this.props.completed,
       value: this.props.title,
       editing:false
     }
   }
 
-  componentWillReceiveProps({completed}){
-    if(completed !== this.state.completed){
-      this.setState({completed});
-    }
-  }
+  // componentWillReceiveProps({completed}){
+  //   if(completed !== this.state.completed){
+  //     this.setState({completed});
+  //   }
+  // }
 
   //simulate hover
   onMouseEnter = () => {
@@ -74,10 +72,11 @@ export default class Todo extends Component {
     }
   }
 
-  onToggleComplete = (id) => {
-    const completed = !this.state.completed
-    this.setState({completed});
-    this.props.onToggleComplete({id, completed});
+  onToggleComplete = () => {
+    const completed = !this.props.completed
+    console.log('before toggle action, props in todo item', this.props, completed)
+    console.log('todo,', this.props.completed)
+    this.props.onToggleComplete(this.props.id, !this.props.completed);
   }
 
   //based on current status
@@ -111,14 +110,14 @@ export default class Todo extends Component {
       this.props.onEditingDone(this.state.value, this.props.id);
     }
   }
-  
+
   render() {
-    const {title, id, isEditing} = this.props
-    const completed = this.state.completed;
+    const {title, id, isEditing, completed} = this.props
+    // const completed = this.state.completed;
       return (
           <Segment onMouseEnter={this.onMouseEnter} onMouseLeave={this.onMouseLeave}>
             
-            <CompletedBtn isEditing={isEditing} completed={completed} onClick={()=>{this.onToggleComplete(id)}}/>
+            <CompletedBtn isEditing={isEditing} completed={completed} onClick={this.onToggleComplete}/>
             {
               !this.state.editing ?
               <TodoText text={title} completed={completed} isEditing={isEditing}/> 
