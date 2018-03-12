@@ -9,17 +9,20 @@ export default class TodoList extends Component {
     return list.map((todo, idx) =>{
       return (<Todo key={todo.id} {...todo} 
                     onDelete={this.props.onDelete}
-                    onToggleComplete={this.props.onToggleComplete}/>);
+                    onToggleComplete={this.props.onToggleComplete}
+                    onEditing={this.props.onEditing}
+                    onEditingDone={this.props.onEditingDone}/>);
     })
   }
 
+  //not much logic this component
+  //mainly to pass callback and status from todo container to todo item
   render() {
-    const { todoList } = this.props
     return (
       <div>
         <Container>
           <Segment.Group raised>
-            {this.renderTodoList(todoList)}
+            {this.renderTodoList(this.props.todoList)}
           </Segment.Group>
         </Container>
       </div>

@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "jest --coverage",
-    "test-watch": "jest **/*.test.js --watch --coverage",
+    "test-watch": "nodemon --exec 'npm run test'",
     "server-dev": "nodemon server/server.js",
     "start": "node server/server.js",
     "build": "react-scripts build",
@@ -34,7 +34,7 @@
   "jest": {
     "testPathIgnorePatterns": [
       "/node_modules/",
-      "./DB/"
+      "/DB/*.json"
     ]
   },
   "devDependencies": {

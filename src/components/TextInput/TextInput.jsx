@@ -10,12 +10,19 @@ export default class TextInput extends Component {
     }
     this.onChange.bind(this)
   }
+
+  //check if every todo is completed
+  //then switch icon
   componentWillReceiveProps({todoList}){
-    const willAllCompleted = !todoList.some((todo) => {return todo.completed !== true})
-    if(willAllCompleted !== this.state.allCompleted){
-      this.setState({allCompleted:willAllCompleted});
+    if(todoList && todoList.length > 0){
+      const willAllCompleted = !todoList.some((todo) => {return todo.completed !== true})
+      if(willAllCompleted !== this.state.allCompleted){
+        this.setState({allCompleted:willAllCompleted});
+      }
     }
   }
+
+  //hadnle enter
   onKeyUp = (e) => {
     if(e.keyCode === 13 && this.state.value){
       this.props.onPressEnter(this.state.value);
@@ -23,21 +30,22 @@ export default class TextInput extends Component {
     }
   }
   onChange = (e) =>{
-    this.setState({value: e.target.value})
+    this.setState({value: e.target.value.trim()})
   }
 
-  toglleBtn = () => {
+  //change icon based on status
+  toggleBtn = () => {
     let name = 'checked calendar'
     if(this.state.allCompleted) {
       name = 'calendar outline'
     } 
-    return <Icon  link name={name} placeholder='123' onClick={this.props.onToggleCompleteAll}/>
+    return <Icon  link name={name} placeholder='placeHolder' onClick={this.props.onToggleCompleteAll}/>
   }
   render() {
     const {value} = this.state
     return (
       <Container>
-        <Input iconPosition='left' icon={this.toglleBtn()}
+        <Input iconPosition='left' icon={this.toggleBtn()}
         
         value={value} 
         maxLength={64} 

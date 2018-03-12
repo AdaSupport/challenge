@@ -6,11 +6,13 @@ function ID () {
 class Todo {
     constructor(title='', id = ID(), completed=false) {
         this.title = title;
-        //add time as the id of each todo
+        //add id as the id of each todo
         this.id = id;
+        //for showing completed status
         this.completed = completed;
+        //for showing editing
         this.isEditing = false;
     }
 }
 
-module.exports = Todo;
+module.exports.Todo = Todo;

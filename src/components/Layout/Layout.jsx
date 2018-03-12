@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Header, Container} from 'semantic-ui-react';
 import style from './style'
 
-
+//simple layout using semantic ui
 export default class Layout extends Component {
   render() {
     return (

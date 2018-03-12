@@ -1,8 +1,9 @@
 const DEFAULT_DATA_PATH = '../DB/data.json'
+// const DEFAULT_DATA_PATH = '../DB/data.test.json'
 
 const fs      = require('fs')
 const path    = require('path')
-const Todo    = require('./todo');
+const {Todo}    = require('./todo');
 
 function writeToFile(jsonObj, file_path){
   fs.writeFileSync(
@@ -29,9 +30,10 @@ class DB {
     const exists = fs.existsSync(path.join(__dirname, dataPath));
     if(!exists){return exists};
 
+    //read data
     this.path = dataPath;
     const file_path = path.join(__dirname, this.path);
-    const rawData = JSON.parse(fs.readFileSync(file_path));
+    const rawData = JSON.parse(fs.readFileSync(file_path)) || [];
 
     //if any of the todos does not contain id, 
     //then update the json file to give every todo a id
@@ -42,7 +44,7 @@ class DB {
     }) || [];
 
     if(needUpdateFile){
-      this.writeTodosToFile(this.todos);
+      this.writeTodosToFile();
     }
     return exists;
   }
@@ -102,10 +104,23 @@ class DB {
   * @param {string}  title - the new todo title
   * @return {Object} - the todo inserted
   */
-  insertOne(title){
-    const todo = new Todo(title);
+  insertOne(title, id){
+    const todo = new Todo(title, id);
     this.todos.push(todo);
     return todo;
+    this.writeTodosToFile()
+  }
+  updateAllTodos(list){
+    this.todos = [];
+    //only insert valid one
+    list.forEach((todo) => {
+      if(todo.title && todo.id && todo.completed != null && todo.isEditing !== null){
+        this.todos.push(todo)
+      }
+    })
+    console.log('update all todos', this.todos)
+    this.writeTodosToFile()
+    
   }
 
   /**
@@ -138,6 +153,7 @@ class DB {
     });
     if(deletedTodo){
       this.todos = todos;
+      this.writeTodosToFile()
     }
     return deletedTodo
   }
@@ -148,6 +164,8 @@ class DB {
   */
   deleteAll(){
     this.todos = []
+    this.writeTodosToFile()
+    
   }
 
   /**
@@ -165,6 +183,7 @@ class DB {
         return;
       }
     })
+    this.writeTodosToFile()    
     return todoToggled;
   }
 
@@ -176,6 +195,18 @@ class DB {
     this.todos.forEach((todo) => {
       todo.completed = completed;
     })
+    this.writeTodosToFile()    
+  }
+
+
+  //for show editing
+  updateTitleById(id, title){
+    this.todos.forEach((todo) => {
+      if(todo.id === id){
+        todo.title = title;
+      }
+    })
+    this.writeTodosToFile()  
   }
 };
 
