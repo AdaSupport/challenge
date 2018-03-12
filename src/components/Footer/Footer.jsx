@@ -9,7 +9,7 @@ const UserNum = ({userNum}) => {
   }else if( userNum === 1){
     text = 'Only you is online';
   }else{
-    text = 'You are offline';
+    text = 'You are offline. But you are still good to go!';
   }
   return (
     <List.Item>

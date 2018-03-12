@@ -21,7 +21,9 @@ class IO {
     switch(name){
       case 'deleteOne':
         ret = this.DB.deleteOneById(payload);
-        client.broadcast.emit('action', {name, payload:ret.id});
+        if(ret){
+          client.broadcast.emit('action', {name, payload:payload});
+        }
         break;
       
       case 'deleteAll':
@@ -39,9 +41,15 @@ class IO {
         client.broadcast.emit('action', {name, payload});
         break;
 
+      case 'updateWholeList':
+        this.DB.updateAllTodos(payload);
+        client.broadcast.emit('updateWholeList', payload);
+        break;
+
       case 'make':
-        ret = this.DB.insertOne(payload);
-        this.io.emit('action', {name:'append', payload:ret});
+        console.log('make', payload)
+        ret = this.DB.insertOne(payload.title, payload.id);
+        client.broadcast.emit('action', {name:'append', payload:ret});
         break;
 
       default:
@@ -52,25 +60,32 @@ class IO {
   broadcastUserNums(){
     this.io.clients((err, clients) => {
       if(err) throw err;
-      this.io.emit('userNum', clients.length);
+      this.io.emit('updateUserNum', clients.length);
     })
   }
 
   listen(){
     this.io.on('connection', (client) => {
       console.log(`connected ${client.id}`);
-      client.emit('load', this.reloadTodos());
       this.broadcastUserNums()
+      // on intial, first let client know the current list
+      client.emit('initial', this.DB.getAllTodos())
+      client.on('initialAck', ({isOffLinePrev, mergedList} )=> {
+        if(isOffLinePrev){
+          this.actionDispatch(client, {name:'updateWholeList', payload:mergedList})
+        }
+      })
 
 
       client.on('action', (payload) => {
-        console.log(payload)
         this.actionDispatch(client, payload);
       })
       client.on('disconnect', () => {
         console.log('disconnect')
         this.broadcastUserNums()
       })
+
+      
     })
 
     

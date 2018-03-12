@@ -11,9 +11,11 @@ export default class TextInput extends Component {
     this.onChange.bind(this)
   }
   componentWillReceiveProps({todoList}){
-    const willAllCompleted = !todoList.some((todo) => {return todo.completed !== true})
-    if(willAllCompleted !== this.state.allCompleted){
-      this.setState({allCompleted:willAllCompleted});
+    if(todoList && todoList.length > 0){
+      const willAllCompleted = !todoList.some((todo) => {return todo.completed !== true})
+      if(willAllCompleted !== this.state.allCompleted){
+        this.setState({allCompleted:willAllCompleted});
+      }
     }
   }
   onKeyUp = (e) => {

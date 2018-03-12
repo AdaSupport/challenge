@@ -1,8 +1,9 @@
-const DEFAULT_DATA_PATH = '../DB/data.json'
+// const DEFAULT_DATA_PATH = '../DB/data.json'
+const DEFAULT_DATA_PATH = '../DB/data.test.json'
 
 const fs      = require('fs')
 const path    = require('path')
-const Todo    = require('./todo');
+const {Todo}    = require('./todo');
 
 function writeToFile(jsonObj, file_path){
   fs.writeFileSync(
@@ -42,14 +43,14 @@ class DB {
     }) || [];
 
     if(needUpdateFile){
-      this.writeTodosToFile(this.todos);
+      this.writeTodosToFile();
     }
     return exists;
   }
 
   writeTodosToFile() {
-    const todoList = this.todos.map(({title, id, completed}) => {
-      return {title, id, completed};
+    const todoList = this.todos.map(({title, id, completed, isEditing}) => {
+      return {title, id, completed, isEditing};
     });
     writeToFile(todoList, this.path);
   }
@@ -106,6 +107,19 @@ class DB {
     const todo = new Todo(title);
     this.todos.push(todo);
     return todo;
+    this.writeTodosToFile()
+  }
+  updateAllTodos(list){
+    this.todos = [];
+    //only insert valid one
+    list.forEach((todo) => {
+      if(todo.title && todo.id && todo.completed != null && todo.isEditing !== null){
+        this.todos.push(todo)
+      }
+    })
+    console.log('update all todos', this.todos)
+    this.writeTodosToFile()
+    
   }
 
   /**
@@ -138,6 +152,7 @@ class DB {
     });
     if(deletedTodo){
       this.todos = todos;
+      this.writeTodosToFile()
     }
     return deletedTodo
   }
@@ -148,6 +163,8 @@ class DB {
   */
   deleteAll(){
     this.todos = []
+    this.writeTodosToFile()
+    
   }
 
   /**
@@ -165,6 +182,7 @@ class DB {
         return;
       }
     })
+    this.writeTodosToFile()    
     return todoToggled;
   }
 
@@ -176,6 +194,7 @@ class DB {
     this.todos.forEach((todo) => {
       todo.completed = completed;
     })
+    this.writeTodosToFile()    
   }
 };
 
