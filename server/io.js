@@ -49,17 +49,31 @@ class IO {
     }
   }
 
+  broadcastUserNums(){
+    this.io.clients((err, clients) => {
+      if(err) throw err;
+      this.io.emit('userNum', clients.length);
+    })
+  }
+
   listen(){
     this.io.on('connection', (client) => {
       console.log(`connected ${client.id}`);
       client.emit('load', this.reloadTodos());
+      this.broadcastUserNums()
 
 
       client.on('action', (payload) => {
         console.log(payload)
         this.actionDispatch(client, payload);
       })
+      client.on('disconnect', () => {
+        console.log('disconnect')
+        this.broadcastUserNums()
+      })
     })
+
+    
   }
 };
 

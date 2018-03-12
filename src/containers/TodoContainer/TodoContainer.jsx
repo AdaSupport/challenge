@@ -11,6 +11,12 @@ import * as todoActions from  '../../actions/todos'
 const socket = socketIOClient('http://localhost:3001/')
 
 class TodoContainer extends Component {
+  constructor(props){
+    super(props);
+    this.state = {
+      userNum: 1
+    }
+  }
   componentDidMount(){
     console.log('mounted');
 
@@ -18,9 +24,17 @@ class TodoContainer extends Component {
       this.props.loadTodosList(list);
     })
 
+    socket.on('userNum', (userNum) => {
+      this.setState({userNum})
+    })
+
     socket.on('action', (payload) => {
-      console.log('action')
       this.actionDispatch(payload)
+    })
+
+    socket.on('disconnect', () => {
+      console.log('disconnect')
+      this.setState({userNum:0})
     })
   }
 
@@ -83,7 +97,7 @@ class TodoContainer extends Component {
           <TodoList todoList={todos} 
                     onDelete={this.onDelete}
                     onToggleComplete={this.onToggleComplete}/>
-          <Footer onRemoveAll={this.onRemoveAll}/>
+          <Footer userNum={this.state.userNum}onRemoveAll={this.onRemoveAll}/>
       </div>
     )
   }
