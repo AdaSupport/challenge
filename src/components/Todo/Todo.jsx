@@ -36,7 +36,7 @@ const CompletedBtn = (props) => {
     name  = 'check'
   }
   return (
-    <Icon link={!props.isEditing} name={name} color={color} onClick={!props.isEditing && props.onClick}/>
+    <Icon link={!props.isEditing} name={name} color={color} onClick={!props.isEditing ?  props.onClick : undefined}/>
   )
 
 }
@@ -115,7 +115,6 @@ export default class Todo extends Component {
   render() {
     const {title, id, isEditing} = this.props
     const completed = this.state.completed;
-    console.log(isEditing)
       return (
           <Segment onMouseEnter={this.onMouseEnter} onMouseLeave={this.onMouseLeave}>
             

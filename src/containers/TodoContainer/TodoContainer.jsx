@@ -26,7 +26,6 @@ const clearCachedData = () => {
   localStorage.removeItem(STORAGE);
 }
 
-
 //This function is to merge local list and server list when re-connect after offline
 // will only add or update the server list based on local one.
 // will not delete if local one does not exist
@@ -52,6 +51,7 @@ const mergeLocalList = (local, remote) => {
   return  Object.keys(hash).map((key) => { return hash[key]} )
 }
 
+
 class TodoContainer extends Component {
   constructor(props){
     super(props);
@@ -72,7 +72,6 @@ class TodoContainer extends Component {
     //if not connected after mount,
     //will load cached data and show
     if(socket.disconnected){
-      
       const cachedData = getCachedData() || [];
       this.props.loadTodosList(cachedData);
       this.setState({userNum:0, localList:cachedData});
@@ -241,14 +240,17 @@ class TodoContainer extends Component {
                     onToggleComplete={this.onToggleComplete}
                     onEditing={this.onTodoEditing}
                     onEditingDone={this.onTodoEditingDone}/>
-          <Footer userNum={this.state.userNum}onRemoveAll={this.onRemoveAll}/>
+          <Footer userNum={this.state.userNum} 
+                  onRemoveAll={this.onRemoveAll}
+                  onUndo={this.onUndo}/>
       </div>
     )
   }
 }
 function mapStateToProps({todos}) {
   return {
-    todos: todos.list
+    todos: todos.list,
+    stack: todos.stack
   };
 }
 
