@@ -62,7 +62,6 @@ export default function todos(state=initial_state, action) {
       return {...state, list: toggleAllComplete(state.list, action.completed)};
 
     case UPDATE_TITLE_BY_ID:
-      console.log('action', action)
       return {...state, list: updateTitleById(state.list, action.id, action.title, action.isEditing)}
 
     default:

@@ -50,10 +50,7 @@ class DB {
   }
 
   writeTodosToFile() {
-    const todoList = this.todos.map(({title, id, completed}) => {
-      return {title, id, completed};
-    });
-    writeToFile(todoList, this.path);
+    writeToFile(this.todos, this.path);
   }
 
   /**
@@ -108,7 +105,6 @@ class DB {
     const todo = new Todo(title, id);
     this.todos.push(todo);
     return todo;
-    this.writeTodosToFile()
   }
   updateAllTodos(list){
     this.todos = [];
@@ -118,7 +114,6 @@ class DB {
         this.todos.push(todo)
       }
     })
-    console.log('update all todos', this.todos)
     this.writeTodosToFile()
     
   }
