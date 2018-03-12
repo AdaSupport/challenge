@@ -3,7 +3,8 @@ import {LOAD_TODOS_LIST,
         DELETE_ONE_TODO, 
         TOGLLE_COMPLETE_TODO,
         TOGLLE_COMPLETE_ALL_TODO,
-        DELETE_ALL} from '../../actions/todos'
+        DELETE_ALL,
+        UPDATE_TITLE_BY_ID} from '../../actions/todos'
 
 const initial_state = {
   list:[]
@@ -29,6 +30,16 @@ const toggleAllComplete = (list, completed) => {
   });
 }
 
+const updateTitleById = (list, id, title, isEditing) => {
+  return list.map((todo)=> {
+    if(todo.id === id){
+      todo.title = title;
+      todo.isEditing = isEditing;
+    }
+    return todo
+  })
+}
+
 export default function todos(state=initial_state, action) {
   switch (action.type) {
     case LOAD_TODOS_LIST:
@@ -48,6 +59,10 @@ export default function todos(state=initial_state, action) {
 
     case TOGLLE_COMPLETE_ALL_TODO:
       return {...state, list: toggleAllComplete(state.list, action.completed)};
+
+    case UPDATE_TITLE_BY_ID:
+      console.log('action', action)
+      return {...state, list: updateTitleById(state.list, action.id, action.title, action.isEditing)}
 
     default:
       return state;

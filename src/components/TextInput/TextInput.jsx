@@ -25,7 +25,7 @@ export default class TextInput extends Component {
     }
   }
   onChange = (e) =>{
-    this.setState({value: e.target.value})
+    this.setState({value: e.target.value.trim()})
   }
 
   toglleBtn = () => {

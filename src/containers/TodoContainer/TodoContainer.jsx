@@ -37,7 +37,7 @@ const mergeLocalList = (local, remote) => {
       hash[todo.id] = todo;
     }else{
       let t = hash[todo.id];
-      if(t.title !== todo.title || t.completed !== todo.completed || t.isEditing !== todo.isEditing){
+      if(t.title !== todo.title || t.completed !== todo.completed){
         hash[todo.id] = todo
       }
     }
@@ -140,6 +140,12 @@ class TodoContainer extends Component {
       case 'toggleCompleteAll':
         this.props.toggleCompletedAllTodo(payload);
         break;
+      case 'editing':
+        console.log('editing')
+        this.props.updateTitleById({id:payload.id, title:payload.title, isEditing:true});
+        break;
+      case 'editDone':
+        this.props.updateTitleById({id:payload.id, title:payload.title, isEditing:false});
       default:
         return null
     }
@@ -184,6 +190,15 @@ class TodoContainer extends Component {
     this.checkStoreCacheData()
   }
 
+  onTodoEditing = (title, id) => {
+    this.props.updateTitleById({title, id, isEditing:false});    
+    socket.emit('action', {name:'editing', payload:{id, title}})
+  }
+  onTodoEditingDone = (title, id) => {
+    this.props.updateTitleById({title, id, isEditing:false});    
+    socket.emit('action', {name:'editDone', payload:{id, title}})
+  }
+
   
   checkStoreCacheData = () =>{
     //everytime if is not online, will cache todos
@@ -203,7 +218,9 @@ class TodoContainer extends Component {
 
           <TodoList todoList={todos} 
                     onDelete={this.onDelete}
-                    onToggleComplete={this.onToggleComplete}/>
+                    onToggleComplete={this.onToggleComplete}
+                    onEditing={this.onTodoEditing}
+                    onEditingDone={this.onTodoEditingDone}/>
           <Footer userNum={this.state.userNum}onRemoveAll={this.onRemoveAll}/>
       </div>
     )

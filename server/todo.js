@@ -14,4 +14,3 @@ class Todo {
 }
 
 module.exports.Todo = Todo;
-module.exports.genID = ID;

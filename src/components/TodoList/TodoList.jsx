@@ -9,7 +9,9 @@ export default class TodoList extends Component {
     return list.map((todo, idx) =>{
       return (<Todo key={todo.id} {...todo} 
                     onDelete={this.props.onDelete}
-                    onToggleComplete={this.props.onToggleComplete}/>);
+                    onToggleComplete={this.props.onToggleComplete}
+                    onEditing={this.props.onEditing}
+                    onEditingDone={this.props.onEditingDone}/>);
     })
   }
 

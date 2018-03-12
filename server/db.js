@@ -49,8 +49,8 @@ class DB {
   }
 
   writeTodosToFile() {
-    const todoList = this.todos.map(({title, id, completed, isEditing}) => {
-      return {title, id, completed, isEditing};
+    const todoList = this.todos.map(({title, id, completed}) => {
+      return {title, id, completed};
     });
     writeToFile(todoList, this.path);
   }
@@ -195,6 +195,15 @@ class DB {
       todo.completed = completed;
     })
     this.writeTodosToFile()    
+  }
+
+  updateTitleById(id, title){
+    this.todos.forEach((todo) => {
+      if(todo.id === id){
+        todo.title = title;
+      }
+    })
+    this.writeTodosToFile()  
   }
 };
 

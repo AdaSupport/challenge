@@ -4,6 +4,7 @@ export const DELETE_ONE_TODO = 'DELETE_ONE_TODO';
 export const DELETE_ALL      = 'DELETE_ALL';
 export const TOGLLE_COMPLETE_TODO = 'TOGLLE_COMPLETE_TODO';
 export const TOGLLE_COMPLETE_ALL_TODO = 'TOGLLE_COMPLETE_ALL_TODO';
+export const UPDATE_TITLE_BY_ID = 'UPDATE_TITLE_BY_ID';
 
 export function loadTodosList(todosList) {
   return {
@@ -53,3 +54,11 @@ export function toggleCompletedAllTodo(completed) {
   }
 }
 
+export function updateTitleById({id, title, isEditing}){
+  return {
+    type: UPDATE_TITLE_BY_ID,
+    id,
+    title,
+    isEditing
+  }
+}

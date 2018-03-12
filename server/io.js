@@ -47,11 +47,19 @@ class IO {
         break;
 
       case 'make':
-        console.log('make', payload)
         ret = this.DB.insertOne(payload.title, payload.id);
         client.broadcast.emit('action', {name:'append', payload:ret});
         break;
 
+      case 'editing':
+        console.log('editing')
+        client.broadcast.emit('action', {name, payload})
+        break;
+      case 'editDone':
+        console.log('editing done')
+        this.DB.updateTitleById(payload.id, payload.title)
+        client.broadcast.emit('action', {name, payload})
+        break;
       default:
         return null
     }
@@ -78,6 +86,7 @@ class IO {
 
 
       client.on('action', (payload) => {
+        console.log(payload)
         this.actionDispatch(client, payload);
       })
       client.on('disconnect', () => {
