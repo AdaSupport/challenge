@@ -28,6 +28,8 @@
     "react-dom": "^16.2.0",
     "react-redux": "^5.0.7",
     "redux": "^3.7.2",
+    "semantic-ui-css": "^2.3.0",
+    "semantic-ui-react": "^0.78.3",
     "socket.io": "^1.5.0",
     "socket.io-client": "^2.0.4"
   },
