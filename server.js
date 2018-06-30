@@ -1,41 +1,49 @@
-// FIXME: Feel free to remove this :-)
-console.log('\n\nGood Luck! 😅\n\n');
+const server = require('socket.io')()
+const firstTodos = require('./data')
+const db = require('./db')
+const DB = new db(firstTodos)
 
-const server = require('socket.io')();
-const firstTodos = require('./data');
-const Todo = require('./todo');
+// NOTE: fires on all new client connections
+server.on('connection', client => {
+  // Dispatches an event to append an item to the end of our list
+  const appendTodoItem = todo => {
+    server.emit('append', todo)
+  }
 
-server.on('connection', (client) => {
-    // This is going to be our fake 'database' for this application
-    // Parse all default Todo's from db
+  // Accepts when a client makes a new todo
+  client.on('make', t => {
+    const todo = DB.insert(t)
+    appendTodoItem(todo)
+  })
 
-    // FIXME: DB is reloading on client refresh. It should be persistent on new client connections from the last time the server was run...
-    const DB = firstTodos.map((t) => {
-        // Form new Todo objects
-        return new Todo(title=t.title);
-    });
+  client.on('markComplete', t => {
+    DB.update(t, true, () => server.emit('load', DB.db))
+  })
 
-    // Sends a message to the client to reload all todos
-    const reloadTodos = () => {
-        server.emit('load', DB);
+  client.on('completeAll', () => {
+    for (var todo of DB.db) {
+      DB.update(todo, true)
     }
+    server.emit('load', DB.db) // HACK: Updates frontend. not optimal, but works
+  })
 
-    // Accepts when a client makes a new todo
-    client.on('make', (t) => {
-        // Make a new todo
-        const newTodo = new Todo(title=t.title);
+  client.on('markIncomplete', t => {
+    DB.update(t, false, () => server.emit('load', DB.db))
+  })
 
-        // Push this newly created todo to our database
-        DB.push(newTodo);
+  client.on('delete', t => {
+    DB.remove(t)
+    server.emit('load', DB.db) // HACK: Updates frontend. not optimal, but works
+  })
 
-        // Send the latest todos to the client
-        // FIXME: This sends all todos every time, could this be more efficient?
-        reloadTodos();
-    });
+  client.on('deleteAll', () => {
+    DB.empty()
+    server.emit('load', DB.db) // HACK: Updates frontend. not optimal, but works
+  })
 
-    // Send the DB downstream on connect
-    reloadTodos();
-});
+  // on connect, load entire DB to just that client
+  client.emit('load', DB.db)
+})
 
-console.log('Waiting for clients to connect');
-server.listen(3003);
+console.log('Waiting for clients to connect')
+server.listen(3003)

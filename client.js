@@ -1,32 +1,33 @@
-const server = io('http://localhost:3003/');
-const list = document.getElementById('todo-list');
+var server = require('socket.io-client')('http://localhost:3003/')
+var cache = require('./caching')
+var { setupButtonEventlisteners, TodoItem } = require('./components')
+const list = document.getElementById('todo-list')
 
-// NOTE: These are all our globally scoped functions for interacting with the server
-// This function adds a new todo from the input
-function add() {
-    console.warn(event);
-    const input = document.getElementById('todo-input');
-
-    // Emit the new todo as some data to the server
-    server.emit('make', {
-        titlé : input.value
-    });
-
-    // Clear the input
-    input.value = '';
-    // TODO: refocus the element
-}
-
-function render(todo) {
-    console.log(todo);
-    const listItem = document.createElement('li');
-    const listItemText = document.createTextNode(todo.title);
-    listItem.appendChild(listItemText);
-    list.append(listItem);
-}
-
-// NOTE: These are listeners for events from the server
+// Server Events
 // This event is for (re)loading the entire list of todos from the server
-server.on('load', (todos) => {
-    todos.forEach((todo) => render(todo));
-});
+server.on('load', todos => {
+  list.innerHTML = '' // clear data on (re)load
+  cache.saveDB(todos)
+  todos.forEach(todo => render(todo))
+})
+
+// render the new todo item creted by the server
+server.on('append', todo => {
+  render(todo)
+})
+
+// When we can't connect, load from cache
+server.on('connect_error', () => {
+  list.innerHTML = ''
+  cache.getDB().forEach(todo => render(todo))
+})
+
+setupButtonEventlisteners()
+
+/** render - Append todo item to list element
+  * @param {Todo} - a todo item
+  */
+function render(todo) {
+  const listItem = TodoItem(todo)
+  list.append(listItem)
+}
