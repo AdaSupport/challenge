@@ -4,8 +4,13 @@
   "description": "Our hiring challenge to full-stack developers",
   "main": "index.js",
   "scripts": {
-    "test": "npm test",
-    "start" : "node server.js"
+    "test": "jest --coverage",
+    "test-watch": "nodemon --exec 'npm run test'",
+    "server-dev": "nodemon server/server.js",
+    "start": "node server/server.js",
+    "build": "react-scripts build",
+    "eject": "react-scripts eject",
+    "client-dev": "react-scripts start"
   },
   "repository": {
     "type": "git",
@@ -16,9 +21,27 @@
   "bugs": {
     "url": "https://github.com/adasupport/challenge/issues"
   },
-  "homepage": "https://github.com/adasupport/challenge#readme",
+  "homepage": ".",
   "dependencies": {
-    "express": "^4.14.0",
-    "socket.io": "^1.5.0"
+    "express": "^4.16.2",
+    "react": "^16.2.0",
+    "react-dom": "^16.2.0",
+    "react-redux": "^5.0.7",
+    "redux": "^3.7.2",
+    "semantic-ui-css": "^2.3.0",
+    "semantic-ui-react": "^0.78.3",
+    "socket.io": "^1.5.0",
+    "socket.io-client": "^2.0.4"
+  },
+  "jest": {
+    "testPathIgnorePatterns": [
+      "/node_modules/",
+      "/DB/*.json"
+    ]
+  },
+  "devDependencies": {
+    "jest": "^22.4.2",
+    "nodemon": "^1.17.1",
+    "react-scripts": "^1.1.1"
   }
 }
