@@ -1,14 +1,39 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="utf-8">
-        <title>TODO</title>
-        <script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
-    </head>
-    <body>
-        <input id="todo-input" type="text" placeholder="Feed the cat" autofocus>
-        <button type="button" onclick="add()">Make</button>
-        <ul id="todo-list"></ul>
-    </body>
-    <script src="client.js" async></script>
+<head>
+    <meta charset="utf-8">
+    <title>TODO</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+    <script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
+    <script src="client.js"></script>
+</head>
+<body ng-app="TODOApp">
+
+<div class="container" ng-controller="test" style="margin-top: 10px">
+
+    <form>
+        <div class="form-group" style="display: flex">
+            <input ng-model="todo" type="text" class="form-control" placeholder="Feed the cat">
+            <button type="button" class="btn btn-default" ng-click="add()">Add TODO</button>
+        </div>
+
+    </form>
+
+    <table class="table" style="margin-top: 20px">
+        <tbody>
+        <tr ng-repeat="todoItem in todoList track by $index">
+            <td>{{todoItem.title}}</td>
+            <td>{{todoItem.status}}</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+
+</body>
 </html>
