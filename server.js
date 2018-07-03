@@ -1,40 +1,32 @@
-console.log('\n\nGood Luck! 😅\n\n');
-
 const server = require('socket.io')();
 const firstTodos = require('./data');
 const Todo = require('./todo');
 
-server.on('connection', (client) => {
-    // This is going to be our fake 'database' for this application
-    // Parse all default Todo's from db
+const DB = firstTodos.map((t) => {
+    return new Todo(t.id, t.title, t.status);
+});
 
-    // FIXME: DB is reloading on client refresh. It should be persistent on new client connections from the last time the server was run...
-    const DB = firstTodos.map((t) => {
-        // Form new Todo objects
-        return new Todo(t.id, t.title, t.status);
-    });
+let dbUpdatedTimeStamp = Date.now();
+
+server.on('connection', (client) => {
 
     // Sends a message to the client to reload all todos
     const reloadTodos = () => {
-        server.emit('load', DB);
-    }
+        server.emit('load', {db: DB, oldTS:null, currentTS: dbUpdatedTimeStamp, status: 'Add'});
+    };
 
     // Accepts when a client makes a new todo
-    client.on('make', (t) => {
-        // Make a new todo
-        const newTodo = new Todo(title=t.title);
-
-        // Push this newly created todo to our database
-        DB.push(newTodo);
-
-        // Send the latest todos to the client
-        // FIXME: This sends all todos every time, could this be more efficient?
-        reloadTodos();
+    client.on('service', (t) => {
+        if(t.service == 'Add'){
+            // Push this newly created todo to our database
+            const newTodo = new Todo(DB.length+1, title=t.record.title);
+            DB.push(newTodo);
+            let oldTS = dbUpdatedTimeStamp;
+            dbUpdatedTimeStamp = Date.now();
+            server.emit('load', {db: [newTodo], oldTS:oldTS, currentTS: dbUpdatedTimeStamp, status: 'Add'});
+        }
     });
 
-    // Send the DB downstream on connect
     reloadTodos();
 });
-
-console.log('Waiting for clients to connect');
 server.listen(3003);
