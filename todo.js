@@ -1,5 +1,8 @@
-module.export = class Todo {
-    constructor(title='') {
-        this.title = title
+class Todo {
+    constructor(id,title='', status='New') {
+        this.id = id;
+        this.title = title;
+        this.status = status;
     }
 }
+module.exports = Todo;

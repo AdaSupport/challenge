@@ -1,20 +1,26 @@
 [
     {
+        "id":1,
         "title" : "Order more coffee from Pilot"
     },
     {
+        "id":2,
         "title" : "Clean the coffee machine"
     },
     {
+        "id":3,
         "title" : "Sweep the floor"
     },
     {
+        "id":4,
         "title" : "Order a new display for Gordon"
     },
     {
+        "id":5,
         "title" : "Fix the charger for the speaker"
     },
     {
+        "id":6,
         "title" : "Finish making the hiring challenge"
     }
 ]
