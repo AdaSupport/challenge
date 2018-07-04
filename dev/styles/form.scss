@@ -1,0 +1,13 @@
+.input-form-container {
+    width: 100%;
+    text-align: center;
+    input[type=text] {
+        width: 40%;
+        font-size: 1.4rem;
+        border: 1px solid rgba(162, 204, 255, 0.853);
+    }
+    button {
+        background: rgba(162, 204, 255, 0.853);
+        border: 1px solid rgba(162, 204, 255, 0.853);
+    }
+}

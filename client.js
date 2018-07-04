@@ -9,7 +9,7 @@ function add() {
 
     // Emit the new todo as some data to the server
     server.emit('make', {
-        titlé : input.value
+        title : input.value
     });
 
     // Clear the input
@@ -21,6 +21,7 @@ function render(todo) {
     console.log(todo);
     const listItem = document.createElement('li');
     const listItemText = document.createTextNode(todo.title);
+    
     listItem.appendChild(listItemText);
     list.append(listItem);
 }

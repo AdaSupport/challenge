@@ -1,0 +1,33 @@
+@media only screen and (max-width: 570px) {
+    // TYPOGRAPHY
+    p, button {
+        font-size: 1.2rem;
+    }
+
+    // INPUT FORM
+    .input-form-container {
+        input[type=text] {
+            width: 65%;
+        }
+    }
+
+    // LIST ITEMS
+    label {
+        i {
+            font-size: 1.4rem;
+        }
+    }
+}
+
+@media only screen and (max-width: 500px) {
+    // LEGEND
+    .legend-container {
+        flex-wrap: wrap;
+        justify-content: space-around;
+    }
+
+    // LIST ITEMS
+    label {
+        width: 20%;
+    }
+}

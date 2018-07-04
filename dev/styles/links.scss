@@ -1,0 +1,29 @@
+button {
+    font-size: 1.4rem;
+}
+
+.skip-link {
+    position: relative;
+    bottom: 300px;
+}
+
+.bulk-action-container {
+    width: 100%;
+    margin: 0 auto;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    button {
+        height: 30px;
+        margin: 10px;
+    }
+    #complete-all-button {
+        background: rgba(148, 212, 148, 0.7);
+        border: 1px solid rgba(148, 212, 148, 0.7);
+    }
+    #delete-all-button {
+        background: rgba(255, 184, 162, 0.853);
+        border: 1px solid rgba(255, 184, 162, 0.853);
+    }
+}

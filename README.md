@@ -13,14 +13,14 @@ When you're finished, you should have a real-time TODO app that two or more peop
 - If you prefer a functional style (or some other style of programming) feel free to switch things up to suit how you write best. We left the codebase intentionally small to support different styles/complete rewrites. Don't let how we've set things up get in the way of showing us your best work.
 
 ##  Your Quest
-- [ ] Fix all the bugs
-- [ ] Add a feature that allows users to complete tasks
-- [ ] Add a feature that allows users to delete tasks
-- [ ] Add a feature that allows the completion of all tasks
-- [ ] Add a feature that allows the deletion of all tasks
-- [ ] Add caching to the client app so that when we lose our connection we can still see our TODO's
-- [ ] Make it look right on mobile devices
-- [ ] Make a design change to improve the user experience
+- [x] Fix all the bugs
+- [x] Add a feature that allows users to complete tasks
+- [x] Add a feature that allows users to delete tasks
+- [x] Add a feature that allows the completion of all tasks
+- [x] Add a feature that allows the deletion of all tasks
+- [x] Add caching to the client app so that when we lose our connection we can still see our TODO's
+- [x] Make it look right on mobile devices
+- [x] Make a design change to improve the user experience
 - [ ] Write some unit tests for your server side code
 
 ## Set Up
