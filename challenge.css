@@ -1,0 +1,15 @@
+.myContainer{
+    margin-top: 10px;
+}
+
+.addTodo{
+    display: flex;
+}
+
+.myTable{
+    margin-top: 20px;
+}
+
+.checkAll{
+    width: 15%;
+}

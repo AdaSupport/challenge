@@ -4,8 +4,9 @@
   "description": "Our hiring challenge to full-stack developers",
   "main": "index.js",
   "scripts": {
-    "test": "npm test",
-    "start" : "node server.js"
+    "test": "istanbul test _mocha -- -R spec",
+    "coverage": "istanbul cover _mocha -- -R spec",
+    "start": "node server.js"
   },
   "repository": {
     "type": "git",
@@ -18,7 +19,13 @@
   },
   "homepage": "https://github.com/adasupport/challenge#readme",
   "dependencies": {
+    "chai": "^1.10.0",
     "express": "^4.14.0",
-    "socket.io": "^1.5.0"
+    "fs": "0.0.1-security",
+    "istanbul": "^0.4.5",
+    "lodash": "^4.17.10",
+    "mocha": "^2.0.1",
+    "socket.io": "^1.5.0",
+    "socket.io-client": "^2.1.1"
   }
 }

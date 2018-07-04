@@ -1,14 +1,53 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="utf-8">
-        <title>TODO</title>
-        <script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
-    </head>
-    <body>
-        <input id="todo-input" type="text" placeholder="Feed the cat" autofocus>
-        <button type="button" onclick="add()">Make</button>
-        <ul id="todo-list"></ul>
-    </body>
-    <script src="client.js" async></script>
+<head>
+    <meta charset="utf-8" name="viewport" content="width=device-width, initial-scale=1">
+    <title>TODO</title>
+    <link rel="stylesheet" href="./challenge.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.10/lodash.min.js"></script>
+    <script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
+    <script src="client.js"></script>
+</head>
+<body ng-app="TODOApp">
+
+<div class="container myContainer" ng-controller="test">
+
+    <form>
+        <div class="form-group addTodo">
+            <input ng-model="todo" type="text" class="form-control" placeholder="Feed the cat" focus-on="newItemAdded" >
+            <button type="button" class="btn btn-default" ng-click="add()">Add TODO</button>
+        </div>
+
+    </form>
+
+    <table class="table myTable">
+        <tbody>
+        <tr>
+            <td class="checkAll"><input type="checkbox" ng-model="allCheck" ng-click="checkAll()"/> All</td>
+            <td align="center">
+                <button type="button" class="btn btn-danger" ng-click="delete()">Delete</button>
+            </td>
+            <td>
+                <button type="button" class="btn btn-info" ng-click="complete()">Completed</button>
+            </td>
+        </tr>
+        <tr ng-repeat="todoItem in todoList track by $index" ng-class="getClassName(todoItem.status)">
+            <td><input
+                    type="checkbox"
+                    name="todoItemList"
+                    ng-model="todoItem.selected"/></td>
+            <td>{{todoItem.title}}</td>
+            <td>{{todoItem.status}}</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+
+</body>
 </html>
