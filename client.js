@@ -4,7 +4,9 @@ let timeStamp = undefined;
 
 app.controller('test', function($scope, LocalStorage) {
 
-    $scope.todoList = JSON.parse(LocalStorage.getStorage());;
+    $scope.todoList = JSON.parse(LocalStorage.getStorage());
+
+    //This function adds a todo
     $scope.add = function() {
         $scope.allCheck =false;
         server.emit('service', {
@@ -12,19 +14,24 @@ app.controller('test', function($scope, LocalStorage) {
             service : 'Add'
         });
         $scope.todo = '';
-        // TODO: refocus the element
+
+        //refocus the element
+        $scope.$broadcast('newItemAdded');
     };
 
+    //This function checks all checkbox
     $scope.checkAll = function() {
         $scope.todoList.forEach((todo) => {
             todo.selected = $scope.allCheck;
         });
     };
 
+    //This function gets the classname for the table display
     $scope.getClassName = function(todoStatus) {
         return (todoStatus === 'Completed') ? 'success':'info';
     };
 
+    //This function deletes a todo
     $scope.delete = function() {
         $scope.allCheck =false;
         let selectedList = _.filter($scope.todoList, { 'selected': true });
@@ -34,6 +41,7 @@ app.controller('test', function($scope, LocalStorage) {
         });
     };
 
+    //This function completes a todo
     $scope.complete = function() {
         $scope.allCheck =false;
         let selectedList = _.filter($scope.todoList, { 'selected': true });
@@ -43,10 +51,12 @@ app.controller('test', function($scope, LocalStorage) {
         });
     };
 
+    //If socket disconnects, fetch from local storage
     server.on('disconnect', function() {
         $scope.todoList = JSON.parse(LocalStorage.getStorage());
     });
 
+    //ON server load, execute the following
     server.on('load', (todos) => {
         if((todos.oldTS == null && timeStamp == undefined) || timeStamp == todos.oldTS){
             //first time load all or timestamp matched
@@ -62,6 +72,7 @@ app.controller('test', function($scope, LocalStorage) {
                 $scope.$apply();
             }
             else if(todos.status == 'Delete'){
+                //after delete operation
                 todos.db.forEach((todo) => {
                     let index = _.findIndex($scope.todoList, function(o) { return o.id == todo.id; });
                     if(index > -1){
@@ -72,6 +83,7 @@ app.controller('test', function($scope, LocalStorage) {
                 $scope.$apply();
             }
             else if(todos.status == 'Complete'){
+                //after todo completes
                 todos.db.forEach((todo) => {
                     let index = _.findIndex($scope.todoList, function(o) { return o.id == todo.id; });
                     if(index > -1){
@@ -93,7 +105,7 @@ app.controller('test', function($scope, LocalStorage) {
     });
 });
 
-
+//Local storage to store todo's
 app.service('LocalStorage', function() {
 
     let setStorage = function(todoList) {
@@ -108,5 +120,14 @@ app.service('LocalStorage', function() {
     return {
         getStorage: getStorage,
         setStorage: setStorage
+    };
+});
+
+//directory to focus the textfield after adding a todo
+app.directive('focusOn', function() {
+    return function(scope, elem, attr) {
+        scope.$on(attr.focusOn, function(e) {
+            elem[0].focus();
+        });
     };
 });
