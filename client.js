@@ -2,9 +2,11 @@ let app = angular.module('TODOApp', []);
 const server = io('http://localhost:3003/');
 let timeStamp = undefined;
 
-app.controller('test', function($scope) {
+app.controller('test', function($scope, LocalStorage) {
 
+    $scope.todoList = JSON.parse(LocalStorage.getStorage());;
     $scope.add = function() {
+        $scope.allCheck =false;
         server.emit('service', {
             record: {title: $scope.todo},
             service : 'Add'
@@ -40,6 +42,10 @@ app.controller('test', function($scope) {
             service : 'Complete'
         });
     };
+
+    server.on('disconnect', function() {
+        $scope.todoList = JSON.parse(LocalStorage.getStorage());
+    });
 
     server.on('load', (todos) => {
         if((todos.oldTS == null && timeStamp == undefined) || timeStamp == todos.oldTS){
@@ -78,7 +84,29 @@ app.controller('test', function($scope) {
             }
         }
         else {
-            //connection lost
+            //connection lost pull from local storage
+            $scope.todoList = JSON.parse(LocalStorage.getStorage());
         }
+
+        LocalStorage.setStorage(JSON.stringify($scope.todoList))
+
     });
+});
+
+
+app.service('LocalStorage', function() {
+
+    let setStorage = function(todoList) {
+        delete window.localStorage.todoList;
+        window.localStorage.todoList = todoList;
+    };
+
+    let getStorage = function(){
+        return window.localStorage.todoList || '[]';
+    };
+
+    return {
+        getStorage: getStorage,
+        setStorage: setStorage
+    };
 });
