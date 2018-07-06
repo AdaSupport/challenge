@@ -1,41 +1,40 @@
-// FIXME: Feel free to remove this :-)
-console.log('\n\nGood Luck! 😅\n\n');
+import { createStore }   from 'redux';
+import express           from 'express';
+import path              from 'path';
 
-const server = require('socket.io')();
-const firstTodos = require('./data');
-const Todo = require('./todo');
+import { serverReducer } from './src/reducers';
 
-server.on('connection', (client) => {
-    // This is going to be our fake 'database' for this application
-    // Parse all default Todo's from db
+const app       = express();
+const http      = require('http').Server(app);
+const io        = require('socket.io')(http);
+const todoList  = require('./data.json');
 
-    // FIXME: DB is reloading on client refresh. It should be persistent on new client connections from the last time the server was run...
-    const DB = firstTodos.map((t) => {
-        // Form new Todo objects
-        return new Todo(title=t.title);
-    });
+const store = createStore(serverReducer);
 
-    // Sends a message to the client to reload all todos
-    const reloadTodos = () => {
-        server.emit('load', DB);
-    }
-
-    // Accepts when a client makes a new todo
-    client.on('make', (t) => {
-        // Make a new todo
-        const newTodo = new Todo(title=t.title);
-
-        // Push this newly created todo to our database
-        DB.push(newTodo);
-
-        // Send the latest todos to the client
-        // FIXME: This sends all todos every time, could this be more efficient?
-        reloadTodos();
-    });
-
-    // Send the DB downstream on connect
-    reloadTodos();
+// express server config
+app.use(express.static(path.join(__dirname, 'dist')));
+app.get('/', (req, res) => {
+  res.sendFile(path.resolve(__dirname, 'dist/index.html'));
 });
 
-console.log('Waiting for clients to connect');
-server.listen(3003);
+// load initial Todos into the Redux store from data.json
+store.dispatch({
+  type: 'LOAD_TODOS',
+  todoList: todoList
+});
+
+// send updated state to the clients each time state changes
+store.subscribe(() => io.emit('state', store.getState()));
+
+// as a client connects...
+io.on('connection', socket => {
+  // send updated state as a user connects
+  io.emit('state', store.getState());
+
+  // dispatch store once an 'action' event is received from the client
+  socket.on('action', store.dispatch.bind(store));
+});
+
+http.listen(3003, function() {
+  console.log('listening on *:3000');
+});

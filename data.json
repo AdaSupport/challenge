@@ -1,20 +1,32 @@
 [
-    {
-        "title" : "Order more coffee from Pilot"
-    },
-    {
-        "title" : "Clean the coffee machine"
-    },
-    {
-        "title" : "Sweep the floor"
-    },
-    {
-        "title" : "Order a new display for Gordon"
-    },
-    {
-        "title" : "Fix the charger for the speaker"
-    },
-    {
-        "title" : "Finish making the hiring challenge"
-    }
+  {
+    "title" : "Order more coffee from Pilot",
+    "id" : 0,
+    "completed" : false
+  },
+  {
+    "title" : "Clean the coffee machine",
+    "id" : 1,
+    "completed" : false
+  },
+  {
+    "title" : "Sweep the floor",
+    "id" : 2,
+    "completed" : false
+  },
+  {
+    "title" : "Order a new display for Gordon",
+    "id" : 3,
+    "completed" : false
+  },
+  {
+    "title" : "Fix the charger for the speaker",
+    "id" : 4,
+    "completed" : false
+  },
+  {
+    "title" : "Finish making the hiring challenge",
+    "id" : 5,
+    "completed" : false
+  }
 ]
