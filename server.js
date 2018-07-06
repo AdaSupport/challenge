@@ -1,41 +1,93 @@
-// FIXME: Feel free to remove this :-)
-console.log('\n\nGood Luck! 😅\n\n');
+// Setup: Sockets io and express server
+const express = require('express');
+const app = express();
+const server = require('http').createServer(app); /// changed line
+const io = require('socket.io')(server);
 
-const server = require('socket.io')();
+const _ = require('lodash');
+
 const firstTodos = require('./data');
 const Todo = require('./todo');
 
-server.on('connection', (client) => {
-    // This is going to be our fake 'database' for this application
-    // Parse all default Todo's from db
+server.listen(3003);
+console.log('Waiting for clients to connect');
 
-    // FIXME: DB is reloading on client refresh. It should be persistent on new client connections from the last time the server was run...
-    const DB = firstTodos.map((t) => {
-        // Form new Todo objects
-        return new Todo(title=t.title);
-    });
+// ---- Server in Memory DB initialize
+//keeps track of DB_Index
+let DB_index_count = 0;
+// This is going to be our fake 'database' for this application
+// Parse all default Todo's from db
 
-    // Sends a message to the client to reload all todos
-    const reloadTodos = () => {
-        server.emit('load', DB);
-    }
+// FIXED:DB not reloading on client refresh. It should be persistent on new client connections from the last time the server was run...
+const DB = firstTodos.map((t) => {
+  DB_index_count++;
+  // Form new Todo objects
+  return new Todo(task = t.task, isCompleted = t.isCompleted);
 
-    // Accepts when a client makes a new todo
-    client.on('make', (t) => {
-        // Make a new todo
-        const newTodo = new Todo(title=t.title);
-
-        // Push this newly created todo to our database
-        DB.push(newTodo);
-
-        // Send the latest todos to the client
-        // FIXME: This sends all todos every time, could this be more efficient?
-        reloadTodos();
-    });
-
-    // Send the DB downstream on connect
-    reloadTodos();
 });
 
-console.log('Waiting for clients to connect');
-server.listen(3003);
+// On connection to sockets server
+io.on('connection', (client) => {
+  console.log('Client connected');
+
+  client.on('join', function(data) {
+    console.log(data);
+
+  });
+  let onConnect = true;
+
+  // Sends a message to the client to reload all todos
+  // Sending all to-dos for a first time connecting client
+  // Else send out the new to-do created
+  const reloadTodos = () => {
+    if (onConnect) {
+      client.emit('load', DB);
+      onConnect = false;
+    } else {
+      DB_index_count++;
+      client.broadcast.emit('load', DB[DB_index_count - 1]);
+    }
+  }
+
+  // Accepts when a client makes a new todo
+  client.on('make', (t) => {
+    // Make a new todo
+    const newTodo = new Todo(task = t.task, isCompleted = t.isCompleted);
+    // Push this newly created todo to our database
+    DB.push(newTodo);
+    // Send the latest todos to the client
+    reloadTodos();
+  });
+
+  // Accepts when a client updates task CONTENT
+  client.on('taskUpdateContent', (t) => {
+    // Update Content on DB
+    const foundTodo = _.find(DB, todo => todo.task === t.oldTask);
+    foundTodo.task = t.newTask;
+    client.broadcast.emit('incomingtaskUpdateContent', t);
+  });
+
+  // Accepts when a client updates task STATUS
+  client.on('taskUpdateStatus', (t) => {
+    // Update Server on Memory DB with task Completed Change
+    const foundTodo = _.find(DB, todo => todo.task === t.task);
+    foundTodo.isCompleted = t.isCompleted;
+    // Brodcast to other clients that they need to update task status
+    client.broadcast.emit('incomingtaskUpdateStatus', foundTodo);
+  });
+
+
+  // Accepts when a client deletes Task
+  client.on('taskDelete', (t) => {
+    _.remove(DB, todo => todo.task === t.task);
+    client.broadcast.emit('incomingtaskDelete', t.task);
+    DB_index_count--;
+  });
+
+  // Send the DB downstream on connect
+  reloadTodos();
+  client.on('disconnect', () => {
+    console.log('disconnected client');
+  });
+});
+
