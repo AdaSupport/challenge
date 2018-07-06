@@ -2,13 +2,43 @@
 <html>
     <head>
         <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>TODO</title>
         <script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
+        <link rel="stylesheet" href="main.css">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+        <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.indigo-pink.min.css">
+        <script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
     </head>
     <body>
-        <input id="todo-input" type="text" placeholder="Feed the cat" autofocus>
-        <button type="button" onclick="add()">Make</button>
-        <ul id="todo-list"></ul>
+    <div class="container">
+        <h1>todos</h1>
+
+        <div class="input-make-button">
+            <input id="todo-input" type="text" placeholder="What needs to be done?" autofocus
+               onkeydown = "event.keyCode == 13 ? addTodo() : null">
+            <button type="button" onclick="addTodo()" class="mdl-button mdl-js-button">Add task</button>
+        </div>
+
+        <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp">
+            <thead>
+            <tr>
+                <th class="mdl-data-table__cell--non-numeric">Title</th>
+                <th>Delete</th>
+            </tr>
+            </thead>
+            <tbody id="todo-list">
+            </tbody>
+        </table>
+
+        <div class="complete-delete-buttons">
+            <button type="button" onClick="completeAll()"
+                class="mdl-button mdl-js-button mdl-button--raised complete">Complete All</button>
+            <button type="button" onClick="deleteAll()"
+                class="mdl-button mdl-js-button mdl-button--raised delete">Delete All</button>
+        </div>
+
+    </div>
     </body>
     <script src="client.js" async></script>
 </html>

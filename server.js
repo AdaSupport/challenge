@@ -1,40 +1,52 @@
-// FIXME: Feel free to remove this :-)
-console.log('\n\nGood Luck! 😅\n\n');
-
 const server = require('socket.io')();
 const firstTodos = require('./data');
 const Todo = require('./todo');
 
-server.on('connection', (client) => {
-    // This is going to be our fake 'database' for this application
-    // Parse all default Todo's from db
+//Moved out of connection to prevent DB updating on client refresh
+let DB = firstTodos.map(todo => new Todo(todo.title));
 
-    // FIXME: DB is reloading on client refresh. It should be persistent on new client connections from the last time the server was run...
-    const DB = firstTodos.map((t) => {
-        // Form new Todo objects
-        return new Todo(title=t.title);
-    });
+server.on('connection', (client) => {
 
     // Sends a message to the client to reload all todos
-    const reloadTodos = () => {
-        server.emit('load', DB);
-    }
+    const reloadTodos = (todoArray) => {
+        server.emit('load', todoArray);
+    };
 
     // Accepts when a client makes a new todo
-    client.on('make', (t) => {
-        // Make a new todo
-        const newTodo = new Todo(title=t.title);
+    client.on('make', (todo) => {
 
-        // Push this newly created todo to our database
+        const newTodo = new Todo(todo.title);
+
+        // Adds new todo to DB
         DB.push(newTodo);
 
-        // Send the latest todos to the client
-        // FIXME: This sends all todos every time, could this be more efficient?
-        reloadTodos();
+        // Sends the latest todos to client
+        reloadTodos(DB);
+    });
+
+    //Accepts when client checks a todo or checks all todos
+    client.on('check', (isCheckedTodos) => {
+
+        const changedTodoIds = isCheckedTodos.map(t => t.id);
+
+        //Updating DB isChecked property so checked todos persist
+        DB = DB.map(todo => changedTodoIds.includes(todo.id)
+            ? (new Todo(todo.title, isCheckedTodos.find(t => t.id === todo.id).isChecked, todo.id))
+            : todo);
+
+        reloadTodos(DB);
+    });
+
+    //Accepts when client deletes a todo or deletes all todos
+    client.on('delete', (ids) => {
+        //Updates DB with deleted todos removed
+        DB = DB.filter(todo => !ids.includes(todo.id));
+
+        reloadTodos(DB);
     });
 
     // Send the DB downstream on connect
-    reloadTodos();
+    reloadTodos(DB);
 });
 
 console.log('Waiting for clients to connect');
