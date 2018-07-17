@@ -1,6 +1,6 @@
 # Bot Building Challenge
 
-As a Customer Success Manager, your job is guide our customers towards a successful experience with our company. Since Ada’s product enables teams to create an automated support experience, it’s crucial that your activity as a Customer Success Manager be exemplary, serving as the gold standard for both our customers and product team. 
+As a member of the Customer Success Team, your job is guide our customers towards a successful experience with our company. Since Ada’s product enables teams to create an automated support experience, it’s crucial that your activity as a Customer Success Manager be exemplary, serving as the gold standard for both our customers and product team. 
  
 An important activity you will be performing at Ada is building the initial bot experiences for our new customers based on their existing support articles. 
  
@@ -8,7 +8,7 @@ Your challenge is to create a bot for the education-technology company [Top Hat]
 
 Make sure to read about the qualities of a successful bot in the _Materials_ below. When you are finished, please send us the link to your bot for feedback. 
  
-Have fun, and if you have questions, please feel free to contact [Mike](mailto:mike@ada.support) 😊 
+Have fun, and if you have questions, please feel free to contact [Jason](mailto:jason@ada.support) 😊 
  
 ## Materials
 
