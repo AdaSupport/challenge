@@ -1,41 +1,48 @@
-// FIXME: Feel free to remove this :-)
-console.log('\n\nGood Luck! 😅\n\n');
+const express = require('express');
 
-const server = require('socket.io')();
-const firstTodos = require('./data');
-const Todo = require('./todo');
+const app = express();
+const server = require('socket.io')(app.listen(3003));
+const path = require('path');
+const DB = require('./db');
+const actions = require('./todo_actions');
+
+app.use(express.static(path.join(__dirname, 'assets')));
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'index.html'));
+});
 
 server.on('connection', (client) => {
-    // This is going to be our fake 'database' for this application
-    // Parse all default Todo's from db
+  // Accepts when a client makes a new todo
+  client.on('make', (t) => {
+    const newTodo = actions.make(t);
+    // Send the latest todo to the other clients
+    client.broadcast.emit('add', newTodo);
+    // Sync the todo data with the originating client
+    client.emit('sync', { todo: newTodo, cid: t.cid });
+  });
 
-    // FIXME: DB is reloading on client refresh. It should be persistent on new client connections from the last time the server was run...
-    const DB = firstTodos.map((t) => {
-        // Form new Todo objects
-        return new Todo(title=t.title);
-    });
+  client.on('toggle', (data) => {
+    const todo = actions.toggle(data);
+    client.broadcast.emit('toggle', todo);
+  });
 
-    // Sends a message to the client to reload all todos
-    const reloadTodos = () => {
-        server.emit('load', DB);
-    }
+  client.on('delete', (todoId) => {
+    actions.delete(todoId);
+    client.broadcast.emit('delete', todoId);
+  });
 
-    // Accepts when a client makes a new todo
-    client.on('make', (t) => {
-        // Make a new todo
-        const newTodo = new Todo(title=t.title);
+  client.on('delete_all', () => {
+    actions.deleteAll();
+    client.broadcast.emit('delete_all');
+  });
 
-        // Push this newly created todo to our database
-        DB.push(newTodo);
+  client.on('complete_all', () => {
+    actions.completeAll();
+    client.broadcast.emit('complete_all');
+  });
 
-        // Send the latest todos to the client
-        // FIXME: This sends all todos every time, could this be more efficient?
-        reloadTodos();
-    });
-
-    // Send the DB downstream on connect
-    reloadTodos();
+  // Send the DB downstream on connect
+  client.emit('load', DB);
 });
 
 console.log('Waiting for clients to connect');
-server.listen(3003);
