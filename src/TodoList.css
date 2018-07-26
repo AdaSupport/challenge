@@ -1,0 +1,10 @@
+.btns-block {
+    margin:auto;
+}
+
+.btn_width-md {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 100px;
+}

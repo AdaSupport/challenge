@@ -1,0 +1,38 @@
+ul, li {
+    list-style: none;
+    padding:1%;
+    margin: 1%;
+    font-size: 1.2em;
+}
+
+.done {
+    color: grey;
+    text-decoration: line-through;
+}
+
+.normal {
+    color: black;
+    text-decoration: none;
+}
+
+.clickableText {
+    background: none;
+    border: none;
+}
+
+button:focus {outline:0;}
+
+.btn_width-sm {
+    display: block;
+    margin-left: auto; 
+    margin-right: auto;
+    width: 40px;
+}
+
+.background-lightBlue {
+    background-color: lightblue;
+}
+
+.background-lightGrey {
+    background-color: lightgrey;
+}
