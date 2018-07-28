@@ -1,0 +1,112 @@
+body {background: #E8F8F5;}
+
+@media only screen and (max-width: 500px) {
+  #todo-block {
+    width: 100%;
+  }
+}
+
+@media only screen and (min-width: 500px) {
+  #todo-block {
+    width: 500px;
+    min-width: 250px;
+  }
+}
+
+#todo-block {
+  margin: 0 auto;
+  background: #fff;
+}
+
+#todo-block > h2 {
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  color: white;
+  font-size: 2rem;
+  padding: 0.5rem 1rem;
+  text-align: center;
+  margin-bottom: 0;
+  background: #17A589;
+}
+
+#todo-header {
+  padding: 20px 15px 20px 15px;
+  background-color: #17A589; 
+}
+
+#todo-header button {
+  cursor: pointer;
+  text-align: center;
+  border: none;
+}
+
+#todo-input {
+  width: 100%;
+  display: block;
+  box-sizing: border-box;
+  border: 1px solid #bbb;
+  padding: 5px;
+  font-size: 21px;
+
+
+  height: 34px;
+  padding: 6px 12px;
+  font-size: 14px;
+  line-height: 1.42857143;
+  color: #555;
+  background-color: #fff;
+  background-image: none;
+  border: 1px solid #ccc;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+  box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+  -webkit-transition: border-color ease-in-out .15s,-webkit-box-shadow ease-in-out .15s;
+  -o-transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+  transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+}
+
+.text-right {
+  text-align: right;
+  margin-top: 3px;
+}
+
+.todo-list-actions {
+  width: 80px;
+  background-color: white;
+}
+
+ul#todo-list {
+  list-style-type: none;
+  padding-left: 0;
+  width: 100%;
+}
+
+
+ul#todo-list li {
+  padding: 8px;
+  cursor: pointer;
+  border-bottom: 1px solid #dbdbdb;
+  font-size: 1.25rem;
+  word-wrap: break-word;
+}
+
+ul#todo-list li:first-child {
+  border-top: 1px solid #f3f3f3;
+}
+
+ul#todo-list li:hover {
+  background-color: #f1f1f1;
+}
+
+.todo-remove {
+  float: right;
+  display: none;
+}
+
+li:hover .todo-remove {
+  display: block;
+}
+
+.todo-checked {
+  text-decoration: line-through;
+  color: #BCDAC9;
+}

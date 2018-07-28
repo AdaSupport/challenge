@@ -1,40 +1,40 @@
-// FIXME: Feel free to remove this :-)
-console.log('\n\nGood Luck! 😅\n\n');
-
 const server = require('socket.io')();
-const firstTodos = require('./data');
-const Todo = require('./todo');
+const TodosCtrl = require('./todosCtrl').todosCtrl;
 
 server.on('connection', (client) => {
-    // This is going to be our fake 'database' for this application
-    // Parse all default Todo's from db
-
-    // FIXME: DB is reloading on client refresh. It should be persistent on new client connections from the last time the server was run...
-    const DB = firstTodos.map((t) => {
-        // Form new Todo objects
-        return new Todo(title=t.title);
-    });
-
-    // Sends a message to the client to reload all todos
-    const reloadTodos = () => {
-        server.emit('load', DB);
-    }
+    let ctrl = new TodosCtrl();
 
     // Accepts when a client makes a new todo
-    client.on('make', (t) => {
-        // Make a new todo
-        const newTodo = new Todo(title=t.title);
+    client.on('createTodo', (t) => {
+        const newTodo = ctrl.insertTodo(t);
+        server.emit('prepend', newTodo); // Send the latest todos to the client
+    });
 
-        // Push this newly created todo to our database
-        DB.push(newTodo);
+    // Accepts when a client removes todo
+    client.on('removeTodo', (id) => {
+        if (ctrl.removeTodo(id))
+            server.emit('remove', id);
+    });
 
-        // Send the latest todos to the client
-        // FIXME: This sends all todos every time, could this be more efficient?
-        reloadTodos();
+    // Accepts when a client removes all todos
+    client.on('removeAll', () => {
+        ctrl.removeAll();
+        server.emit('removeAll');
+    });
+    
+    // Accepts when a client checks todo item
+    client.on('checkTodo', (id) => {
+        if (ctrl.checkTodo(id))
+            server.emit('check', id);
+    });
+
+    client.on('checkAll', () => {
+        ctrl.checkAll();
+        server.emit('checkAll');
     });
 
     // Send the DB downstream on connect
-    reloadTodos();
+    server.to(client.id).emit('load', ctrl.getDB());
 });
 
 console.log('Waiting for clients to connect');
