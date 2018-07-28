@@ -1,0 +1,119 @@
+
+*, *:before, *:after {
+    box-sizing: border-box;
+}
+html, input, button {
+    -webkit-font-smoothing: anti-aliased;
+    -moz-osx-font-smoothing:greyscale;
+    font-family: "Open Sans", "Helvetica Neue", sans-serif;
+    letter-spacing: 1px;
+    font-size:62.5%;
+}
+html, body {
+    /*height: 100%;*/
+}
+html {
+    /*color:#6c7a89;*/
+    padding-bottom:5rem;
+}
+.app {
+    width:90%;
+    padding:5rem auto 10rem;
+    margin:0 auto;
+    
+}
+h1 {
+    font-size: 5rem;
+    text-align: center;
+    color:#6c7a89;
+}
+input, button {
+    box-sizing: border-box;
+    padding:1.5rem 2rem;
+    font-size: 2rem;
+    border:none;
+    outline: none;
+}
+input {
+    
+    width:60%;
+    /*border-bottom:2px solid #000;*/
+    /*transition:all 400ms ease-in-out;*/
+}
+input:focus {
+    /*border-bottom:2px solid #6c7a89;*/
+}
+.controls {
+    padding-top:2rem;
+    margin:0 auto;
+    width:75%;
+}
+.all {
+    width: 40%;
+    background:#6c7a89;
+    color:#fff;
+    box-shadow:0px 5px 30px #999;
+    transition:all 400ms ease-in-out;
+    margin:1rem;
+}
+.all.complete {
+    background:#2ecc71;
+}
+.all.delete {
+    background:#FB3852;
+}
+.addBtn{
+    width: 10rem;
+    background:#6c7a89;
+    color:#fff;
+    box-shadow:0px 5px 30px #999;
+    transition:all 400ms ease-in-out;
+    float: right;
+}
+.addBtn:hover, .all:hover {
+    box-shadow: 0px 15px 30px #999;
+}
+#todo-list {
+    margin-top:3rem;
+    padding:0;
+    transition:all 400ms ease-in-out;
+}
+#todo-list li {
+    list-style: none;
+    padding:2rem;
+    /*margin-bottom:1rem;*/
+    font-size: 2rem;
+    font-weight: 500;
+    background:#fff;
+    box-shadow:0px 10px 25px #bbb;
+    border:1px solid #f5f5f5;
+    transition:all 400ms ease-in-out;
+    /*border-radius:3px;*/
+    position: relative;
+}
+#todo-list li:hover {
+    box-shadow:0px 10px 25px #bbb;
+    margin:2rem 0;
+}
+.item, .btn-delete {
+    cursor: pointer;
+}
+.btn-delete {
+    background:#6c7a89;
+    opacity:.35;
+    height:7%;
+    width:3rem;
+    position:absolute;
+    right:3%;
+    top:47%;
+    transition:all 500ms ease-in-out;
+}
+.btn-delete:hover {
+    opacity:.65;
+}
+@media only screen and (min-width: 1024px) {
+    .app {
+        width:50%;
+        
+    }
+}

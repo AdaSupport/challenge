@@ -1,4 +1,14 @@
-# Challenge
+# My Submission
+I fixed the TODO list and focused on what I excel at, adding a better design and including interesting interactions.
+Instead of just making it work I also decided to have some fun with it and add some branding as well.
+Here are some screenshots of what that looks like:
+![Screenshot 1 of ToodleDo](/screens/screen-1.png)
+![Screenshot 2 of ToodleDo](/screens/screen-2.png)
+![Screenshot 3 of ToodleDo](/screens/screen-3.png)
+![Screenshot 4 of ToodleDo](/screens/screen-4.png)
+![Screenshot 5 of ToodleDo](/screens/screen-5.png)
+
+# The Challenge
 Hello :wave:
 
 This is our challenge for potential new developer team members. The code is for a simple real-time TODO app. The challenge here is to fix some bugs, make some improvements and push your code for evaluation by our team.
