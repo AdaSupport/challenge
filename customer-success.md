@@ -4,7 +4,7 @@ As a Customer Success Manager, your job is guide our customers towards a success
  
 An important activity you will be performing at Ada is building the initial bot experiences for our new customers based on their existing support articles. 
  
-Your challenge is to create a bot for the education-technology company [Top Hat](https://tophat.com) that provides a warm greeting and helps users who are struggling to enrol in a course, purchase a subscription, and reset their password. 
+Your challenge is to create a bot for the education-technology company [Top Hat](https://tophat.com) that provides a warm greeting and helps users who are struggling to enrol in a course, purchase a subscription, and reset their password. The support article which provides the solutions to each of these issues is attached in _Materials_ below. 
 
 Make sure to read about the qualities of a successful bot in the _Materials_ below. When you are finished, please send us the link to your bot for feedback. 
  
